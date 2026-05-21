@@ -108,39 +108,6 @@
   .menu-hidden { transform:translateY(-12px); opacity:0; pointer-events:none; }
 
   .to-top { transition:opacity .35s, transform .35s; }
-
-  /* animated section connector */
-  .connector { height:140px; }
-  .connector-line {
-    width:1px; height:100%; position:relative;
-    background:linear-gradient(to bottom, transparent, rgba(201,162,74,.55) 28%, rgba(201,162,74,.55) 72%, transparent);
-  }
-  .connector-line::before {
-    content:""; position:absolute; left:50%; width:7px; height:7px;
-    margin-left:-3.5px; border-radius:50%; background:#C9A24A;
-    box-shadow:0 0 16px 4px rgba(201,162,74,.65);
-    animation:travel 2.8s cubic-bezier(.6,0,.4,1) infinite;
-  }
-  @keyframes travel {
-    0%   { top:0%;   opacity:0; }
-    14%  { opacity:1; }
-    86%  { opacity:1; }
-    100% { top:100%; opacity:0; }
-  }
-  .connector-ring {
-    position:absolute; bottom:-5px; left:50%; margin-left:-9px;
-    width:18px; height:18px; border-radius:50%;
-    border:1px solid rgba(201,162,74,.5);
-  }
-  .connector-ring::after {
-    content:""; position:absolute; inset:0; border-radius:50%;
-    border:1px solid rgba(201,162,74,.6);
-    animation:pulseRing 2.8s ease-out infinite;
-  }
-  @keyframes pulseRing {
-    0%   { transform:scale(1);   opacity:.8; }
-    100% { transform:scale(2.6); opacity:0; }
-  }
 </style>
 </head>
 
@@ -210,7 +177,7 @@
 </header>
 
 <!-- ================= TEAM LANDING ================= -->
-<section id="home" class="relative pt-32 md:pt-44 pb-4 overflow-hidden">
+<section id="home" class="relative pt-32 md:pt-44 pb-16 md:pb-24 overflow-hidden">
   <div class="absolute inset-0"
        style="background:radial-gradient(70% 60% at 50% 0%, rgba(201,162,74,.16), transparent 65%);"></div>
 
@@ -243,15 +210,8 @@
   </div>
 </section>
 
-<!-- ============ SECTION CONNECTOR ============ -->
-<div class="relative flex justify-center connector overflow-hidden">
-  <div class="connector-line">
-    <div class="connector-ring"></div>
-  </div>
-</div>
-
 <!-- ================= HERO ================= -->
-<section id="intro" class="relative min-h-screen flex items-center pt-4 md:pt-10 pb-20 overflow-hidden">
+<section id="intro" class="relative min-h-screen flex items-center pt-20 md:pt-28 pb-20 overflow-hidden">
   <!-- background layers -->
   <div class="absolute inset-0 bg-ink"></div>
   <div class="absolute inset-0 opacity-70"

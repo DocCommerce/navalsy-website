@@ -20,8 +20,7 @@
       "Bash(git push *)",
       "Bash(curl -s -o /dev/null -w \"photo: %{http_code}\\\\n\" \"http://localhost:3000/assets/Landing%20photo.jpg\")",
       "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Add team landing section with photo above hero *)",
-      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Update team photo location label to DryDock Marseille, France *)",
-      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Add animated connector between team photo and hero sections *)"
+      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Update team photo location label to DryDock Marseille, France *)"
     ]
   }
 }
