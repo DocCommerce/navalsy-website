@@ -215,8 +215,10 @@
   <!-- background layers -->
   <div class="absolute inset-0 bg-ink"></div>
   <div class="absolute inset-0 opacity-70"
-       style="background:radial-gradient(80% 60% at 75% 10%, rgba(201,162,74,.22), transparent 60%),
+       style="background:radial-gradient(80% 55% at 75% 38%, rgba(201,162,74,.22), transparent 60%),
                           radial-gradient(70% 70% at 10% 90%, rgba(201,162,74,.10), transparent 60%);"></div>
+  <!-- top fade mask: blends seamlessly into the section above -->
+  <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-ink via-ink/70 to-transparent"></div>
   <div class="absolute inset-0 floaty flex items-center justify-center lg:justify-end pointer-events-none">
     <!-- company logo as ambient hero mark -->
     <img src="assets/Logo_4k_no_background-removebg.png" alt=""
