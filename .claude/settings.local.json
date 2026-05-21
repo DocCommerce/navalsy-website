@@ -11,7 +11,15 @@
       "Bash(git --version)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Initial commit: NavalSy demo website with logo integrated *)"
+      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Initial commit: NavalSy demo website with logo integrated *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(winget --version)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(curl -s -o /dev/null -w \"photo: %{http_code}\\\\n\" \"http://localhost:3000/assets/Landing%20photo.jpg\")",
+      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Add team landing section with photo above hero *)"
     ]
   }
 }
