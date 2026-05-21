@@ -488,7 +488,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
-    <div class="grid lg:grid-cols-3 gap-7" id="projectGrid"></div>
+    <div class="grid sm:grid-cols-2 gap-7" id="projectGrid"></div>
   </div>
 </section>
 
@@ -713,9 +713,18 @@ const why = [
    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
 ];
 const projects = [
-  {t:"Meyer Werft — Germany", d:"Accommodation refitting with 18 workers deployed for onboard support and insulation installation.", tags:["Refitting","Insulation"]},
-  {t:"Fincantieri — Italy", d:"Cruise ship turnover cleaning and hospitality crew supplied for a 3-week dry dock window.", tags:["Cleaning","Hospitality"]},
-  {t:"Damen — Netherlands", d:"Marine workforce supply and pipe support installation for a mid-size refit project.", tags:["Workforce","Pipe Support"]}
+  {t:"Norwegian Jade — Victoria Port, Canada", boat:"Norwegian Jade", w:17,
+   d:"17 workers deployed to build 10 new cabins — full accommodation works covering framing, insulation, wall panelling, flooring and final finishing.",
+   tags:["Accommodation","Cabin Build","Insulation"]},
+  {t:"Norwegian Gem — Marseille Port, France", boat:"Norwegian Gem", w:60,
+   d:"60-strong team delivering spa area refurbishment and cabin refitting — wet-zone works, panelling, insulation, fit-out and finishing.",
+   tags:["Spa Refit","Cabins","Finishing"]},
+  {t:"NCL — Port Marghera, Italy", boat:"NCL", w:55,
+   d:"55 workers covering the complete scope — from metal structural works through to final finishing across multiple decks.",
+   tags:["Structural Works","Refitting","Finishing"]},
+  {t:"Four Seasons — Port Ancona, Italy", boat:"Four Seasons", w:70,
+   d:"70-person crew refitting luxury suites and exterior pool areas — high-end finishing, decking, accommodation and onboard support.",
+   tags:["Suites","Pool Areas","Finishing"]}
 ];
 
 /* ---------- RENDER LISTS ---------- */
@@ -738,8 +747,10 @@ document.getElementById('whyGrid').innerHTML = why.map((w,idx) =>
 
 document.getElementById('projectGrid').innerHTML = projects.map((p,idx) =>
   `<div class="reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift" data-d="${idx*120}">
-     <div class="media h-52 flex items-center justify-center">
+     <div class="media h-52 flex items-center justify-center relative">
        <svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
+       <span class="absolute top-4 right-4 text-xs font-semibold px-3 py-1.5 rounded-full bg-gold text-black">${p.w} workers</span>
+       <span class="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-slate-300">Vessel · ${p.boat}</span>
      </div>
      <div class="p-7">
        <h3 class="font-sora text-xl font-bold mb-3">${p.t}</h3>
