@@ -108,6 +108,53 @@
   .menu-hidden { transform:translateY(-12px); opacity:0; pointer-events:none; }
 
   .to-top { transition:opacity .35s, transform .35s; }
+
+  /* coverflow gallery */
+  .coverflow { perspective:1900px; }
+  .cf-stage { position:relative; height:300px; }
+  @media (min-width:640px)  { .cf-stage { height:430px; } }
+  @media (min-width:1024px) { .cf-stage { height:560px; } }
+
+  .cf-slide {
+    position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;
+    width:74%; border-radius:1.5rem; overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.9);
+    cursor:pointer; backface-visibility:hidden; will-change:transform;
+    transition:transform .65s cubic-bezier(.2,.7,.2,1), opacity .65s, filter .65s;
+  }
+  .cf-slide.is-active { transform:scale(1);                                  opacity:1;   z-index:30; filter:none;            cursor:default; }
+  .cf-slide.is-left   { transform:translateX(-44%) scale(.8) rotateY(24deg); opacity:.55; z-index:20; filter:brightness(.45); }
+  .cf-slide.is-right  { transform:translateX(44%)  scale(.8) rotateY(-24deg);opacity:.55; z-index:20; filter:brightness(.45); }
+  .cf-slide.is-far    { transform:scale(.6); opacity:0; z-index:10; pointer-events:none; }
+
+  .cf-shade {
+    position:absolute; left:0; right:0; bottom:0; height:46%;
+    background:linear-gradient(to top, rgba(10,10,11,.92), transparent);
+  }
+  .cf-caption {
+    position:absolute; left:1.25rem; right:1.25rem; bottom:1.25rem;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.7rem;
+  }
+  .cf-chip {
+    font-size:.7rem; text-transform:uppercase; letter-spacing:.12em; white-space:nowrap;
+    color:#E7CE89; background:rgba(0,0,0,.55);
+    border:1px solid rgba(201,162,74,.4); border-radius:9999px; padding:.42rem .85rem;
+  }
+  .cf-arrow {
+    position:absolute; top:50%; transform:translateY(-50%); z-index:40;
+    width:44px; height:44px; border-radius:9999px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(10,10,11,.7); color:#fff;
+    border:1px solid rgba(201,162,74,.4); backdrop-filter:blur(6px);
+    transition:background .3s, color .3s;
+  }
+  .cf-arrow:hover   { background:#C9A24A; color:#0A0A0B; }
+  .cf-dot {
+    width:9px; height:9px; border-radius:9999px; border:0; padding:0;
+    background:rgba(255,255,255,.22); cursor:pointer; transition:all .35s;
+  }
+  .cf-dot.is-on { background:#C9A24A; width:26px; }
 </style>
 </head>
 
@@ -197,17 +244,52 @@
       </p>
     </div>
 
-    <div class="reveal relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl" data-d="150">
-      <div class="absolute -top-px left-12 right-12 h-px shimmer z-10"></div>
-      <img src="assets/Landing%20photo.jpg" alt="The NavalSy team on board a cruise ship"
-           class="w-full max-h-[620px] object-cover object-center" />
-      <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink/90 to-transparent"></div>
-      <div class="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-3">
-        <span class="font-sora font-semibold text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
-        <span class="text-xs uppercase tracking-widest text-gold-light bg-black/50 border border-gold/30 px-3 py-1.5 rounded-full">
-          DryDock • Marseille, France
-        </span>
+    <div class="reveal" data-d="150">
+      <!-- COVERFLOW GALLERY -->
+      <div id="coverflow" class="coverflow relative">
+        <div id="cfTrack" class="cf-stage">
+
+          <div class="cf-slide">
+            <img src="assets/Landing%20photo.jpg" alt="NavalSy team — Marseille, France"
+                 class="w-full h-full object-cover object-center" />
+            <div class="cf-shade"></div>
+            <div class="cf-caption">
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="cf-chip">DryDock • Marseille, France</span>
+            </div>
+          </div>
+
+          <div class="cf-slide">
+            <img src="assets/Drydock%20Cadiz%20Spain%20.jpg" alt="NavalSy team — Cadiz, Spain"
+                 class="w-full h-full object-cover object-center" />
+            <div class="cf-shade"></div>
+            <div class="cf-caption">
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="cf-chip">DryDock • Cadiz, Spain</span>
+            </div>
+          </div>
+
+          <div class="cf-slide">
+            <img src="assets/Four%20Seaons%20Roma%20Italy.jpg" alt="NavalSy team — Roma, Italy"
+                 class="w-full h-full object-cover object-center" />
+            <div class="cf-shade"></div>
+            <div class="cf-caption">
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="cf-chip">Four Seasons • Roma, Italy</span>
+            </div>
+          </div>
+
+        </div>
+
+        <button id="cfPrev" class="cf-arrow" style="left:.75rem" aria-label="Previous photo">
+          <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="cfNext" class="cf-arrow" style="right:.75rem" aria-label="Next photo">
+          <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
       </div>
+
+      <div id="cfDots" class="flex justify-center gap-2.5 mt-7"></div>
     </div>
   </div>
 </section>
@@ -786,6 +868,57 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     btn.closest('div[id$="Success"]').classList.add('hidden');
   };
 });
+
+/* ---------- COVERFLOW GALLERY ---------- */
+(function(){
+  const cf = document.getElementById('coverflow');
+  if(!cf) return;
+  const track = document.getElementById('cfTrack');
+  const slides = [...track.children];
+  const dotsWrap = document.getElementById('cfDots');
+  const n = slides.length;
+  let active = 0, timer;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'cf-dot';
+    d.setAttribute('aria-label', 'Show photo ' + (i + 1));
+    d.onclick = () => go(i);
+    dotsWrap.appendChild(d);
+  });
+  const dots = [...dotsWrap.children];
+
+  function render(){
+    slides.forEach((s, i) => {
+      let rel = (i - active + n) % n;
+      if(rel > n / 2) rel -= n;
+      s.classList.remove('is-active','is-left','is-right','is-far');
+      s.classList.add(rel === 0 ? 'is-active' : rel === -1 ? 'is-left' : rel === 1 ? 'is-right' : 'is-far');
+    });
+    dots.forEach((d, i) => d.classList.toggle('is-on', i === active));
+  }
+  function go(i){ active = (i + n) % n; render(); restart(); }
+  const next = () => go(active + 1);
+  const prev = () => go(active - 1);
+
+  document.getElementById('cfNext').onclick = next;
+  document.getElementById('cfPrev').onclick = prev;
+  slides.forEach((s, i) => s.addEventListener('click', () => { if(i !== active) go(i); }));
+
+  // touch swipe
+  let sx = 0;
+  track.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if(Math.abs(dx) > 40) (dx < 0 ? next : prev)();
+  });
+
+  function restart(){ clearInterval(timer); timer = setInterval(next, 6000); }
+  cf.addEventListener('mouseenter', () => clearInterval(timer));
+  cf.addEventListener('mouseleave', restart);
+
+  render(); restart();
+})();
 </script>
 </body>
 </html>
