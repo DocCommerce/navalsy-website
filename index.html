@@ -408,79 +408,10 @@
   </div>
 </section>
 
-<!-- ================= CAREERS (WORKER FORM) ================= -->
-<section id="careers" class="relative overflow-hidden">
-  <div class="absolute inset-0" style="background:radial-gradient(70% 80% at 15% 20%, rgba(201,162,74,.14), transparent 60%);"></div>
-  <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32 grid lg:grid-cols-2 gap-16 items-start">
-    <div class="reveal-x">
-      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Careers</div>
-      <h2 class="font-sora text-4xl md:text-5xl font-bold mb-6 leading-tight">
-        Join Our Teams<br><span class="gold-text">Across Europe</span>
-      </h2>
-      <p class="text-slate-300 text-lg leading-relaxed mb-8 max-w-lg">
-        We are constantly looking for skilled workers for marine projects, ship refitting and
-        cleaning services. Submit your CV and our recruitment team will contact you.
-      </p>
-      <div class="grid grid-cols-2 gap-3 max-w-md" id="rolesGrid"></div>
-    </div>
-
-    <!-- WORKER APPLICATION FORM -->
-    <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
-      <h3 class="font-sora text-2xl font-bold mb-1">Apply Now</h3>
-      <p class="text-slate-400 text-sm mb-7">For workers — submit your CV</p>
-
-      <form id="workerForm" class="space-y-4" novalidate>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <input name="name" required placeholder="Full Name *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="phone" required placeholder="Phone Number *" class="field w-full rounded-xl px-5 py-3.5" />
-        </div>
-        <input name="email" type="email" required placeholder="Email Address *" class="field w-full rounded-xl px-5 py-3.5" />
-        <div class="grid sm:grid-cols-2 gap-4">
-          <select name="position" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
-            <option value="">Select Position *</option>
-            <option>Insulation Worker</option>
-            <option>Cleaner</option>
-            <option>Fitter</option>
-            <option>Supervisor</option>
-            <option>Hospitality Staff</option>
-            <option>Team Leader</option>
-          </select>
-          <input name="country" placeholder="Available in (country)" class="field w-full rounded-xl px-5 py-3.5" />
-        </div>
-
-        <!-- CV upload -->
-        <label id="cvDrop" class="block cursor-pointer">
-          <input type="file" name="cv" id="cvInput" required accept=".pdf,.doc,.docx" class="hidden" />
-          <div class="border-2 border-dashed border-white/15 rounded-xl p-7 text-center transition hover:border-gold/50 hover:bg-gold/5">
-            <svg class="w-8 h-8 mx-auto text-gold mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-5 5m5-5l5 5M5 20h14"/></svg>
-            <div id="cvLabel" class="text-slate-300 text-sm font-medium">Upload your CV <span class="text-slate-500">(PDF / DOC) *</span></div>
-          </div>
-        </label>
-
-        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" class="field w-full rounded-xl px-5 py-3.5"></textarea>
-
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
-          Send Application
-        </button>
-        <p id="workerError" class="hidden text-red-400 text-sm text-center"></p>
-      </form>
-
-      <!-- success state -->
-      <div id="workerSuccess" class="hidden text-center py-10">
-        <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
-          <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
-        <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline">Submit another application</button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= CONTACT (COMPANY FORM) ================= -->
-<section id="contact" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
-  <div class="grid lg:grid-cols-2 gap-16">
+<section id="contact" class="relative overflow-hidden">
+  <div class="absolute inset-0" style="background:radial-gradient(70% 80% at 15% 20%, rgba(201,162,74,.14), transparent 60%);"></div>
+  <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32 grid lg:grid-cols-2 gap-16">
     <div class="reveal-x">
       <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Contact</div>
       <h2 class="font-sora text-4xl md:text-5xl font-bold mb-7 leading-tight">
@@ -552,6 +483,75 @@
         <h4 class="font-sora text-xl font-bold mb-2">Request sent</h4>
         <p class="text-slate-400 text-sm mb-6">Thank you. We'll get back to you with a tailored quote within 24 hours.</p>
         <button type="button" data-reset="companyForm" class="text-gold text-sm font-semibold hover:underline">Send another request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAREERS (WORKER FORM) ================= -->
+<section id="careers" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+  <div class="grid lg:grid-cols-2 gap-16 items-start">
+    <div class="reveal-x">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Careers</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold mb-6 leading-tight">
+        Join Our Teams<br><span class="gold-text">Across Europe</span>
+      </h2>
+      <p class="text-slate-300 text-lg leading-relaxed mb-8 max-w-lg">
+        We are constantly looking for skilled workers for marine projects, ship refitting and
+        cleaning services. Submit your CV and our recruitment team will contact you.
+      </p>
+      <div class="grid grid-cols-2 gap-3 max-w-md" id="rolesGrid"></div>
+    </div>
+
+    <!-- WORKER APPLICATION FORM -->
+    <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
+      <h3 class="font-sora text-2xl font-bold mb-1">Apply Now</h3>
+      <p class="text-slate-400 text-sm mb-7">For workers — submit your CV</p>
+
+      <form id="workerForm" class="space-y-4" novalidate>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input name="name" required placeholder="Full Name *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="phone" required placeholder="Phone Number *" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+        <input name="email" type="email" required placeholder="Email Address *" class="field w-full rounded-xl px-5 py-3.5" />
+        <div class="grid sm:grid-cols-2 gap-4">
+          <select name="position" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
+            <option value="">Select Position *</option>
+            <option>Insulation Worker</option>
+            <option>Cleaner</option>
+            <option>Fitter</option>
+            <option>Supervisor</option>
+            <option>Hospitality Staff</option>
+            <option>Team Leader</option>
+          </select>
+          <input name="country" placeholder="Available in (country)" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+
+        <!-- CV upload -->
+        <label id="cvDrop" class="block cursor-pointer">
+          <input type="file" name="cv" id="cvInput" required accept=".pdf,.doc,.docx" class="hidden" />
+          <div class="border-2 border-dashed border-white/15 rounded-xl p-7 text-center transition hover:border-gold/50 hover:bg-gold/5">
+            <svg class="w-8 h-8 mx-auto text-gold mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-5 5m5-5l5 5M5 20h14"/></svg>
+            <div id="cvLabel" class="text-slate-300 text-sm font-medium">Upload your CV <span class="text-slate-500">(PDF / DOC) *</span></div>
+          </div>
+        </label>
+
+        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+          Send Application
+        </button>
+        <p id="workerError" class="hidden text-red-400 text-sm text-center"></p>
+      </form>
+
+      <!-- success state -->
+      <div id="workerSuccess" class="hidden text-center py-10">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
+          <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
+        <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
+        <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline">Submit another application</button>
       </div>
     </div>
   </div>
