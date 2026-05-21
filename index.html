@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NavalSy Refitting — Ship Refitting & Marine Workforce Solutions</title>
+<meta name="description" content="NavalSy Refitting — skilled teams for cruise ship refitting, insulation, accommodation works, cleaning and hospitality services across Europe." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink:  "#0A0A0B",
+          coal: "#111114",
+          gold: { light: "#E7CE89", DEFAULT: "#C9A24A", dark: "#9A7A30" }
+        },
+        fontFamily: {
+          sora:  ["Sora", "sans-serif"],
+          inter: ["Inter", "sans-serif"]
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  html, body { background:#0A0A0B; }
+  body { font-family:"Inter",sans-serif; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,h4,.font-sora { font-family:"Sora",sans-serif; }
+  ::selection { background:#C9A24A; color:#0A0A0B; }
+
+  /* custom scrollbar */
+  ::-webkit-scrollbar { width:10px; }
+  ::-webkit-scrollbar-track { background:#0A0A0B; }
+  ::-webkit-scrollbar-thumb { background:#2a2a2e; border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover { background:#C9A24A; }
+
+  /* scroll reveal */
+  .reveal { opacity:0; transform:translateY(34px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal-x { opacity:0; transform:translateX(-40px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal-x.in { opacity:1; transform:none; }
+
+  /* hero entrance */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:none} }
+  .hero-anim { opacity:0; animation:fadeUp 1s cubic-bezier(.2,.7,.2,1) forwards; }
+
+  /* slow floating */
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+  .floaty { animation:float 7s ease-in-out infinite; }
+
+  /* gold shimmer line */
+  @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+  .shimmer {
+    background:linear-gradient(90deg,transparent,#C9A24A,transparent);
+    background-size:200% 100%;
+    animation:shimmer 3.5s linear infinite;
+  }
+
+  .gold-text {
+    background:linear-gradient(120deg,#E7CE89,#C9A24A 45%,#E7CE89);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .lift { transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s, box-shadow .45s; }
+  .lift:hover { transform:translateY(-10px); border-color:rgba(201,162,74,.55); box-shadow:0 30px 60px -25px rgba(0,0,0,.9); }
+
+  .btn-gold { box-shadow:0 14px 38px -12px rgba(201,162,74,.6); }
+  .btn-gold:hover { box-shadow:0 18px 48px -10px rgba(201,162,74,.85); }
+
+  /* media placeholder */
+  .media {
+    background:
+      radial-gradient(120% 120% at 80% 0%, rgba(201,162,74,.16), transparent 55%),
+      linear-gradient(150deg,#17171c,#0c0c0f);
+    position:relative; overflow:hidden;
+  }
+  .media::after {
+    content:""; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.022) 0 2px, transparent 2px 26px);
+  }
+
+  .navlink { position:relative; }
+  .navlink::after {
+    content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+    background:#C9A24A; transition:width .3s ease;
+  }
+  .navlink:hover::after { width:100%; }
+
+  .field {
+    background:#0c0c0f; border:1px solid #26262b; color:#fff;
+    transition:border-color .3s, box-shadow .3s, background .3s;
+  }
+  .field:focus {
+    outline:none; border-color:#C9A24A; background:#101013;
+    box-shadow:0 0 0 4px rgba(201,162,74,.12);
+  }
+  .field::placeholder { color:#6b6b73; }
+
+  #mobileMenu { transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s; }
+  .menu-hidden { transform:translateY(-12px); opacity:0; pointer-events:none; }
+
+  .to-top { transition:opacity .35s, transform .35s; }
+</style>
+</head>
+
+<body class="bg-ink text-white font-inter antialiased overflow-x-hidden">
+
+<!-- ================= TOP BAR ================= -->
+<div class="hidden md:block bg-black border-b border-white/5 text-[13px]">
+  <div class="max-w-7xl mx-auto px-6 h-10 flex items-center justify-between text-slate-400">
+    <span class="tracking-wide">Marine Workforce &amp; Ship Refitting Services — Operating across Europe</span>
+    <div class="flex items-center gap-6">
+      <a href="mailto:office@navalsyrefitting.com" class="hover:text-gold transition">office@navalsyrefitting.com</a>
+      <span class="text-white/15">|</span>
+      <a href="tel:+39000000000" class="hover:text-gold transition">+39 XXX XXX XXX</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NAVBAR ================= -->
+<header id="navbar" class="fixed top-0 md:top-10 left-0 right-0 z-50 transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-6">
+    <div id="navInner" class="flex items-center justify-between h-20 transition-all duration-500">
+
+      <!-- LOGO -->
+      <a href="#home" class="flex items-center gap-1 select-none group">
+        <span class="font-sora text-2xl font-extrabold tracking-tight text-white">Naval</span>
+        <span class="font-sora text-2xl font-extrabold tracking-tight bg-gold rounded-md px-1.5 text-black
+                     transition-transform duration-300 group-hover:scale-105">Sy</span>
+      </a>
+
+      <!-- DESKTOP NAV -->
+      <nav class="hidden lg:flex items-center gap-9 text-sm font-medium text-slate-300">
+        <a href="#home"     class="navlink hover:text-white transition">Home</a>
+        <a href="#about"    class="navlink hover:text-white transition">About</a>
+        <a href="#services" class="navlink hover:text-white transition">Services</a>
+        <a href="#projects" class="navlink hover:text-white transition">Projects</a>
+        <a href="#careers"  class="navlink hover:text-white transition">Careers</a>
+        <a href="#contact"  class="navlink hover:text-white transition">Contact</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="#contact" class="btn-gold inline-block bg-gold hover:bg-gold-light text-black font-semibold
+                  px-6 py-3 rounded-xl transition-all duration-300">Request a Quote</a>
+        <a href="#careers" class="inline-block border border-white/20 text-slate-200 hover:border-gold hover:text-gold
+                  font-semibold px-6 py-3 rounded-xl transition-all duration-300">Work with us!</a>
+      </div>
+
+      <!-- MOBILE TOGGLE -->
+      <button id="menuBtn" class="lg:hidden w-11 h-11 rounded-xl border border-white/15 flex items-center justify-center">
+        <svg id="iconOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="menu-hidden lg:hidden mx-4 mt-2 rounded-2xl bg-coal border border-white/10 p-6">
+    <nav class="flex flex-col gap-1 text-slate-200">
+      <a href="#home"     class="py-3 border-b border-white/5 hover:text-gold transition">Home</a>
+      <a href="#about"    class="py-3 border-b border-white/5 hover:text-gold transition">About</a>
+      <a href="#services" class="py-3 border-b border-white/5 hover:text-gold transition">Services</a>
+      <a href="#projects" class="py-3 border-b border-white/5 hover:text-gold transition">Projects</a>
+      <a href="#careers"  class="py-3 border-b border-white/5 hover:text-gold transition">Careers</a>
+      <a href="#contact"  class="py-3 hover:text-gold transition">Contact</a>
+    </nav>
+    <a href="#contact" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl">Request a Quote</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="home" class="relative min-h-screen flex items-center pt-36 md:pt-44 pb-20 overflow-hidden">
+  <!-- background layers -->
+  <div class="absolute inset-0 bg-ink"></div>
+  <div class="absolute inset-0 opacity-70"
+       style="background:radial-gradient(80% 60% at 75% 10%, rgba(201,162,74,.22), transparent 60%),
+                          radial-gradient(70% 70% at 10% 90%, rgba(201,162,74,.10), transparent 60%);"></div>
+  <div class="absolute inset-0 floaty flex items-center justify-center lg:justify-end pointer-events-none">
+    <!-- company logo as ambient hero mark -->
+    <img src="assets/Logo_4k_no_background-removebg.png" alt=""
+         class="w-[80%] sm:w-[60%] lg:w-[46%] max-w-none lg:translate-x-[12%] opacity-[.16] select-none"
+         style="filter:drop-shadow(0 0 60px rgba(201,162,74,.25));" />
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 h-px shimmer"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-14 items-center w-full">
+    <!-- left -->
+    <div>
+      <div class="hero-anim inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/5 mb-7"
+           style="animation-delay:.05s">
+        <span class="w-2 h-2 rounded-full bg-gold"></span>
+        <span class="text-gold-light text-sm tracking-widest uppercase">NavalSy Refitting</span>
+      </div>
+
+      <h1 class="hero-anim font-sora text-5xl md:text-6xl xl:text-7xl font-extrabold leading-[1.05] mb-6"
+          style="animation-delay:.15s">
+        Ship Refitting &amp;<br><span class="gold-text">Marine Workforce</span><br>Solutions
+      </h1>
+
+      <p class="hero-anim text-slate-300 text-lg leading-relaxed mb-9 max-w-xl" style="animation-delay:.3s">
+        Skilled teams for cruise ship refitting, insulation, accommodation works,
+        cleaning and hospitality services — mobilized fast, across Europe.
+      </p>
+
+      <div class="hero-anim flex flex-wrap gap-4 mb-12" style="animation-delay:.45s">
+        <a href="#contact" class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300">
+          Request a Quote
+        </a>
+        <a href="#careers" class="border border-white/20 hover:border-gold hover:text-gold px-8 py-4 rounded-xl font-semibold transition-all duration-300">
+          Work With Us
+        </a>
+      </div>
+
+      <div class="hero-anim flex items-center gap-6 text-sm text-slate-400" style="animation-delay:.6s">
+        <span>Trusted by shipyards in</span>
+        <div class="flex gap-5 font-semibold text-slate-200">
+          <span>Italy</span><span class="text-gold">•</span>
+          <span>Netherlands</span><span class="text-gold">•</span>
+          <span>Norway</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- right: stats card -->
+    <div class="hero-anim" style="animation-delay:.4s">
+      <div class="relative rounded-3xl border border-white/10 bg-white/[.03] backdrop-blur-xl p-8 shadow-2xl">
+        <div class="absolute -top-px left-10 right-10 h-px shimmer"></div>
+        <div class="flex items-center justify-between mb-7">
+          <h3 class="font-sora font-semibold text-lg">NavalSy in Numbers</h3>
+          <span class="text-xs uppercase tracking-widest text-gold">Live</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
+            <div class="counter font-sora text-4xl font-bold text-gold" data-target="104" data-suffix="+">0</div>
+            <div class="text-slate-400 mt-1 text-sm">Skilled Workers</div>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
+            <div class="counter font-sora text-4xl font-bold text-gold" data-target="3" data-suffix="">0</div>
+            <div class="text-slate-400 mt-1 text-sm">Countries Active</div>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
+            <div class="counter font-sora text-4xl font-bold text-gold" data-target="24" data-suffix="h">0</div>
+            <div class="text-slate-400 mt-1 text-sm">Rapid Deployment</div>
+          </div>
+          <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
+            <div class="counter font-sora text-4xl font-bold text-gold" data-target="5" data-suffix="+">0</div>
+            <div class="text-slate-400 mt-1 text-sm">Active Projects</div>
+          </div>
+        </div>
+        <a href="#projects" class="mt-6 flex items-center justify-center gap-2 text-sm text-slate-300 hover:text-gold transition py-3 rounded-xl border border-white/5 hover:border-gold/40">
+          See recent works
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+  <div class="grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal-x">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">About Us</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold mb-7 leading-tight">
+        Real Teams.<br><span class="gold-text">Real Shipyard Experience.</span>
+      </h2>
+      <p class="text-slate-300 leading-relaxed mb-5">
+        NavalSy Refitting provides qualified manpower and support teams for ship refitting
+        projects across Europe. We specialize in accommodation works, insulation, onboard
+        support and hospitality services.
+      </p>
+      <p class="text-slate-300 leading-relaxed mb-8">
+        Our teams are already active in Italy, the Netherlands and Norway — supporting marine
+        contractors and cruise ship projects with fast mobilization and reliable execution.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="flex items-start gap-3">
+          <span class="mt-1 w-9 h-9 shrink-0 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </span>
+          <div><div class="font-semibold">Certified Crews</div><div class="text-sm text-slate-400">Trained, documented, ready</div></div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 w-9 h-9 shrink-0 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </span>
+          <div><div class="font-semibold">Fast Mobilization</div><div class="text-sm text-slate-400">On-site within 24 hours</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-5">
+      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift" data-d="0">
+        <span class="font-sora font-semibold">Founder</span>
+      </div>
+      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift mt-8" data-d="100">
+        <span class="font-sora font-semibold">Team Leader</span>
+      </div>
+      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift" data-d="200">
+        <span class="font-sora font-semibold">Office Coordinator</span>
+      </div>
+      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift mt-8" data-d="300">
+        <span class="font-sora font-semibold">Team on Vessel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services" class="bg-coal border-y border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+    <div class="text-center mb-16 reveal">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Services</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold">Marine &amp; Hospitality <span class="gold-text">Workforce Solutions</span></h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-7">
+      <div class="reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift" data-d="0">
+        <div class="flex items-center gap-4 mb-7">
+          <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
+          </span>
+          <h3 class="font-sora text-2xl font-bold">Core Services</h3>
+        </div>
+        <ul class="space-y-3 text-slate-300" id="coreList"></ul>
+      </div>
+
+      <div class="reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift" data-d="120">
+        <div class="flex items-center gap-4 mb-7">
+          <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
+          </span>
+          <h3 class="font-sora text-2xl font-bold">Hospitality &amp; Cleaning</h3>
+        </div>
+        <ul class="space-y-3 text-slate-300" id="hospList"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY US ================= -->
+<section class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+  <div class="text-center mb-16 reveal">
+    <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Why NavalSy</div>
+    <h2 class="font-sora text-4xl md:text-5xl font-bold">Built for <span class="gold-text">Demanding Shipyards</span></h2>
+  </div>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="whyGrid"></div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="bg-coal border-y border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+    <div class="flex flex-wrap items-end justify-between gap-6 mb-14 reveal">
+      <div>
+        <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Projects</div>
+        <h2 class="font-sora text-4xl md:text-5xl font-bold">Recent <span class="gold-text">Works</span></h2>
+      </div>
+      <a href="#contact" class="text-sm text-slate-300 hover:text-gold transition flex items-center gap-2">
+        Start your project
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-7" id="projectGrid"></div>
+  </div>
+</section>
+
+<!-- ================= CAREERS (WORKER FORM) ================= -->
+<section id="careers" class="relative overflow-hidden">
+  <div class="absolute inset-0" style="background:radial-gradient(70% 80% at 15% 20%, rgba(201,162,74,.14), transparent 60%);"></div>
+  <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32 grid lg:grid-cols-2 gap-16 items-start">
+    <div class="reveal-x">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Careers</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold mb-6 leading-tight">
+        Join Our Teams<br><span class="gold-text">Across Europe</span>
+      </h2>
+      <p class="text-slate-300 text-lg leading-relaxed mb-8 max-w-lg">
+        We are constantly looking for skilled workers for marine projects, ship refitting and
+        cleaning services. Submit your CV and our recruitment team will contact you.
+      </p>
+      <div class="grid grid-cols-2 gap-3 max-w-md" id="rolesGrid"></div>
+    </div>
+
+    <!-- WORKER APPLICATION FORM -->
+    <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
+      <h3 class="font-sora text-2xl font-bold mb-1">Apply Now</h3>
+      <p class="text-slate-400 text-sm mb-7">For workers — submit your CV</p>
+
+      <form id="workerForm" class="space-y-4" novalidate>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input name="name" required placeholder="Full Name *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="phone" required placeholder="Phone Number *" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+        <input name="email" type="email" required placeholder="Email Address *" class="field w-full rounded-xl px-5 py-3.5" />
+        <div class="grid sm:grid-cols-2 gap-4">
+          <select name="position" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
+            <option value="">Select Position *</option>
+            <option>Insulation Worker</option>
+            <option>Cleaner</option>
+            <option>Fitter</option>
+            <option>Supervisor</option>
+            <option>Hospitality Staff</option>
+            <option>Team Leader</option>
+          </select>
+          <input name="country" placeholder="Available in (country)" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+
+        <!-- CV upload -->
+        <label id="cvDrop" class="block cursor-pointer">
+          <input type="file" name="cv" id="cvInput" required accept=".pdf,.doc,.docx" class="hidden" />
+          <div class="border-2 border-dashed border-white/15 rounded-xl p-7 text-center transition hover:border-gold/50 hover:bg-gold/5">
+            <svg class="w-8 h-8 mx-auto text-gold mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-5 5m5-5l5 5M5 20h14"/></svg>
+            <div id="cvLabel" class="text-slate-300 text-sm font-medium">Upload your CV <span class="text-slate-500">(PDF / DOC) *</span></div>
+          </div>
+        </label>
+
+        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+          Send Application
+        </button>
+        <p id="workerError" class="hidden text-red-400 text-sm text-center"></p>
+      </form>
+
+      <!-- success state -->
+      <div id="workerSuccess" class="hidden text-center py-10">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
+          <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
+        <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
+        <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline">Submit another application</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT (COMPANY FORM) ================= -->
+<section id="contact" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+  <div class="grid lg:grid-cols-2 gap-16">
+    <div class="reveal-x">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Contact</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold mb-7 leading-tight">
+        Let's Discuss Your<br><span class="gold-text">Next Project</span>
+      </h2>
+      <p class="text-slate-300 leading-relaxed mb-10 max-w-md">
+        Need a skilled workforce for a refitting project? Tell us what you need and we'll send
+        a tailored quote.
+      </p>
+
+      <div class="space-y-5">
+        <a href="mailto:office@navalsyrefitting.com" class="flex items-center gap-4 group">
+          <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
+          </span>
+          <div><div class="font-semibold">Email</div><div class="text-slate-400 text-sm">office@navalsyrefitting.com</div></div>
+        </a>
+        <a href="tel:+39000000000" class="flex items-center gap-4 group">
+          <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.5l2 5-2 1.5a11 11 0 005.5 5.5l1.5-2 5 2V21a2 2 0 01-2 2A18 18 0 013 5z"/></svg>
+          </span>
+          <div><div class="font-semibold">Phone</div><div class="text-slate-400 text-sm">+39 XXX XXX XXX</div></div>
+        </a>
+        <div class="flex items-center gap-4">
+          <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
+          </span>
+          <div><div class="font-semibold">WhatsApp</div><div class="text-slate-400 text-sm">Available 24/7 for inquiries</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPANY HIRING FORM -->
+    <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
+      <h3 class="font-sora text-2xl font-bold mb-1">Request a Quote</h3>
+      <p class="text-slate-400 text-sm mb-7">For companies — hire NavalSy teams</p>
+
+      <form id="companyForm" class="space-y-4" novalidate>
+        <input name="company" required placeholder="Company Name *" class="field w-full rounded-xl px-5 py-3.5" />
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input name="contact" required placeholder="Contact Person *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="email" type="email" required placeholder="Business Email *" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input name="country" required placeholder="Country / Shipyard *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="workers" type="number" min="1" placeholder="Workers Needed" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+        <select name="service" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
+          <option value="">Service Required *</option>
+          <option>Ship Refitting</option>
+          <option>Insulation Works</option>
+          <option>Accommodation Works</option>
+          <option>Cleaning &amp; Hospitality</option>
+          <option>Marine Workforce Supply</option>
+          <option>Other</option>
+        </select>
+        <textarea name="details" rows="4" required placeholder="Describe your project *" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+          Send Request
+        </button>
+        <p id="companyError" class="hidden text-red-400 text-sm text-center"></p>
+      </form>
+
+      <div id="companySuccess" class="hidden text-center py-12">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
+          <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h4 class="font-sora text-xl font-bold mb-2">Request sent</h4>
+        <p class="text-slate-400 text-sm mb-6">Thank you. We'll get back to you with a tailored quote within 24 hours.</p>
+        <button type="button" data-reset="companyForm" class="text-gold text-sm font-semibold hover:underline">Send another request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-white/5 bg-black">
+  <div class="max-w-7xl mx-auto px-6 py-14">
+    <div class="grid md:grid-cols-4 gap-10 mb-10">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-1 mb-4">
+          <span class="font-sora text-2xl font-extrabold text-white">Naval</span>
+          <span class="font-sora text-2xl font-extrabold bg-gold rounded-md px-1.5 text-black">Sy</span>
+        </div>
+        <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
+          Marine workforce &amp; ship refitting services. Skilled teams for cruise ship
+          refitting, insulation, accommodation and hospitality — across Europe.
+        </p>
+      </div>
+      <div>
+        <div class="font-sora font-semibold mb-4">Navigation</div>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li><a href="#about" class="hover:text-gold transition">About</a></li>
+          <li><a href="#services" class="hover:text-gold transition">Services</a></li>
+          <li><a href="#projects" class="hover:text-gold transition">Projects</a></li>
+          <li><a href="#careers" class="hover:text-gold transition">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-sora font-semibold mb-4">Contact</div>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li>office@navalsyrefitting.com</li>
+          <li>+39 XXX XXX XXX</li>
+          <li>Italy • Netherlands • Norway</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+      <span>© 2026 NavalSy Refitting — Marine Workforce &amp; Ship Refitting Services</span>
+      <span>Demo website</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp float -->
+<a href="https://wa.me/39000000000" target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gold hover:bg-gold-light text-black
+          flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+   aria-label="WhatsApp">
+  <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
+</a>
+
+<!-- Back to top -->
+<button id="toTop" class="to-top fixed bottom-6 left-6 z-40 w-12 h-12 rounded-full bg-coal border border-white/15
+        text-white flex items-center justify-center opacity-0 translate-y-4 pointer-events-none hover:border-gold hover:text-gold"
+        aria-label="Back to top">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+/* ---------- DATA ---------- */
+const core = ["Ship Refitting","Insulation Works","Accommodation Works","Pipe Support Installation","Dry Dock Support","Marine Workforce Supply","Project Coordination"];
+const hosp = ["General Cleaning","Carpet Cleaning","Wallpaper Cleaning","Deep Cleaning Services","Accommodation Area Cleaning","Turnover Cleaning After Refit","Dedicated Female Teams Available"];
+const roles = ["Insulation Workers","Cleaners","Fitters","Supervisors","Hospitality Staff","Team Leaders"];
+const why = [
+  {t:"24h Deployment", d:"Crews mobilized and on-site within a day of confirmation.",
+   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+  {t:"Certified Workers", d:"Trained, documented teams ready for shipyard requirements.",
+   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+  {t:"EU-Wide Coverage", d:"Active operations across Italy, the Netherlands and Norway.",
+   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/>'},
+  {t:"Reliable Execution", d:"Consistent quality, supervised teams, on-schedule delivery.",
+   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
+];
+const projects = [
+  {t:"Meyer Werft — Germany", d:"Accommodation refitting with 18 workers deployed for onboard support and insulation installation.", tags:["Refitting","Insulation"]},
+  {t:"Fincantieri — Italy", d:"Cruise ship turnover cleaning and hospitality crew supplied for a 3-week dry dock window.", tags:["Cleaning","Hospitality"]},
+  {t:"Damen — Netherlands", d:"Marine workforce supply and pipe support installation for a mid-size refit project.", tags:["Workforce","Pipe Support"]}
+];
+
+/* ---------- RENDER LISTS ---------- */
+const bullet = txt => `<li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-gold shrink-0"></span>${txt}</li>`;
+document.getElementById('coreList').innerHTML = core.map(bullet).join('');
+document.getElementById('hospList').innerHTML = hosp.map(bullet).join('');
+
+document.getElementById('rolesGrid').innerHTML = roles.map(r =>
+  `<div class="flex items-center gap-2 rounded-xl bg-white/[.03] border border-white/10 px-4 py-3 text-sm">
+     <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>${r}</div>`).join('');
+
+document.getElementById('whyGrid').innerHTML = why.map((w,idx) =>
+  `<div class="reveal rounded-3xl bg-coal border border-white/10 p-7 lift" data-d="${idx*100}">
+     <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center mb-5">
+       <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">${w.i}</svg>
+     </span>
+     <h3 class="font-sora text-lg font-bold mb-2">${w.t}</h3>
+     <p class="text-slate-400 text-sm leading-relaxed">${w.d}</p>
+   </div>`).join('');
+
+document.getElementById('projectGrid').innerHTML = projects.map((p,idx) =>
+  `<div class="reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift" data-d="${idx*120}">
+     <div class="media h-52 flex items-center justify-center">
+       <svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
+     </div>
+     <div class="p-7">
+       <h3 class="font-sora text-xl font-bold mb-3">${p.t}</h3>
+       <p class="text-slate-400 text-sm leading-relaxed mb-5">${p.d}</p>
+       <div class="flex flex-wrap gap-2">
+         ${p.tags.map(t=>`<span class="text-xs px-3 py-1.5 rounded-full bg-gold/10 text-gold-light border border-gold/20">${t}</span>`).join('')}
+       </div>
+     </div>
+   </div>`).join('');
+
+/* ---------- NAVBAR SCROLL ---------- */
+const navInner = document.getElementById('navInner');
+function onScroll(){
+  const s = window.scrollY > 30;
+  navInner.classList.toggle('bg-coal/90', s);
+  navInner.classList.toggle('backdrop-blur-xl', s);
+  navInner.classList.toggle('border-b', s);
+  navInner.classList.toggle('border-white/10', s);
+  navInner.classList.toggle('px-5', s);
+  navInner.classList.toggle('rounded-2xl', s);
+  navInner.classList.toggle('mt-3', s);
+
+  const tt = document.getElementById('toTop');
+  const show = window.scrollY > 500;
+  tt.classList.toggle('opacity-0', !show);
+  tt.classList.toggle('translate-y-4', !show);
+  tt.classList.toggle('pointer-events-none', !show);
+}
+window.addEventListener('scroll', onScroll); onScroll();
+document.getElementById('toTop').onclick = () => window.scrollTo({top:0,behavior:'smooth'});
+
+/* ---------- MOBILE MENU ---------- */
+const menu = document.getElementById('mobileMenu');
+const iOpen = document.getElementById('iconOpen'), iClose = document.getElementById('iconClose');
+function toggleMenu(force){
+  const open = force ?? menu.classList.contains('menu-hidden');
+  menu.classList.toggle('menu-hidden', !open);
+  iOpen.classList.toggle('hidden', open);
+  iClose.classList.toggle('hidden', !open);
+}
+document.getElementById('menuBtn').onclick = () => toggleMenu();
+menu.querySelectorAll('a').forEach(a => a.onclick = () => toggleMenu(false));
+
+/* ---------- SCROLL REVEAL ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      const d = e.target.dataset.d || 0;
+      e.target.style.transitionDelay = d + 'ms';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.15});
+document.querySelectorAll('.reveal, .reveal-x').forEach(el => io.observe(el));
+
+/* ---------- COUNTERS ---------- */
+const counters = document.querySelectorAll('.counter');
+const co = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target, suf = el.dataset.suffix || '';
+    let cur = 0; const step = Math.max(1, Math.ceil(target/45));
+    const tick = () => {
+      cur += step;
+      if(cur >= target){ el.textContent = target + suf; }
+      else { el.textContent = cur + suf; requestAnimationFrame(tick); }
+    };
+    tick(); co.unobserve(el);
+  });
+}, {threshold:.5});
+counters.forEach(c => co.observe(c));
+
+/* ---------- CV UPLOAD LABEL ---------- */
+const cvInput = document.getElementById('cvInput'), cvLabel = document.getElementById('cvLabel');
+cvInput.addEventListener('change', () => {
+  cvLabel.innerHTML = cvInput.files.length
+    ? '<span class="text-gold font-semibold">✓ ' + cvInput.files[0].name + '</span>'
+    : 'Upload your CV <span class="text-slate-500">(PDF / DOC) *</span>';
+});
+
+/* ---------- FORM HANDLING ---------- */
+function handleForm(formId, successId, errorId){
+  const form = document.getElementById(formId);
+  const errEl = document.getElementById(errorId);
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    errEl.classList.add('hidden');
+
+    // basic validation
+    let invalid = null;
+    form.querySelectorAll('[required]').forEach(f => {
+      const empty = (f.type === 'file') ? f.files.length === 0 : !f.value.trim();
+      f.classList.toggle('border-red-500/70', empty);
+      if(empty && !invalid) invalid = f;
+    });
+    const email = form.querySelector('input[type=email]');
+    if(email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){
+      email.classList.add('border-red-500/70');
+      if(!invalid) invalid = email;
+    }
+    if(invalid){
+      errEl.textContent = 'Please complete all required fields (*) correctly.';
+      errEl.classList.remove('hidden');
+      invalid.focus();
+      return;
+    }
+
+    /* DEMO: data is collected client-side only.
+       To make it live, POST `new FormData(form)` to your backend
+       or a service like Formspree / a NavalSy email endpoint. */
+    console.log(formId + ' submitted:', Object.fromEntries(new FormData(form)));
+
+    form.classList.add('hidden');
+    document.getElementById(successId).classList.remove('hidden');
+  });
+}
+handleForm('workerForm',  'workerSuccess',  'workerError');
+handleForm('companyForm', 'companySuccess', 'companyError');
+
+/* reset buttons */
+document.querySelectorAll('[data-reset]').forEach(btn => {
+  btn.onclick = () => {
+    const form = document.getElementById(btn.dataset.reset);
+    form.reset();
+    cvLabel.innerHTML = 'Upload your CV <span class="text-slate-500">(PDF / DOC) *</span>';
+    form.classList.remove('hidden');
+    btn.closest('div[id$="Success"]').classList.add('hidden');
+  };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude plugin *)",
+      "Bash(npx --version)",
+      "Bash(npx --yes serve -l 3000 .)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"site: %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"logo: %{http_code}\\\\n\" \"http://localhost:3000/assets/logo-removebg-preview.png\")",
+      "Bash(curl -s -o /dev/null -w \"logo: %{http_code}\\\\n\" \"http://localhost:3000/assets/Logo_4k_no_background-removebg.png\")",
+      "Bash(git --version)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c 'user.name=NavalSy Dev' -c user.email=doc.commerce.srl@gmail.com commit -q -m 'Initial commit: NavalSy demo website with logo integrated *)"
+    ]
+  }
+}
