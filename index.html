@@ -164,19 +164,20 @@
   }
   .proj-modal.open { pointer-events:auto; visibility:visible; transition:visibility 0s linear 0s; }
 
-  /* freeze page animations while the modal sits open, so the backdrop blur stays cached */
+  /* while the modal is open: gently scale the page back + pause its animations
+     (depth effect instead of blur — transform is GPU-composited, 100% smooth) */
+  #pageWrap { transition:transform .45s cubic-bezier(.2,.7,.2,1); }
+  #pageWrap.modal-frozen { transform:scale(.97); }
   #pageWrap.modal-frozen *,
   #pageWrap.modal-frozen *::before,
   #pageWrap.modal-frozen *::after { animation-play-state:paused !important; }
 
-  /* dim layer: a plain colour fade — cheap, runs at full fps */
+  /* dim layer: a strong, plain dark overlay — GPU-composited, no blur, runs at full fps */
   .proj-backdrop {
-    position:absolute; inset:0; background:rgba(8,8,10,.62);
-    opacity:0; transition:opacity .3s ease;
+    position:absolute; inset:0; background:rgba(6,6,9,.86);
+    opacity:0; transition:opacity .35s ease;
   }
   .proj-modal.open .proj-backdrop { opacity:1; }
-  /* blur applied ONLY after the open animation has finished — never during a transition */
-  .proj-backdrop.blurred { backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
 
   .proj-dialog {
     position:relative; width:100%; max-width:1080px; max-height:90vh;
@@ -1113,10 +1114,9 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const pageWrap = document.getElementById('pageWrap');
   const stage   = document.getElementById('pmStage');
   const thumbs  = document.getElementById('pmThumbs');
-  const backdrop = modal.querySelector('.proj-backdrop');
 
   let photos = [], thumbBtns = [], cur = 0, front = 0;
-  let layers = [], counter, blurTimer, pendingPreload = null;
+  let layers = [], counter, preloadTimer, pendingPreload = null;
 
   const chevron = dir => dir === 'prev'
     ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>'
@@ -1177,15 +1177,15 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     document.body.style.overflow = 'hidden';
     modal.setAttribute('aria-hidden', 'false');
 
-    // 1) animate the dialog in over a plain dark backdrop — NO blur active -> guaranteed 60fps
-    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
-
-    // 2) only AFTER the open animation finishes, on a fully static scene, apply the blur
-    //    and decode the remaining photos — never overlaps an animation
-    clearTimeout(blurTimer);
-    blurTimer = setTimeout(() => {
+    // animate the dialog in + scale the page back — both pure GPU transforms -> 60fps
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('open');
       pageWrap.classList.add('modal-frozen');
-      backdrop.classList.add('blurred');
+    }));
+
+    // decode the remaining photos only after the open animation, so it never competes with it
+    clearTimeout(preloadTimer);
+    preloadTimer = setTimeout(() => {
       if(pendingPreload){ preload(pendingPreload); pendingPreload = null; }
     }, 480);
   }
@@ -1232,9 +1232,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   }
 
   function close(){
-    clearTimeout(blurTimer);
-    // drop the blur first so the dialog animates out over a sharp/un-blurred scene -> 60fps
-    backdrop.classList.remove('blurred');
+    clearTimeout(preloadTimer);
     pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
