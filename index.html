@@ -1105,21 +1105,71 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const pageWrap = document.getElementById('pageWrap');
   const stage   = document.getElementById('pmStage');
   const thumbs  = document.getElementById('pmThumbs');
-  let imgs = [], thumbBtns = [], cur = 0;
+
+  let photos = [], thumbBtns = [], cur = 0, front = 0;
+  let layers = [], counter;
 
   const chevron = dir => dir === 'prev'
     ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>'
     : '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
 
+  // preload + decode every photo once, so navigation never decodes mid-animation
+  const cache = {};
+  function preload(list){
+    list.forEach(src => {
+      if(cache[src]) return;
+      const im = new Image();
+      im.src = encodeURI(src);
+      if(im.decode) im.decode().catch(()=>{});
+      cache[src] = im;
+    });
+  }
+
+  // build the gallery chrome once (2 image layers only — keeps the modal layer light)
+  function buildStage(){
+    stage.className = 'pm-stage';
+    stage.innerHTML = '';
+    layers = [0,1].map(() => {
+      const im = document.createElement('img');
+      im.decoding = 'async'; im.alt = '';
+      stage.appendChild(im); return im;
+    });
+    const prev = document.createElement('button'), next = document.createElement('button');
+    prev.className = 'pm-arrow'; prev.style.left = '.6rem';  prev.innerHTML = chevron('prev');
+    next.className = 'pm-arrow'; next.style.right = '.6rem'; next.innerHTML = chevron('next');
+    prev.onclick = () => show(cur - 1);
+    next.onclick = () => show(cur + 1);
+    counter = document.createElement('div'); counter.className = 'pm-counter';
+    stage.append(prev, next, counter);
+
+    let sx = 0;
+    stage.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+    stage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if(Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+    });
+  }
+
   function show(i){
-    if(!imgs.length) return;
-    cur = (i + imgs.length) % imgs.length;
-    imgs.forEach((im,k) => im.classList.toggle('on', k === cur));
+    if(!photos.length) return;
+    cur = (i + photos.length) % photos.length;
+    const back = layers[front ^ 1];
+    back.src = encodeURI(photos[cur]);          // already cached + decoded -> instant
+    back.classList.add('on');
+    layers[front].classList.remove('on');
+    front ^= 1;
+    counter.textContent = (cur + 1) + ' / ' + photos.length;
     thumbBtns.forEach((t,k) => t.classList.toggle('on', k === cur));
-    counter.textContent = (cur+1) + ' / ' + imgs.length;
     if(thumbBtns[cur]) thumbBtns[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
   }
-  let counter;
+
+  function reveal(){
+    pageWrap.classList.add('modal-blur');
+    document.body.style.overflow = 'hidden';
+    modal.setAttribute('aria-hidden', 'false');
+    // paint the page-blur in its own frame, then start the dialog animation -> stays at 60fps
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('open')));
+  }
 
   function openProject(p){
     document.getElementById('pmCountry').textContent = p.country;
@@ -1130,33 +1180,13 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     ].map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
     document.getElementById('pmTags').innerHTML = p.tags.map(t => `<span class="pm-tag">${t}</span>`).join('');
 
-    stage.innerHTML = ''; thumbs.innerHTML = '';
-    if(p.photos && p.photos.length){
-      stage.className = 'pm-stage';
-      imgs = p.photos.map((src,k) => {
-        const im = document.createElement('img');
-        im.src = encodeURI(src); im.alt = p.t;
-        im.decoding = 'async';
-        im.loading = k === 0 ? 'eager' : 'lazy';
-        stage.appendChild(im); return im;
-      });
-      const prev = document.createElement('button'), next = document.createElement('button');
-      prev.className = 'pm-arrow'; prev.style.left = '.6rem';  prev.innerHTML = chevron('prev');
-      next.className = 'pm-arrow'; next.style.right = '.6rem'; next.innerHTML = chevron('next');
-      prev.onclick = () => show(cur - 1);
-      next.onclick = () => show(cur + 1);
-      counter = document.createElement('div'); counter.className = 'pm-counter';
-      stage.append(prev, next, counter);
+    thumbs.innerHTML = '';
+    photos = (p.photos && p.photos.length) ? p.photos.slice() : [];
 
-      // swipe
-      let sx = 0;
-      stage.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
-      stage.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - sx;
-        if(Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
-      });
-
-      thumbBtns = p.photos.map((src,k) => {
+    if(photos.length){
+      preload(photos);
+      buildStage();
+      thumbBtns = photos.map((src,k) => {
         const t = document.createElement('button');
         t.className = 'pm-thumb';
         t.innerHTML = `<img src="${encodeURI(src)}" alt="" loading="lazy" decoding="async">`;
@@ -1164,20 +1194,22 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
         thumbs.appendChild(t); return t;
       });
       thumbs.style.display = 'flex';
-      show(0);
+      cur = 0; front = 0;
+      thumbBtns[0].classList.add('on');
+      counter.textContent = '1 / ' + photos.length;
+      // decode the first photo before opening so frame 1 is already smooth
+      const first = layers[0];
+      first.src = encodeURI(photos[0]);
+      const go = () => { first.classList.add('on'); reveal(); };
+      (first.decode ? first.decode().then(go).catch(go) : go());
     } else {
       stage.className = 'pm-empty';
       stage.innerHTML =
         '<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>' +
         '<span class="text-sm">Project photos coming soon</span>';
-      imgs = []; thumbBtns = [];
-      thumbs.style.display = 'none';
+      thumbBtns = []; thumbs.style.display = 'none';
+      reveal();
     }
-
-    pageWrap.classList.add('modal-blur');
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
   }
 
   function close(){
