@@ -845,42 +845,38 @@ const why = [
   {t:"Reliable Execution", d:"Consistent quality, supervised teams, on-schedule delivery.",
    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
 ];
-const FS = "assets/Recent works/Four Seasons/";
+// build a photo list for a project folder: primary photo first, then 1.jpg .. n.jpg
+const gallery = (folder, primary, n) => {
+  const base = "assets/Recent works/" + folder + "/";
+  const arr = [base + primary];
+  for(let i = 1; i <= n; i++) arr.push(base + i + ".jpg");
+  return arr;
+};
 const projects = [
   {t:"Norwegian Jade — Victoria Port, Canada", country:"Canada",
    boat:"Norwegian Jade", yard:"Victoria Port", loc:"Victoria, Canada", w:17,
    d:"17 workers deployed to build 10 new cabins — full accommodation works covering framing, insulation, wall panelling, flooring and final finishing.",
    desc:"Aboard the Norwegian Jade at Victoria Port, Canada, our 17-strong NavalSy crew delivered a complete cabin-build project — constructing 10 brand-new cabins from the ground up. The scope covered structural framing, thermal and acoustic insulation, wall and ceiling panelling, flooring and full interior finishing, all completed to cruise-line standards and on schedule.",
    tags:["Accommodation","Cabin Build","Insulation","Finishing"],
-   photos:[]},
+   photos:gallery("Victoria Port canada","Primary photo.jpg",6)},
   {t:"Norwegian Gem — Marseille Port, France", country:"France",
    boat:"Norwegian Gem", yard:"Marseille Port", loc:"Marseille, France", w:60,
-   d:"60-strong team delivering spa area refurbishment and cabin refitting — wet-zone works, panelling, insulation, fit-out and finishing.",
-   desc:"At Marseille Port, France, a NavalSy team of 60 carried out a major refit of the Norwegian Gem — combining a full spa-area refurbishment with extensive cabin refitting. Works included wet-zone construction and waterproofing, panelling, insulation, fit-out and finishing across guest and wellness areas, mobilised quickly to meet a tight dry-dock window.",
-   tags:["Spa Refit","Cabins","Insulation","Finishing"],
-   photos:[]},
+   d:"60-strong team — spa restructuring, 3 full cabin rebuilds and a new photo studio aboard the Norwegian Gem.",
+   desc:"At Marseille Port, France, a NavalSy team of 60 refitted the Norwegian Gem — restructuring the ship's spa, rebuilding 3 cabins from A to Z and fitting out a new photo studio. Works spanned wet-zone construction, panelling, insulation, fit-out and finishing, mobilised quickly to meet a tight dry-dock window.",
+   tags:["Spa Refit","Cabin Rebuild","Photo Studio","Finishing"],
+   photos:gallery("Drydock Marseille France","Primary photo.jpg",12)},
   {t:"NCL — Port Marghera, Italy", country:"Italy",
    boat:"NCL", yard:"Port Marghera", loc:"Marghera, Italy", w:55,
    d:"55 workers covering the complete scope — from metal structural works through to final finishing across multiple decks.",
    desc:"In Port Marghera, Italy, our 55-worker crew handled the complete refit scope for the NCL vessel — from heavy metal structural works through to the final finishing touches. The team worked across multiple decks, delivering structural fabrication, insulation, accommodation works and detailed finishing as a single coordinated workforce.",
    tags:["Structural Works","Refitting","Finishing"],
-   photos:[]},
+   photos:gallery("NCL - port marghera italy","Primary photo.jpg",9)},
   {t:"Four Seasons — Port Ancona, Italy", country:"Italy",
    boat:"Four Seasons", yard:"Port Ancona", loc:"Ancona, Italy", w:70,
    d:"70-person crew refitting luxury suites and exterior pool areas — high-end finishing, decking, accommodation and onboard support.",
    desc:"At Port Ancona, Italy, a NavalSy crew of 70 refitted the Four Seasons vessel — focusing on luxury suites and exterior pool areas. The project demanded high-end finishing, exterior decking, accommodation works and onboard support, with our team delivering premium-standard results across both interior and open-deck zones.",
    tags:["Suites","Pool Areas","Decking","Finishing"],
-   photos:[
-     FS+"Primary Photo.jpg",
-     FS+"049cce95-ee13-4208-9f15-f2a12b4454fc.jpg",
-     FS+"3487c053-1483-466c-9783-a0f2ffcb50de.jpg",
-     FS+"3d9a3377-acc3-4b79-ac01-5b2781c74454.jpg",
-     FS+"7645e519-f885-4d28-8c4d-c524b56fd167.jpg",
-     FS+"770d56e2-b87b-45cb-906c-2e97a0f679ea.jpg",
-     FS+"809107bd-aa7c-48a0-99ab-f676ee0cef66.jpg",
-     FS+"cb2bb5a9-28ae-4dff-afe7-e12a043e212b.jpg",
-     FS+"cf606b8a-9ce0-433e-8071-8e53bd61dbfa.jpg"
-   ]}
+   photos:gallery("Four Seasons","Primary Photo.jpg",8)}
 ];
 
 /* ---------- RENDER LISTS ---------- */
