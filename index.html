@@ -1489,26 +1489,28 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const defaultCv = 'Upload your CV <span class="text-slate-500">(PDF / DOC) *</span>';
   let cur = 0;
 
-  // build the grouped list of work types
   const groupLabel = { core:'Core Services', hosp:'Hospitality & Cleaning' };
-  let html = '', lastGroup = '';
-  services.forEach((s,i) => {
-    if(s.group !== lastGroup){ html += `<div class="sm-group">${groupLabel[s.group]}</div>`; lastGroup = s.group; }
-    html += `<button class="sm-item" data-idx="${i}"><span class="dot"></span>${s.name}</button>`;
-  });
-  listEl.innerHTML = html;
-  const items = [...listEl.querySelectorAll('.sm-item')];
-  items.forEach(b => b.onclick = () => select(+b.dataset.idx));
 
-  // every work type becomes an option in both forms
-  const opts = services.map(s => `<option>${s.name}</option>`).join('');
-  quoteSel.innerHTML = opts;
-  applySel.innerHTML = opts;
+  // the left list shows only the category of the service being viewed
+  function renderList(group){
+    listEl.innerHTML = `<div class="sm-group">${groupLabel[group]}</div>` +
+      services.map((s,i) => ({s,i})).filter(o => o.s.group === group)
+        .map(o => `<button class="sm-item" data-idx="${o.i}"><span class="dot"></span>${o.s.name}</button>`)
+        .join('');
+    listEl.querySelectorAll('.sm-item').forEach(b => b.onclick = () => select(+b.dataset.idx));
+  }
+  // both form selects list only the current category's work types
+  function fillSelects(group){
+    const opts = services.filter(s => s.group === group)
+      .map(s => `<option>${s.name}</option>`).join('');
+    quoteSel.innerHTML = opts;
+    applySel.innerHTML = opts;
+  }
 
   function select(i){
     cur = i;
     const s = services[i];
-    items.forEach(b => b.classList.toggle('on', +b.dataset.idx === i));
+    listEl.querySelectorAll('.sm-item').forEach(b => b.classList.toggle('on', +b.dataset.idx === i));
     document.getElementById('smTitle').textContent = s.name;
     document.getElementById('smDesc').textContent  = s.desc;
     const ph = document.getElementById('smPhotos');
@@ -1535,6 +1537,8 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   }
 
   function openService(i){
+    renderList(services[i].group);
+    fillSelects(services[i].group);
     select(i);
     showView('browser');
     document.getElementById('smQuoteForm').reset();
