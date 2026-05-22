@@ -166,6 +166,10 @@
 
   /* page blur: a STATIC filter, applied once with no transition — never re-rendered per frame */
   #pageWrap.modal-blur { filter:blur(7px); }
+  /* freeze every animation inside the blurred page so the blur result stays cached (no per-frame re-blur) */
+  #pageWrap.modal-blur *,
+  #pageWrap.modal-blur *::before,
+  #pageWrap.modal-blur *::after { animation-play-state:paused !important; }
 
   /* dim layer: a plain colour fade — cheap, runs at full fps */
   .proj-backdrop {
@@ -1095,6 +1099,10 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   cf.addEventListener('mouseenter', () => clearInterval(timer));
   cf.addEventListener('mouseleave', restart);
 
+  // let the project modal stop/resume the autoplay (no transitions running behind the blur)
+  window.__cfPause  = () => clearInterval(timer);
+  window.__cfResume = restart;
+
   render(); restart();
 })();
 
@@ -1164,6 +1172,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   }
 
   function reveal(){
+    if(window.__cfPause) window.__cfPause();   // stop coverflow autoplay behind the blur
     pageWrap.classList.add('modal-blur');
     document.body.style.overflow = 'hidden';
     modal.setAttribute('aria-hidden', 'false');
@@ -1217,6 +1226,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     modal.setAttribute('aria-hidden', 'true');
     pageWrap.classList.remove('modal-blur');
     document.body.style.overflow = '';
+    if(window.__cfResume) window.__cfResume();
   }
 
   modal.querySelector('.proj-close').onclick = close;
