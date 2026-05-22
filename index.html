@@ -592,7 +592,7 @@
     </div>
 
     <div class="grid lg:grid-cols-2 gap-7">
-      <div class="reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift" data-d="0">
+      <div class="svc-card reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift cursor-pointer" data-group="core" data-d="0">
         <div class="flex items-center gap-4 mb-7">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
@@ -606,7 +606,7 @@
         <ul class="space-y-1 text-slate-300" id="coreList"></ul>
       </div>
 
-      <div class="reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift" data-d="120">
+      <div class="svc-card reveal rounded-3xl bg-ink border border-white/10 p-9 md:p-11 lift cursor-pointer" data-group="hosp" data-d="120">
         <div class="flex items-center gap-4 mb-7">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
@@ -1101,7 +1101,11 @@ document.getElementById('coreList').innerHTML =
 document.getElementById('hospList').innerHTML =
   services.map((s,i)=>({s,i})).filter(o=>o.s.group==='hosp').map(o=>svcRow(o.s,o.i)).join('');
 document.querySelectorAll('.svc-row').forEach(b =>
-  b.addEventListener('click', () => window.openService(+b.dataset.svc)));
+  b.addEventListener('click', (e) => { e.stopPropagation(); window.openService(+b.dataset.svc); }));
+// whole card clickable -> opens the modal at the first service of that category
+document.querySelectorAll('.svc-card').forEach(card =>
+  card.addEventListener('click', () =>
+    window.openService(services.findIndex(s => s.group === card.dataset.group))));
 
 document.getElementById('rolesGrid').innerHTML = roles.map(r =>
   `<div class="flex items-center gap-2 rounded-xl bg-white/[.03] border border-white/10 px-4 py-3 text-sm">
