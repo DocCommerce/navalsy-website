@@ -155,6 +155,77 @@
     background:rgba(255,255,255,.22); cursor:pointer; transition:all .35s;
   }
   .cf-dot.is-on { background:#C9A24A; width:26px; }
+
+  /* project modal */
+  .proj-modal {
+    position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center;
+    padding:1rem; opacity:0; pointer-events:none; transition:opacity .35s;
+  }
+  .proj-modal.open { opacity:1; pointer-events:auto; }
+  .proj-backdrop {
+    position:absolute; inset:0; background:rgba(8,8,10,.72);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  }
+  .proj-dialog {
+    position:relative; width:100%; max-width:1080px; max-height:90vh;
+    background:#111114; border:1px solid rgba(255,255,255,.1); border-radius:1.5rem;
+    overflow:hidden; box-shadow:0 50px 100px -30px rgba(0,0,0,.95);
+    transform:scale(.94) translateY(14px); transition:transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .proj-modal.open .proj-dialog { transform:scale(1) translateY(0); }
+  .proj-close {
+    position:absolute; top:1rem; right:1rem; z-index:20;
+    width:40px; height:40px; border-radius:9999px;
+    background:rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.18); color:#fff;
+    display:flex; align-items:center; justify-content:center; transition:background .3s, color .3s;
+  }
+  .proj-close:hover { background:#C9A24A; color:#000; }
+
+  .pm-grid { display:grid; grid-template-columns:1fr; max-height:90vh; overflow-y:auto; }
+  @media (min-width:900px) { .pm-grid { grid-template-columns:1.45fr 1fr; overflow:hidden; } }
+
+  .pm-gallery { background:#0A0A0B; display:flex; flex-direction:column; }
+  .pm-stage { position:relative; aspect-ratio:4/3; overflow:hidden; background:#0A0A0B; }
+  .pm-stage img {
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0; transition:opacity .45s ease;
+  }
+  .pm-stage img.on { opacity:1; }
+  .pm-empty {
+    aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.85rem;
+    color:#6b6b73;
+    background:radial-gradient(120% 120% at 80% 0%, rgba(201,162,74,.16), transparent 55%), linear-gradient(150deg,#17171c,#0c0c0f);
+  }
+  .pm-arrow {
+    position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+    width:40px; height:40px; border-radius:9999px;
+    background:rgba(10,10,11,.72); color:#fff; border:1px solid rgba(201,162,74,.45);
+    display:flex; align-items:center; justify-content:center; transition:background .3s, color .3s;
+  }
+  .pm-arrow:hover { background:#C9A24A; color:#000; }
+  .pm-counter {
+    position:absolute; bottom:.7rem; right:.7rem; z-index:5;
+    font-size:.7rem; letter-spacing:.08em; color:#fff;
+    background:rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.12);
+    padding:.25rem .6rem; border-radius:9999px;
+  }
+  .pm-thumbs { display:flex; gap:.5rem; padding:.7rem; overflow-x:auto; }
+  .pm-thumb {
+    flex:0 0 auto; width:66px; height:50px; border-radius:.5rem; overflow:hidden;
+    border:2px solid transparent; padding:0; cursor:pointer; opacity:.45; transition:opacity .3s, border-color .3s;
+  }
+  .pm-thumb.on { border-color:#C9A24A; opacity:1; }
+  .pm-thumb img { width:100%; height:100%; object-fit:cover; }
+
+  .pm-info { padding:1.75rem; overflow-y:auto; }
+  @media (min-width:900px) { .pm-info { padding:2.25rem; } }
+  .pm-meta { display:grid; grid-template-columns:1fr 1fr; gap:.9rem 1rem; margin:1.3rem 0; }
+  .pm-meta dt { font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:#C9A24A; }
+  .pm-meta dd { font-family:"Sora",sans-serif; font-weight:600; margin-top:.15rem; }
+  .pm-tag {
+    font-size:.7rem; padding:.35rem .75rem; border-radius:9999px;
+    background:rgba(201,162,74,.1); color:#E7CE89; border:1px solid rgba(201,162,74,.22);
+  }
 </style>
 </head>
 
@@ -681,6 +752,50 @@
   </div>
 </footer>
 
+<!-- ================= PROJECT MODAL ================= -->
+<div id="projectModal" class="proj-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="proj-backdrop"></div>
+  <div class="proj-dialog">
+    <button class="proj-close" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="pm-grid">
+      <!-- GALLERY -->
+      <div class="pm-gallery">
+        <div id="pmStage" class="pm-stage"></div>
+        <div id="pmThumbs" class="pm-thumbs"></div>
+      </div>
+
+      <!-- INFO -->
+      <div class="pm-info">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold/40 bg-gold/5 mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+          <span id="pmCountry" class="text-gold-light text-xs tracking-widest uppercase"></span>
+        </div>
+        <h3 id="pmTitle" class="font-sora text-2xl md:text-3xl font-bold leading-tight"></h3>
+
+        <dl id="pmMeta" class="pm-meta"></dl>
+
+        <p id="pmDesc" class="text-slate-300 text-sm leading-relaxed"></p>
+
+        <div id="pmTags" class="flex flex-wrap gap-2 mt-5"></div>
+
+        <div class="mt-7 pt-6 border-t border-white/10 grid sm:grid-cols-2 gap-3">
+          <button data-go="#contact"
+            class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold py-3.5 rounded-xl transition-all duration-300">
+            Request a Quote
+          </button>
+          <button data-go="#careers"
+            class="border border-white/20 text-slate-200 hover:border-gold hover:text-gold font-semibold py-3.5 rounded-xl transition-all duration-300">
+            Work with us!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- WhatsApp float -->
 <a href="https://wa.me/39000000000" target="_blank" rel="noopener"
    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gold hover:bg-gold-light text-black
@@ -711,19 +826,42 @@ const why = [
   {t:"Reliable Execution", d:"Consistent quality, supervised teams, on-schedule delivery.",
    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
 ];
+const FS = "assets/Recent works/Four Seasons/";
 const projects = [
-  {t:"Norwegian Jade — Victoria Port, Canada", boat:"Norwegian Jade", w:17,
+  {t:"Norwegian Jade — Victoria Port, Canada", country:"Canada",
+   boat:"Norwegian Jade", yard:"Victoria Port", loc:"Victoria, Canada", w:17,
    d:"17 workers deployed to build 10 new cabins — full accommodation works covering framing, insulation, wall panelling, flooring and final finishing.",
-   tags:["Accommodation","Cabin Build","Insulation"]},
-  {t:"Norwegian Gem — Marseille Port, France", boat:"Norwegian Gem", w:60,
+   desc:"Aboard the Norwegian Jade at Victoria Port, Canada, our 17-strong NavalSy crew delivered a complete cabin-build project — constructing 10 brand-new cabins from the ground up. The scope covered structural framing, thermal and acoustic insulation, wall and ceiling panelling, flooring and full interior finishing, all completed to cruise-line standards and on schedule.",
+   tags:["Accommodation","Cabin Build","Insulation","Finishing"],
+   photos:[]},
+  {t:"Norwegian Gem — Marseille Port, France", country:"France",
+   boat:"Norwegian Gem", yard:"Marseille Port", loc:"Marseille, France", w:60,
    d:"60-strong team delivering spa area refurbishment and cabin refitting — wet-zone works, panelling, insulation, fit-out and finishing.",
-   tags:["Spa Refit","Cabins","Finishing"]},
-  {t:"NCL — Port Marghera, Italy", boat:"NCL", w:55,
+   desc:"At Marseille Port, France, a NavalSy team of 60 carried out a major refit of the Norwegian Gem — combining a full spa-area refurbishment with extensive cabin refitting. Works included wet-zone construction and waterproofing, panelling, insulation, fit-out and finishing across guest and wellness areas, mobilised quickly to meet a tight dry-dock window.",
+   tags:["Spa Refit","Cabins","Insulation","Finishing"],
+   photos:[]},
+  {t:"NCL — Port Marghera, Italy", country:"Italy",
+   boat:"NCL", yard:"Port Marghera", loc:"Marghera, Italy", w:55,
    d:"55 workers covering the complete scope — from metal structural works through to final finishing across multiple decks.",
-   tags:["Structural Works","Refitting","Finishing"]},
-  {t:"Four Seasons — Port Ancona, Italy", boat:"Four Seasons", w:70,
+   desc:"In Port Marghera, Italy, our 55-worker crew handled the complete refit scope for the NCL vessel — from heavy metal structural works through to the final finishing touches. The team worked across multiple decks, delivering structural fabrication, insulation, accommodation works and detailed finishing as a single coordinated workforce.",
+   tags:["Structural Works","Refitting","Finishing"],
+   photos:[]},
+  {t:"Four Seasons — Port Ancona, Italy", country:"Italy",
+   boat:"Four Seasons", yard:"Port Ancona", loc:"Ancona, Italy", w:70,
    d:"70-person crew refitting luxury suites and exterior pool areas — high-end finishing, decking, accommodation and onboard support.",
-   tags:["Suites","Pool Areas","Finishing"]}
+   desc:"At Port Ancona, Italy, a NavalSy crew of 70 refitted the Four Seasons vessel — focusing on luxury suites and exterior pool areas. The project demanded high-end finishing, exterior decking, accommodation works and onboard support, with our team delivering premium-standard results across both interior and open-deck zones.",
+   tags:["Suites","Pool Areas","Decking","Finishing"],
+   photos:[
+     FS+"Primary Photo.jpg",
+     FS+"049cce95-ee13-4208-9f15-f2a12b4454fc.jpg",
+     FS+"3487c053-1483-466c-9783-a0f2ffcb50de.jpg",
+     FS+"3d9a3377-acc3-4b79-ac01-5b2781c74454.jpg",
+     FS+"7645e519-f885-4d28-8c4d-c524b56fd167.jpg",
+     FS+"770d56e2-b87b-45cb-906c-2e97a0f679ea.jpg",
+     FS+"809107bd-aa7c-48a0-99ab-f676ee0cef66.jpg",
+     FS+"cb2bb5a9-28ae-4dff-afe7-e12a043e212b.jpg",
+     FS+"cf606b8a-9ce0-433e-8071-8e53bd61dbfa.jpg"
+   ]}
 ];
 
 /* ---------- RENDER LISTS ---------- */
@@ -744,21 +882,35 @@ document.getElementById('whyGrid').innerHTML = why.map((w,idx) =>
      <p class="text-slate-400 text-sm leading-relaxed">${w.d}</p>
    </div>`).join('');
 
-document.getElementById('projectGrid').innerHTML = projects.map((p,idx) =>
-  `<div class="reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift" data-d="${idx*120}">
+const projGrid = document.getElementById('projectGrid');
+projGrid.innerHTML = projects.map((p,idx) =>
+  `<div class="project-card reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift cursor-pointer" data-idx="${idx}" data-d="${idx*120}">
      <div class="media h-52 flex items-center justify-center relative">
-       <svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
+       ${p.photos && p.photos.length
+         ? `<img src="${encodeURI(p.photos[0])}" alt="${p.t}" class="absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/40"></div>`
+         : `<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>`}
        <span class="absolute top-4 right-4 text-xs font-semibold px-3 py-1.5 rounded-full bg-gold text-black">${p.w} workers</span>
        <span class="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-slate-300">Vessel · ${p.boat}</span>
+       ${p.photos && p.photos.length
+         ? `<span class="absolute bottom-4 right-4 text-xs flex items-center gap-1.5 text-white bg-black/55 border border-white/15 px-2.5 py-1 rounded-full">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 15l4-4 4 4 4-5 4 5"/></svg>${p.photos.length}</span>`
+         : ''}
      </div>
      <div class="p-7">
        <h3 class="font-sora text-xl font-bold mb-3">${p.t}</h3>
        <p class="text-slate-400 text-sm leading-relaxed mb-5">${p.d}</p>
-       <div class="flex flex-wrap gap-2">
+       <div class="flex flex-wrap gap-2 mb-5">
          ${p.tags.map(t=>`<span class="text-xs px-3 py-1.5 rounded-full bg-gold/10 text-gold-light border border-gold/20">${t}</span>`).join('')}
        </div>
+       <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
+         View project
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+       </span>
      </div>
    </div>`).join('');
+projGrid.querySelectorAll('.project-card').forEach(card =>
+  card.addEventListener('click', () => window.openProject(projects[+card.dataset.idx])));
 
 /* ---------- NAVBAR SCROLL ---------- */
 const navInner = document.getElementById('navInner');
@@ -930,6 +1082,108 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   cf.addEventListener('mouseleave', restart);
 
   render(); restart();
+})();
+
+/* ---------- PROJECT MODAL ---------- */
+(function(){
+  const modal = document.getElementById('projectModal');
+  if(!modal) return;
+  const stage   = document.getElementById('pmStage');
+  const thumbs  = document.getElementById('pmThumbs');
+  let imgs = [], thumbBtns = [], cur = 0;
+
+  const chevron = dir => dir === 'prev'
+    ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>'
+    : '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
+
+  function show(i){
+    if(!imgs.length) return;
+    cur = (i + imgs.length) % imgs.length;
+    imgs.forEach((im,k) => im.classList.toggle('on', k === cur));
+    thumbBtns.forEach((t,k) => t.classList.toggle('on', k === cur));
+    counter.textContent = (cur+1) + ' / ' + imgs.length;
+    if(thumbBtns[cur]) thumbBtns[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+  }
+  let counter;
+
+  function openProject(p){
+    document.getElementById('pmCountry').textContent = p.country;
+    document.getElementById('pmTitle').textContent   = p.t;
+    document.getElementById('pmDesc').textContent    = p.desc;
+    document.getElementById('pmMeta').innerHTML = [
+      ['Vessel', p.boat], ['Shipyard', p.yard], ['Workers', p.w + ' deployed'], ['Location', p.loc]
+    ].map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    document.getElementById('pmTags').innerHTML = p.tags.map(t => `<span class="pm-tag">${t}</span>`).join('');
+
+    stage.innerHTML = ''; thumbs.innerHTML = '';
+    if(p.photos && p.photos.length){
+      stage.className = 'pm-stage';
+      imgs = p.photos.map(src => {
+        const im = document.createElement('img');
+        im.src = encodeURI(src); im.alt = p.t; im.loading = 'lazy';
+        stage.appendChild(im); return im;
+      });
+      const prev = document.createElement('button'), next = document.createElement('button');
+      prev.className = 'pm-arrow'; prev.style.left = '.6rem';  prev.innerHTML = chevron('prev');
+      next.className = 'pm-arrow'; next.style.right = '.6rem'; next.innerHTML = chevron('next');
+      prev.onclick = () => show(cur - 1);
+      next.onclick = () => show(cur + 1);
+      counter = document.createElement('div'); counter.className = 'pm-counter';
+      stage.append(prev, next, counter);
+
+      // swipe
+      let sx = 0;
+      stage.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+      stage.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        if(Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+      });
+
+      thumbBtns = p.photos.map((src,k) => {
+        const t = document.createElement('button');
+        t.className = 'pm-thumb';
+        t.innerHTML = `<img src="${encodeURI(src)}" alt="" loading="lazy">`;
+        t.onclick = () => show(k);
+        thumbs.appendChild(t); return t;
+      });
+      thumbs.style.display = 'flex';
+      show(0);
+    } else {
+      stage.className = 'pm-empty';
+      stage.innerHTML =
+        '<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>' +
+        '<span class="text-sm">Project photos coming soon</span>';
+      imgs = []; thumbBtns = [];
+      thumbs.style.display = 'none';
+    }
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  modal.querySelector('.proj-close').onclick = close;
+  modal.querySelector('.proj-backdrop').onclick = close;
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+
+  // CTA buttons: close modal, then scroll to the form
+  modal.querySelectorAll('[data-go]').forEach(btn => {
+    btn.onclick = () => {
+      const target = document.querySelector(btn.dataset.go);
+      close();
+      if(target) setTimeout(() => target.scrollIntoView({behavior:'smooth'}), 260);
+    };
+  });
+
+  window.openProject = openProject;
 })();
 </script>
 </body>
