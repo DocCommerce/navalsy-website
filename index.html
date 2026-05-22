@@ -164,17 +164,15 @@
   }
   .proj-modal.open { pointer-events:auto; visibility:visible; transition:visibility 0s linear 0s; }
 
-  /* blur layer: shown/hidden instantly with the modal — never animated (no per-frame re-blur) */
-  .proj-backdrop {
-    position:absolute; inset:0;
-    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-  }
+  /* page blur: a STATIC filter, applied once with no transition — never re-rendered per frame */
+  #pageWrap.modal-blur { filter:blur(7px); }
+
   /* dim layer: a plain colour fade — cheap, runs at full fps */
-  .proj-backdrop::before {
-    content:""; position:absolute; inset:0; background:rgba(8,8,10,.72);
+  .proj-backdrop {
+    position:absolute; inset:0; background:rgba(8,8,10,.62);
     opacity:0; transition:opacity .3s ease;
   }
-  .proj-modal.open .proj-backdrop::before { opacity:1; }
+  .proj-modal.open .proj-backdrop { opacity:1; }
 
   .proj-dialog {
     position:relative; width:100%; max-width:1080px; max-height:90vh;
@@ -241,6 +239,9 @@
 </head>
 
 <body class="bg-ink text-white font-inter antialiased overflow-x-hidden">
+
+<!-- everything inside #pageWrap gets blurred behind the project modal -->
+<div id="pageWrap">
 
 <!-- ================= TOP BAR ================= -->
 <div class="hidden md:block bg-black border-b border-white/5 text-[13px]">
@@ -763,6 +764,8 @@
   </div>
 </footer>
 
+</div><!-- /#pageWrap -->
+
 <!-- ================= PROJECT MODAL ================= -->
 <div id="projectModal" class="proj-modal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="proj-backdrop"></div>
@@ -1099,6 +1102,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 (function(){
   const modal = document.getElementById('projectModal');
   if(!modal) return;
+  const pageWrap = document.getElementById('pageWrap');
   const stage   = document.getElementById('pmStage');
   const thumbs  = document.getElementById('pmThumbs');
   let imgs = [], thumbBtns = [], cur = 0;
@@ -1170,6 +1174,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
       thumbs.style.display = 'none';
     }
 
+    pageWrap.classList.add('modal-blur');
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1178,6 +1183,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   function close(){
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
+    pageWrap.classList.remove('modal-blur');
     document.body.style.overflow = '';
   }
 
