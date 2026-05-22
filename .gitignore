@@ -1,0 +1,5 @@
+# local backup of original full-res photos — kept on disk, not deployed
+assets/_originals/
+
+# editor / tooling
+.claude/

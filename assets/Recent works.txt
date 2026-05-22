@@ -1,0 +1,23 @@
+1. Canada
+Nume șantier: Portul Victoria
+Nume Barca: Norvegian Jade
+Număr muncitori: 17 workers
+Tipuri de munci realizate: Construit 10 cabine (detaliaza tu cu tipurile de munca sa nu stau eu sa le enumar)
+
+1. Franța
+Nume șantier: Portul Marseille
+Nume Barca: Norvegian Gem
+Număr muncitori: 60
+Tipuri de munci realizate: Spa, Cabine (detaliaza tu cu tipurile de munca sa nu stau eu sa le enumar)
+
+1. Marghera
+Nume șantier: Port Marghera
+Nume Barca: NCL
+Număr muncitori:55
+Tipuri de munci realizate: De la structuri metalice pana la finisaje
+
+1. Ancona
+Nume șantier: Port Ancona
+Nume Barca: Four Seasons
+Număr muncitori: 70
+Tipuri de munci realizate: Suite-uri si zone externe piscine (detaliaza tu cu tipurile de munca sa nu stau eu sa le enumar)
