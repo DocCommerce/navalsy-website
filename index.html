@@ -344,6 +344,10 @@
   }
   .field-hl:focus { outline:none; border-color:#C9A24A; box-shadow:0 0 0 4px rgba(201,162,74,.16); }
 
+  /* keep <select> dropdown options dark so the text stays readable in every browser */
+  select.field option,
+  select.field-hl option { background:#111114; color:#fff; }
+
   /* ----- team cards (about section) ----- */
   .team-card {
     position:relative; display:block; width:100%; text-align:left;
