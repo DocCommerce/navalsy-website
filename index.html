@@ -305,6 +305,19 @@
   .sm-cf .cf-slide img { width:100%; height:100%; object-fit:cover; display:block; }
   .sm-cf .cf-slide.is-active { cursor:zoom-in; }
 
+  /* zoom hint on the active slide — signals "click to enlarge" so collages can be viewed in detail */
+  .cf-zoom {
+    position:absolute; top:.7rem; right:.7rem; z-index:3;
+    width:38px; height:38px; border-radius:9999px;
+    background:rgba(0,0,0,.55); border:1px solid rgba(201,162,74,.45); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    opacity:0; transform:scale(.8); pointer-events:none;
+    transition:opacity .35s, transform .35s, background .25s, color .25s;
+  }
+  .sm-cf .cf-slide.is-active .cf-zoom { opacity:1; transform:scale(1); }
+  .sm-cf .cf-slide.is-active:hover .cf-zoom { background:#C9A24A; color:#0A0A0B; }
+
   /* clickable BDA cards (when a photo exists) */
   .sm-bda-clickable { cursor:pointer; transition:transform .25s, border-color .25s, box-shadow .25s; }
   .sm-bda-clickable:hover {
@@ -1888,7 +1901,12 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
       '<div class="coverflow sm-cf relative">' +
         '<div class="cf-stage">' +
           s.photos.map(src =>
-            `<div class="cf-slide" data-light="${src}"><img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async"></div>`
+            `<div class="cf-slide" data-light="${src}">
+               <img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async">
+               <span class="cf-zoom" aria-hidden="true">
+                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3M10 4a6 6 0 100 12 6 6 0 000-12zM7 10h6M10 7v6"/></svg>
+               </span>
+             </div>`
           ).join('') +
         '</div>' +
         '<button type="button" class="cf-arrow sm-cf-prev" style="left:.5rem" aria-label="Previous">' + chevSvg('prev')  + '</button>' +
