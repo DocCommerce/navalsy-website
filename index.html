@@ -1041,6 +1041,11 @@ const services = [
 ];
 const core = services.filter(s => s.group === "core").map(s => s.name);
 const hosp = services.filter(s => s.group === "hosp").map(s => s.name);
+// trades shown ONLY to workers (Core "Work with us!" dropdown). Not visible on the public page.
+const coreWorkerJobs = [
+  "Montator", "Meseriaș în Tapet", "Meseriaș în Mochetă",
+  "Tâmplar", "Sudor", "Stucator", "Manovar"
+];
 const roles = ["Insulation Workers","Cleaners","Fitters","Supervisors","Hospitality Staff","Team Leaders"];
 const why = [
   {t:"24h Deployment", d:"Crews mobilized and on-site within a day of confirmation.",
@@ -1500,12 +1505,14 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
         .join('');
     listEl.querySelectorAll('.sm-item').forEach(b => b.onclick = () => select(+b.dataset.idx));
   }
-  // both form selects list only the current category's work types
+  // companies see the same service packages as on the page;
+  // workers in Core get a different list (their own trades) — hospitality stays the same for both
   function fillSelects(group){
-    const opts = services.filter(s => s.group === group)
+    const companyOpts = services.filter(s => s.group === group)
       .map(s => `<option>${s.name}</option>`).join('');
-    quoteSel.innerHTML = opts;
-    applySel.innerHTML = opts;
+    quoteSel.innerHTML = companyOpts;
+    const workerList = group === 'core' ? coreWorkerJobs : services.filter(s => s.group === group).map(s => s.name);
+    applySel.innerHTML = workerList.map(n => `<option>${n}</option>`).join('');
   }
 
   function select(i){
@@ -1574,7 +1581,8 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     document.getElementById('smApplyForm').reset();
     smCvLabel.innerHTML = defaultCv;
     prepForm('smApplyForm','smApplySuccess');
-    applySel.value = services[cur].name;
+    // hospitality: service name matches a worker option; core: default to first trade
+    applySel.value = services[cur].group === 'core' ? coreWorkerJobs[0] : services[cur].name;
     showView('apply');
   };
   modal.querySelectorAll('[data-back]').forEach(b => b.onclick = () => showView('browser'));
