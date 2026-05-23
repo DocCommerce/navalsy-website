@@ -354,6 +354,34 @@
   .cm-btn-wa:hover { background:#E7CE89; box-shadow:0 16px 36px -8px rgba(201,162,74,.7); }
   .cm-btn-em { background:transparent; color:#cbd5e1; border:1px solid rgba(255,255,255,.18); }
   .cm-btn-em:hover { border-color:#C9A24A; color:#C9A24A; }
+
+  /* ----- team modal ----- */
+  .tm-dialog { max-width:760px; }
+  .tm-content { padding:2rem 1.75rem; max-height:90vh; overflow-y:auto; }
+  @media (min-width:640px) { .tm-content { padding:2.5rem 2.25rem; } }
+  .tm-section-title {
+    font-size:.62rem; text-transform:uppercase; letter-spacing:.16em;
+    color:#C9A24A; margin-bottom:.85rem; display:flex; align-items:center; gap:.5rem;
+  }
+  .tm-section-title::before { content:""; width:6px; height:6px; border-radius:50%; background:#C9A24A; }
+
+  .tl-thumb {
+    position:relative; padding:0; overflow:hidden; cursor:pointer;
+    border-radius:.85rem; border:2px solid transparent;
+    aspect-ratio:4/5; background:#17171c;
+    transition:border-color .3s, transform .3s, box-shadow .3s;
+  }
+  .tl-thumb img { width:100%; height:100%; object-fit:cover; object-position:center top; transition:opacity .3s; opacity:.7; }
+  .tl-thumb:hover img { opacity:.9; }
+  .tl-thumb.on { border-color:#C9A24A; box-shadow:0 14px 32px -14px rgba(201,162,74,.5); }
+  .tl-thumb.on img { opacity:1; }
+
+  .tl-panel {
+    background:rgba(201,162,74,.06); border:1px solid rgba(201,162,74,.25);
+    border-radius:.9rem; padding:1.1rem 1.25rem;
+    animation:tlFade .35s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes tlFade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 </style>
 </head>
 
@@ -630,7 +658,7 @@
       </div>
     </div>
 
-    <div class="space-y-8 reveal" data-d="100">
+    <div class="space-y-6 reveal" data-d="100">
       <!-- FOUNDERS -->
       <div>
         <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
@@ -656,47 +684,14 @@
         </div>
       </div>
 
-      <!-- TEAM LEADERS -->
-      <div>
-        <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Team Leaders
-        </div>
-        <div class="grid grid-cols-3 gap-3">
-          <div class="team-card team-card-static">
-            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/1.jpg')"></div>
-            <div class="team-meta">
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
-            </div>
-          </div>
-          <div class="team-card team-card-static">
-            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/2.jpg')"></div>
-            <div class="team-meta">
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
-            </div>
-          </div>
-          <div class="team-card team-card-static">
-            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/3.jpg')"></div>
-            <div class="team-meta">
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- OFFICE COORDINATOR -->
-      <div>
-        <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Office Coordinator
-        </div>
-        <button data-contact="bianca" class="team-card team-card-wide group">
-          <div class="team-photo team-photo-empty">B</div>
-          <div class="team-meta">
-            <div class="font-sora font-bold text-white text-base">Bianca Timis</div>
-            <div class="text-[11px] text-gold-light tracking-widest uppercase">Office Coordinator</div>
-          </div>
-          <span class="team-hint">Contact</span>
-        </button>
-      </div>
+      <!-- LEARN MORE ABOUT THE TEAM -->
+      <button id="openTeamBtn"
+        class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl
+               border border-white/15 text-slate-200 hover:border-gold hover:text-gold
+               font-semibold transition-all duration-300 group">
+        Learn more about the team
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -1108,6 +1103,83 @@
         <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
         <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
         <button type="button" data-back class="text-gold text-sm font-semibold hover:underline">Back to services</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TEAM MODAL ================= -->
+<div id="teamModal" class="proj-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="proj-backdrop"></div>
+  <div class="proj-dialog tm-dialog">
+    <button class="tm-close proj-close" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="tm-content">
+      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2">Our People</div>
+      <h3 class="font-sora text-2xl md:text-3xl font-bold mb-1">The NavalSy Team</h3>
+      <p class="text-slate-400 text-sm mb-8">The people behind the projects — click on anyone to find out more.</p>
+
+      <!-- FOUNDERS -->
+      <div class="mb-9">
+        <div class="tm-section-title">Founders</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <button data-show-contact="stefan" class="team-card group">
+            <div class="team-photo" style="background-image:url('assets/Team/Stefan%20Mihali%20-%20Founder/Stefan%20Founder.jpg')"></div>
+            <div class="team-meta">
+              <div class="font-sora font-bold text-white text-sm md:text-base">Stefan Mihali</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+            </div>
+            <span class="team-hint">Contact</span>
+          </button>
+          <button data-show-contact="aurel" class="team-card group">
+            <div class="team-photo" style="background-image:url('assets/Team/Aurel%20Timis%20-%20Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg')"></div>
+            <div class="team-meta">
+              <div class="font-sora font-bold text-white text-sm md:text-base">Aurel Timis</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+            </div>
+            <span class="team-hint">Contact</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TEAM LEADERS -->
+      <div class="mb-9">
+        <div class="tm-section-title">Team Leaders</div>
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <button class="tl-thumb" data-leader="1">
+            <img src="assets/Team/Team%20Leaders/1.jpg" alt="Team leader 1" loading="lazy" decoding="async" />
+          </button>
+          <button class="tl-thumb" data-leader="2">
+            <img src="assets/Team/Team%20Leaders/2.jpg" alt="Team leader 2" loading="lazy" decoding="async" />
+          </button>
+          <button class="tl-thumb" data-leader="3">
+            <img src="assets/Team/Team%20Leaders/3.jpg" alt="Team leader 3" loading="lazy" decoding="async" />
+          </button>
+        </div>
+        <div class="tl-panel">
+          <div class="flex items-start gap-3 mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0"></span>
+            <div>
+              <h4 id="tlName" class="font-sora font-bold text-white text-base"></h4>
+              <p id="tlDesc" class="text-slate-300 text-sm leading-relaxed mt-1"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OFFICE COORDINATOR -->
+      <div>
+        <div class="tm-section-title">Office Coordinator</div>
+        <button data-show-contact="bianca" class="team-card team-card-wide group">
+          <div class="team-photo team-photo-empty">B</div>
+          <div class="team-meta">
+            <div class="font-sora font-bold text-white text-base">Bianca Timis</div>
+            <div class="text-[11px] text-gold-light tracking-widest uppercase">Office Coordinator</div>
+          </div>
+          <span class="team-hint">Contact</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1820,6 +1892,70 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   document.querySelectorAll('[data-contact]').forEach(b =>
     b.addEventListener('click', () => open(b.dataset.contact)));
+
+  window.openContact = open;
+})();
+
+/* ---------- TEAM MODAL ---------- */
+(function(){
+  const modal = document.getElementById('teamModal');
+  if(!modal) return;
+  const pageWrap = document.getElementById('pageWrap');
+  const openBtn = document.getElementById('openTeamBtn');
+
+  // placeholder bios — to be replaced with real ones from the team
+  const leaders = {
+    1: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." },
+    2: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." },
+    3: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." }
+  };
+
+  const thumbs = [...modal.querySelectorAll('.tl-thumb')];
+  const tlName = modal.querySelector('#tlName');
+  const tlDesc = modal.querySelector('#tlDesc');
+
+  function selectLeader(n){
+    thumbs.forEach(b => b.classList.toggle('on', +b.dataset.leader === n));
+    const l = leaders[n] || {name:'Team Leader', desc:''};
+    tlName.textContent = l.name + ' ' + n;
+    tlDesc.textContent = l.desc;
+  }
+  thumbs.forEach(b => b.onclick = () => selectLeader(+b.dataset.leader));
+
+  function open(){
+    if(window.__cfPause) window.__cfPause();
+    document.body.style.overflow = 'hidden';
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('open');
+      pageWrap.classList.add('modal-frozen');
+    }));
+  }
+  function close(){
+    pageWrap.classList.remove('modal-frozen');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    if(window.__cfResume) window.__cfResume();
+  }
+
+  if(openBtn) openBtn.onclick = open;
+  modal.querySelector('.tm-close').onclick = close;
+  modal.querySelector('.proj-backdrop').onclick = close;
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+
+  // clicking a founder or Bianca inside the team modal -> close team, open the contact card
+  modal.querySelectorAll('[data-show-contact]').forEach(b => {
+    b.onclick = () => {
+      const key = b.dataset.showContact;
+      close();
+      setTimeout(() => { if(window.openContact) window.openContact(key); }, 240);
+    };
+  });
+
+  selectLeader(1);
 })();
 </script>
 </body>
