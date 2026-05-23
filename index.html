@@ -328,6 +328,23 @@
   .team-card:not(.team-card-static):hover .team-hint { opacity:1; transform:none; }
   .team-card-wide .team-photo { aspect-ratio:16/9; background-position:center; }
 
+  /* horizontal card variant (portrait photo on left, info on right) */
+  .team-card-row { display:flex; align-items:stretch; min-height:200px; }
+  .trow-photo {
+    width:170px; flex:none;
+    background-size:cover; background-position:center 12%; background-color:#17171c;
+    border-right:1px solid rgba(255,255,255,.06);
+  }
+  .trow-info {
+    flex:1; padding:1.5rem 1.75rem;
+    display:flex; flex-direction:column; justify-content:center;
+    text-align:left;
+  }
+  @media (max-width:480px){
+    .trow-photo { width:130px; }
+    .trow-info  { padding:1.1rem 1.25rem; }
+  }
+
   /* ----- contact card modal ----- */
   .cm-dialog { max-width:440px; }
   .cm-content { padding:2.25rem 1.75rem 2rem; text-align:center; }
@@ -1172,11 +1189,12 @@
       <!-- OFFICE COORDINATOR -->
       <div>
         <div class="tm-section-title">Office Coordinator</div>
-        <button data-show-contact="bianca" class="team-card team-card-wide group">
-          <div class="team-photo" style="background-image:url('assets/Team/Bianca%20-%20Office%20Coordinator/dca414b5-c15c-46bc-aff6-32d6455a07cf.jpg')"></div>
-          <div class="team-meta">
-            <div class="font-sora font-bold text-white text-base">Bianca Timis</div>
-            <div class="text-[11px] text-gold-light tracking-widest uppercase">Office Coordinator</div>
+        <button data-show-contact="bianca" class="team-card team-card-row group">
+          <div class="trow-photo" style="background-image:url('assets/Team/Bianca%20-%20Office%20Coordinator/dca414b5-c15c-46bc-aff6-32d6455a07cf.jpg')"></div>
+          <div class="trow-info">
+            <div class="font-sora font-bold text-white text-lg">Bianca Timis</div>
+            <div class="text-[11px] text-gold-light tracking-widest uppercase mt-1">Office Coordinator</div>
+            <div class="text-sm text-slate-400 mt-3">Click to view contact details</div>
           </div>
           <span class="team-hint">Contact</span>
         </button>
