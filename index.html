@@ -1295,6 +1295,26 @@ const services = [
   {name:"Dedicated Female Teams Available", group:"hosp", photos:[],
    desc:"Dedicated female cleaning and hospitality teams, available on request. Experienced, professional and trusted by our partners, these teams give you full flexibility in crewing while maintaining the same consistently high standard across every task."}
 ];
+// shared hospitality photos — apply the same gallery + BDA to every hospitality service for now
+const HOSP_DIR = "assets/Hospitality and cleaning/";
+const HOSP_PHOTOS = [
+  HOSP_DIR + "hf_20260523_144136_4e5999e6-07fa-401c-8a14-8bc61b567f8e.jpg",
+  HOSP_DIR + "hf_20260523_144440_7ffe9367-6d0d-4d22-a191-609d49ddc1d9.jpg",
+  HOSP_DIR + "hf_20260523_144634_dfc23127-603a-4e8e-be5c-3a8c1a8fedf9.jpg",
+  HOSP_DIR + "hf_20260523_145254_7ce4cd3e-8828-41f6-a3d5-3505944442d3.jpg",
+  HOSP_DIR + "hf_20260523_145617_556995e3-22c9-461a-8e2a-4e8de9b0de68.jpg",
+  HOSP_DIR + "hf_20260523_145617_c225dad4-4280-4a9e-a203-0b0ccc328631.jpg",
+  HOSP_DIR + "hf_20260523_145617_d825ca15-37d9-46a3-9155-4d6f761c434c.jpg",
+  HOSP_DIR + "hf_20260523_150755_90872189-fafa-4a39-bb58-900cbbf714c3.jpg",
+  HOSP_DIR + "hf_20260523_150820_555a4246-3268-4abb-abcb-4f5fb4f83935.jpg",
+  HOSP_DIR + "hf_20260523_150820_c4bb3d46-9041-4f6c-b568-e8afefe6da9a.jpg"
+];
+services.filter(s => s.group === "hosp").forEach(s => {
+  s.photos = HOSP_PHOTOS;
+  s.before = HOSP_DIR + "Before.jpg";
+  s.during = HOSP_DIR + "During.jpg";
+  s.after  = HOSP_DIR + "After.jpg";
+});
 const core = services.filter(s => s.group === "core").map(s => s.name);
 const hosp = services.filter(s => s.group === "hosp").map(s => s.name);
 // trades shown ONLY to workers (Core "Work with us!" dropdown). Not visible on the public page.
