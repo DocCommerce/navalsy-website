@@ -392,6 +392,14 @@
   .tl-thumb:hover img { opacity:.9; }
   .tl-thumb.on { border-color:#C9A24A; box-shadow:0 14px 32px -14px rgba(201,162,74,.5); }
   .tl-thumb.on img { opacity:1; }
+  .tl-tag {
+    position:absolute; left:.55rem; bottom:.55rem;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:.85rem; color:#fff;
+    padding:.25rem .6rem; border-radius:.5rem;
+    background:rgba(0,0,0,.6); border:1px solid rgba(201,162,74,.35);
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .tl-thumb.on .tl-tag { background:#C9A24A; color:#0A0A0B; border-color:#C9A24A; }
 
   .tl-panel {
     background:rgba(201,162,74,.06); border:1px solid rgba(201,162,74,.25);
@@ -1136,43 +1144,23 @@
     <div class="tm-content">
       <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2">Our People</div>
       <h3 class="font-sora text-2xl md:text-3xl font-bold mb-1">The NavalSy Team</h3>
-      <p class="text-slate-400 text-sm mb-8">The people behind the projects — click on anyone to find out more.</p>
-
-      <!-- FOUNDERS -->
-      <div class="mb-9">
-        <div class="tm-section-title">Founders</div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button data-show-contact="stefan" class="team-card group">
-            <div class="team-photo" style="background-image:url('assets/Team/Stefan%20Mihali%20-%20Founder/Stefan%20Founder.jpg')"></div>
-            <div class="team-meta">
-              <div class="font-sora font-bold text-white text-sm md:text-base">Stefan Mihali</div>
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
-            </div>
-            <span class="team-hint">Contact</span>
-          </button>
-          <button data-show-contact="aurel" class="team-card group">
-            <div class="team-photo" style="background-image:url('assets/Team/Aurel%20Timis%20-%20Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg')"></div>
-            <div class="team-meta">
-              <div class="font-sora font-bold text-white text-sm md:text-base">Aurel Timis</div>
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
-            </div>
-            <span class="team-hint">Contact</span>
-          </button>
-        </div>
-      </div>
+      <p class="text-slate-400 text-sm mb-8">The people behind the projects — click on a team leader to read more, or on the office coordinator to view contact details.</p>
 
       <!-- TEAM LEADERS -->
       <div class="mb-9">
         <div class="tm-section-title">Team Leaders</div>
         <div class="grid grid-cols-3 gap-3 mb-4">
           <button class="tl-thumb" data-leader="1">
-            <img src="assets/Team/Team%20Leaders/1.jpg" alt="Team leader 1" loading="lazy" decoding="async" />
+            <img src="assets/Team/Team%20Leaders/1.jpg" alt="Paul" loading="lazy" decoding="async" />
+            <span class="tl-tag">Paul</span>
           </button>
           <button class="tl-thumb" data-leader="2">
-            <img src="assets/Team/Team%20Leaders/2.jpg" alt="Team leader 2" loading="lazy" decoding="async" />
+            <img src="assets/Team/Team%20Leaders/2.jpg" alt="Petrea" loading="lazy" decoding="async" />
+            <span class="tl-tag">Petrea</span>
           </button>
           <button class="tl-thumb" data-leader="3">
-            <img src="assets/Team/Team%20Leaders/3.jpg" alt="Team leader 3" loading="lazy" decoding="async" />
+            <img src="assets/Team/Team%20Leaders/3.jpg" alt="Duțu" loading="lazy" decoding="async" />
+            <span class="tl-tag">Duțu</span>
           </button>
         </div>
         <div class="tl-panel">
@@ -1923,9 +1911,9 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   // placeholder bios — to be replaced with real ones from the team
   const leaders = {
-    1: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." },
-    2: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." },
-    3: { name:"Team Leader", desc:"Experience and personal background to be added — full bio coming soon." }
+    1: { name:"Paul",   desc:"Experience and personal background to be added — full bio coming soon." },
+    2: { name:"Petrea", desc:"Experience and personal background to be added — full bio coming soon." },
+    3: { name:"Duțu",   desc:"Experience and personal background to be added — full bio coming soon." }
   };
 
   const thumbs = [...modal.querySelectorAll('.tl-thumb')];
@@ -1935,7 +1923,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   function selectLeader(n){
     thumbs.forEach(b => b.classList.toggle('on', +b.dataset.leader === n));
     const l = leaders[n] || {name:'Team Leader', desc:''};
-    tlName.textContent = l.name + ' ' + n;
+    tlName.textContent = l.name;
     tlDesc.textContent = l.desc;
   }
   thumbs.forEach(b => b.onclick = () => selectLeader(+b.dataset.leader));
