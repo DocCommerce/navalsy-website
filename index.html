@@ -291,6 +291,69 @@
     transition:border-color .25s, box-shadow .25s;
   }
   .field-hl:focus { outline:none; border-color:#C9A24A; box-shadow:0 0 0 4px rgba(201,162,74,.16); }
+
+  /* ----- team cards (about section) ----- */
+  .team-card {
+    position:relative; display:block; width:100%; text-align:left;
+    border-radius:1rem; overflow:hidden;
+    border:1px solid rgba(255,255,255,.1); background:#0c0c0f;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
+  }
+  .team-card:not(.team-card-static):hover {
+    transform:translateY(-4px); border-color:rgba(201,162,74,.55);
+    box-shadow:0 18px 40px -18px rgba(0,0,0,.8);
+    cursor:pointer;
+  }
+  .team-photo {
+    width:100%; aspect-ratio:4/5;
+    background-size:cover; background-position:center top; background-color:#17171c;
+  }
+  .team-photo-empty {
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:3.5rem;
+    color:rgba(201,162,74,.65);
+    background:linear-gradient(150deg,#1a1a20,#0c0c0f);
+  }
+  .team-meta {
+    position:absolute; left:0; right:0; bottom:0; padding:.75rem .9rem;
+    background:linear-gradient(to top, rgba(10,10,11,.95), rgba(10,10,11,.55) 60%, transparent);
+  }
+  .team-hint {
+    position:absolute; top:.6rem; right:.6rem;
+    background:#C9A24A; color:#0A0A0B; font-size:.62rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.1em;
+    padding:.28rem .55rem; border-radius:9999px;
+    opacity:0; transform:translateY(-3px); transition:opacity .25s, transform .25s;
+  }
+  .team-card:not(.team-card-static):hover .team-hint { opacity:1; transform:none; }
+  .team-card-wide .team-photo { aspect-ratio:16/9; background-position:center; }
+
+  /* ----- contact card modal ----- */
+  .cm-dialog { max-width:440px; }
+  .cm-content { padding:2.25rem 1.75rem 2rem; text-align:center; }
+  .cm-photo {
+    width:140px; height:140px; border-radius:50%; margin:0 auto 1.25rem;
+    background-size:cover; background-position:center top; background-color:#17171c;
+    border:3px solid rgba(201,162,74,.55);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:3rem; color:#C9A24A;
+    box-shadow:0 0 40px -10px rgba(201,162,74,.35);
+  }
+  .cm-name { font-family:"Sora",sans-serif; font-size:1.5rem; font-weight:700; color:#fff; }
+  .cm-role { color:#C9A24A; font-size:.7rem; text-transform:uppercase; letter-spacing:.18em; margin-top:.35rem; margin-bottom:1.25rem; }
+  .cm-contact { font-size:.875rem; color:#cbd5e1; margin-bottom:1.5rem; line-height:1.7; }
+  .cm-contact a { color:#cbd5e1; transition:color .2s; }
+  .cm-contact a:hover { color:#C9A24A; }
+  .cm-buttons { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .cm-btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    padding:.85rem 1rem; border-radius:.75rem; font-weight:600; font-size:.875rem;
+    transition:background .25s, color .25s, border-color .25s, box-shadow .25s;
+  }
+  .cm-btn-wa { background:#C9A24A; color:#0A0A0B; box-shadow:0 12px 28px -10px rgba(201,162,74,.55); }
+  .cm-btn-wa:hover { background:#E7CE89; box-shadow:0 16px 36px -8px rgba(201,162,74,.7); }
+  .cm-btn-em { background:transparent; color:#cbd5e1; border:1px solid rgba(255,255,255,.18); }
+  .cm-btn-em:hover { border-color:#C9A24A; color:#C9A24A; }
 </style>
 </head>
 
@@ -304,9 +367,9 @@
   <div class="max-w-7xl mx-auto px-6 h-10 flex items-center justify-between text-slate-400">
     <span class="tracking-wide">Marine Workforce &amp; Ship Refitting Services — Operating across Europe</span>
     <div class="flex items-center gap-6">
-      <a href="mailto:office@navalsyrefitting.com" class="hover:text-gold transition">office@navalsyrefitting.com</a>
+      <a href="mailto:office@navalsy.com" class="hover:text-gold transition">office@navalsy.com</a>
       <span class="text-white/15">|</span>
-      <a href="tel:+39000000000" class="hover:text-gold transition">+39 XXX XXX XXX</a>
+      <a href="tel:+393295857839" class="hover:text-gold transition">+39 329 585 7839</a>
     </div>
   </div>
 </div>
@@ -548,7 +611,7 @@
         support and hospitality services.
       </p>
       <p class="text-slate-300 leading-relaxed mb-8">
-        Our teams are already active in Italy, the Netherlands and Norway — supporting marine
+        Our teams are already active in Italy, France, Spain and Canada — supporting marine
         contractors and cruise ship projects with fast mobilization and reliable execution.
       </p>
       <div class="grid sm:grid-cols-2 gap-4">
@@ -567,18 +630,72 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-5">
-      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift" data-d="0">
-        <span class="font-sora font-semibold">Founder</span>
+    <div class="space-y-8 reveal" data-d="100">
+      <!-- FOUNDERS -->
+      <div>
+        <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Founders
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <button data-contact="stefan" class="team-card group">
+            <div class="team-photo" style="background-image:url('assets/Team/Stefan%20Mihali%20-%20Founder/Stefan%20Founder.jpg')"></div>
+            <div class="team-meta">
+              <div class="font-sora font-bold text-white text-sm md:text-base">Stefan Mihali</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+            </div>
+            <span class="team-hint">Contact</span>
+          </button>
+          <button data-contact="aurel" class="team-card group">
+            <div class="team-photo" style="background-image:url('assets/Team/Aurel%20Timis%20-%20Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg')"></div>
+            <div class="team-meta">
+              <div class="font-sora font-bold text-white text-sm md:text-base">Aurel Timis</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+            </div>
+            <span class="team-hint">Contact</span>
+          </button>
+        </div>
       </div>
-      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift mt-8" data-d="100">
-        <span class="font-sora font-semibold">Team Leader</span>
+
+      <!-- TEAM LEADERS -->
+      <div>
+        <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Team Leaders
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="team-card team-card-static">
+            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/1.jpg')"></div>
+            <div class="team-meta">
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
+            </div>
+          </div>
+          <div class="team-card team-card-static">
+            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/2.jpg')"></div>
+            <div class="team-meta">
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
+            </div>
+          </div>
+          <div class="team-card team-card-static">
+            <div class="team-photo" style="background-image:url('assets/Team/Team%20Leaders/3.jpg')"></div>
+            <div class="team-meta">
+              <div class="text-[11px] text-gold-light tracking-widest uppercase">Team Leader</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift" data-d="200">
-        <span class="font-sora font-semibold">Office Coordinator</span>
-      </div>
-      <div class="reveal media rounded-3xl border border-white/10 h-52 flex items-end p-5 lift mt-8" data-d="300">
-        <span class="font-sora font-semibold">Team on Vessel</span>
+
+      <!-- OFFICE COORDINATOR -->
+      <div>
+        <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Office Coordinator
+        </div>
+        <button data-contact="bianca" class="team-card team-card-wide group">
+          <div class="team-photo team-photo-empty">B</div>
+          <div class="team-meta">
+            <div class="font-sora font-bold text-white text-base">Bianca Timis</div>
+            <div class="text-[11px] text-gold-light tracking-widest uppercase">Office Coordinator</div>
+          </div>
+          <span class="team-hint">Contact</span>
+        </button>
       </div>
     </div>
   </div>
@@ -665,17 +782,17 @@
       </p>
 
       <div class="space-y-5">
-        <a href="mailto:office@navalsyrefitting.com" class="flex items-center gap-4 group">
+        <a href="mailto:office@navalsy.com" class="flex items-center gap-4 group">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
           </span>
-          <div><div class="font-semibold">Email</div><div class="text-slate-400 text-sm">office@navalsyrefitting.com</div></div>
+          <div><div class="font-semibold">Email</div><div class="text-slate-400 text-sm">office@navalsy.com</div></div>
         </a>
-        <a href="tel:+39000000000" class="flex items-center gap-4 group">
+        <a href="tel:+393295857839" class="flex items-center gap-4 group">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.5l2 5-2 1.5a11 11 0 005.5 5.5l1.5-2 5 2V21a2 2 0 01-2 2A18 18 0 013 5z"/></svg>
           </span>
-          <div><div class="font-semibold">Phone</div><div class="text-slate-400 text-sm">+39 XXX XXX XXX</div></div>
+          <div><div class="font-semibold">Phone</div><div class="text-slate-400 text-sm">+39 329 585 7839</div></div>
         </a>
         <div class="flex items-center gap-4">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
@@ -827,8 +944,8 @@
       <div>
         <div class="font-sora font-semibold mb-4">Contact</div>
         <ul class="space-y-2 text-sm text-slate-400">
-          <li>office@navalsyrefitting.com</li>
-          <li>+39 XXX XXX XXX</li>
+          <li>office@navalsy.com</li>
+          <li>+39 329 585 7839</li>
           <li>Canada • France • Italy • Spain — and all around the world!</li>
         </ul>
       </div>
@@ -996,8 +1113,37 @@
   </div>
 </div>
 
+<!-- ================= CONTACT CARD MODAL ================= -->
+<div id="contactModal" class="proj-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="proj-backdrop"></div>
+  <div class="proj-dialog cm-dialog">
+    <button class="cm-close proj-close" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="cm-content">
+      <div class="cm-photo"></div>
+      <h3 class="cm-name"></h3>
+      <div class="cm-role"></div>
+      <div class="cm-contact">
+        <div>📞 <a class="cm-phone" href="#"></a></div>
+        <div>✉️ <a class="cm-email" href="#"></a></div>
+      </div>
+      <div class="cm-buttons">
+        <a class="cm-btn cm-btn-wa cm-wa" href="#" target="_blank" rel="noopener">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
+          Send a message
+        </a>
+        <a class="cm-btn cm-btn-em cm-em" href="#">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
+          Send an email
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- WhatsApp float -->
-<a href="https://wa.me/39000000000" target="_blank" rel="noopener"
+<a href="https://wa.me/393295857839" target="_blank" rel="noopener"
    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gold hover:bg-gold-light text-black
           flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
    aria-label="WhatsApp">
@@ -1604,6 +1750,76 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   handleForm('smApplyForm','smApplySuccess','smApplyError');
 
   window.openService = openService;
+})();
+
+/* ---------- CONTACT CARD MODAL (founders / office coordinator) ---------- */
+(function(){
+  const modal = document.getElementById('contactModal');
+  if(!modal) return;
+  const pageWrap = document.getElementById('pageWrap');
+
+  const teamContacts = {
+    stefan: { name:"Stefan Mihali", role:"Founder",
+              photo:"assets/Team/Stefan Mihali - Founder/Stefan Founder.jpg",
+              phone:"+39 329 585 7839", email:"stefan.mihali@navalsy.com" },
+    aurel:  { name:"Aurel Timis",  role:"Founder",
+              photo:"assets/Team/Aurel Timis - Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg",
+              phone:"+39 351 128 8735", email:"aurel.timis@navalsy.com" },
+    bianca: { name:"Bianca Timis", role:"Office Coordinator",
+              photo:null,
+              phone:"+40 774 402 807", email:"bianca.timis@navalsy.com" }
+  };
+
+  const photoEl = modal.querySelector('.cm-photo');
+  const nameEl  = modal.querySelector('.cm-name');
+  const roleEl  = modal.querySelector('.cm-role');
+  const phoneEl = modal.querySelector('.cm-phone');
+  const emailEl = modal.querySelector('.cm-email');
+  const waBtn   = modal.querySelector('.cm-wa');
+  const emBtn   = modal.querySelector('.cm-em');
+
+  function open(key){
+    const p = teamContacts[key]; if(!p) return;
+    if(p.photo){
+      photoEl.style.backgroundImage = `url('${encodeURI(p.photo)}')`;
+      photoEl.textContent = '';
+    } else {
+      photoEl.style.backgroundImage = 'none';
+      photoEl.textContent = p.name[0];
+    }
+    nameEl.textContent  = p.name;
+    roleEl.textContent  = p.role;
+    phoneEl.textContent = p.phone;
+    phoneEl.href = 'tel:' + p.phone.replace(/\s+/g,'');
+    emailEl.textContent = p.email;
+    emailEl.href = 'mailto:' + p.email;
+    waBtn.href = 'https://wa.me/' + p.phone.replace(/[^\d]/g,'');
+    emBtn.href = 'mailto:' + p.email;
+
+    if(window.__cfPause) window.__cfPause();
+    document.body.style.overflow = 'hidden';
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('open');
+      pageWrap.classList.add('modal-frozen');
+    }));
+  }
+  function close(){
+    pageWrap.classList.remove('modal-frozen');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    if(window.__cfResume) window.__cfResume();
+  }
+
+  modal.querySelector('.cm-close').onclick = close;
+  modal.querySelector('.proj-backdrop').onclick = close;
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+
+  document.querySelectorAll('[data-contact]').forEach(b =>
+    b.addEventListener('click', () => open(b.dataset.contact)));
 })();
 </script>
 </body>
