@@ -528,8 +528,6 @@
         <a href="#about"    class="navlink hover:text-white transition">About</a>
         <a href="#services" class="navlink hover:text-white transition">Services</a>
         <a href="#projects" class="navlink hover:text-white transition">Projects</a>
-        <a href="#careers"  class="navlink hover:text-white transition">Careers</a>
-        <a href="#contact"  class="navlink hover:text-white transition">Contact</a>
       </nav>
 
       <div class="hidden lg:flex items-center gap-3">
@@ -553,9 +551,7 @@
       <a href="#home"     class="py-3 border-b border-white/5 hover:text-gold transition">Home</a>
       <a href="#about"    class="py-3 border-b border-white/5 hover:text-gold transition">About</a>
       <a href="#services" class="py-3 border-b border-white/5 hover:text-gold transition">Services</a>
-      <a href="#projects" class="py-3 border-b border-white/5 hover:text-gold transition">Projects</a>
-      <a href="#careers"  class="py-3 border-b border-white/5 hover:text-gold transition">Careers</a>
-      <a href="#contact"  class="py-3 hover:text-gold transition">Contact</a>
+      <a href="#projects" class="py-3 hover:text-gold transition">Projects</a>
     </nav>
     <a href="#contact" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl">Request a Quote</a>
   </div>
@@ -1787,27 +1783,31 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     }
   }
 
-  function close(){
+  function close(keepFrozen){
     clearTimeout(preloadTimer);
-    pageWrap.classList.remove('modal-frozen');
+    if(!keepFrozen) pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if(window.__cfResume) window.__cfResume();
+    if(!keepFrozen) document.body.style.overflow = '';
+    if(!keepFrozen && window.__cfResume) window.__cfResume();
   }
 
-  modal.querySelector('.proj-close').onclick = close;
-  modal.querySelector('.proj-backdrop').onclick = close;
+  modal.querySelector('.proj-close').onclick = () => close();
+  modal.querySelector('.proj-backdrop').onclick = () => close();
   document.addEventListener('keydown', e => {
     if(e.key === 'Escape' && modal.classList.contains('open')) close();
   });
 
-  // CTA buttons: close modal, then scroll to the form
+  // CTA buttons: close this modal and open the same form modal Services uses (no page scroll)
   modal.querySelectorAll('[data-go]').forEach(btn => {
     btn.onclick = () => {
-      const target = document.querySelector(btn.dataset.go);
-      close();
-      if(target) setTimeout(() => target.scrollIntoView({behavior:'smooth'}), 260);
+      const target = btn.dataset.go;
+      close(true);   // keep page frozen — we're transitioning to another modal
+      setTimeout(() => {
+        if(window.openServiceForm) {
+          window.openServiceForm(target === '#careers' ? 'apply' : 'quote', 'core');
+        }
+      }, 280);
     };
   });
 
@@ -2023,7 +2023,35 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   handleForm('smQuoteForm','smQuoteSuccess','smQuoteError');
   handleForm('smApplyForm','smApplySuccess','smApplyError');
 
+  // open the modal directly in a form view (used by Recent Works CTAs)
+  function openServiceForm(view, group){
+    group = group || 'core';
+    renderList(group);
+    fillSelects(group);
+    const i = services.findIndex(s => s.group === group);
+    if(i >= 0){ cur = i; select(i); }
+    document.getElementById('smQuoteForm').reset();
+    document.getElementById('smApplyForm').reset();
+    prepForm('smQuoteForm','smQuoteSuccess');
+    prepForm('smApplyForm','smApplySuccess');
+    smCvLabel.innerHTML = defaultCv;
+    if(view === 'apply'){
+      applySel.value = group === 'core' ? coreWorkerJobs[0] : services[i].name;
+    } else {
+      quoteSel.value = services[i].name;
+    }
+    showView(view === 'apply' ? 'apply' : 'quote');
+    if(window.__cfPause) window.__cfPause();
+    document.body.style.overflow = 'hidden';
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('open');
+      pageWrap.classList.add('modal-frozen');
+    }));
+  }
+
   window.openService = openService;
+  window.openServiceForm = openServiceForm;
 })();
 
 /* ---------- CONTACT CARD MODAL (founders / office coordinator) ---------- */
