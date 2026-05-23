@@ -268,13 +268,44 @@
     .sm-detail { max-height:90vh; }
   }
 
-  .sm-photos { display:flex; gap:.65rem; overflow-x:auto; padding-bottom:.35rem; margin:1.35rem 0; }
-  .sm-photos img {
-    flex:0 0 auto; width:180px; height:128px; object-fit:cover;
-    border-radius:.75rem; border:1px solid rgba(255,255,255,.1);
+  /* Before / During / After (hospitality only) */
+  .sm-bda-title {
+    font-size:.62rem; text-transform:uppercase; letter-spacing:.16em; color:#C9A24A;
+    margin:1.6rem 0 .85rem; display:flex; align-items:center; gap:.5rem;
   }
-  .sm-photos-empty {
-    display:flex; align-items:center; gap:.8rem; margin:1.35rem 0; padding:1.4rem 1.5rem;
+  .sm-bda-title::before { content:""; width:6px; height:6px; border-radius:50%; background:#C9A24A; }
+  .sm-bda-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:.6rem; }
+  .sm-bda-card {
+    border-radius:.75rem; overflow:hidden; border:1px solid rgba(255,255,255,.08);
+    background:#0c0c0f;
+  }
+  .sm-bda-photo {
+    aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(150deg,#17171c,#0c0c0f); color:rgba(201,162,74,.45);
+  }
+  .sm-bda-photo img { width:100%; height:100%; object-fit:cover; }
+  .sm-bda-label {
+    font-family:"Sora",sans-serif; font-weight:600; font-size:.72rem;
+    text-transform:uppercase; letter-spacing:.12em; color:#cbd5e1;
+    text-align:center; padding:.55rem .25rem;
+  }
+
+  /* Gallery grid */
+  .sm-gallery-title {
+    font-size:.62rem; text-transform:uppercase; letter-spacing:.16em; color:#C9A24A;
+    margin:1.6rem 0 .85rem; display:flex; align-items:center; gap:.5rem;
+  }
+  .sm-gallery-title::before { content:""; width:6px; height:6px; border-radius:50%; background:#C9A24A; }
+  .sm-gallery { display:grid; grid-template-columns:repeat(2, 1fr); gap:.6rem; }
+  @media (min-width:640px) { .sm-gallery { grid-template-columns:repeat(3, 1fr); } }
+  .sm-g-cell {
+    aspect-ratio:4/3; border-radius:.65rem; overflow:hidden;
+    border:1px solid rgba(255,255,255,.1); background:#17171c; cursor:zoom-in;
+  }
+  .sm-g-cell img { width:100%; height:100%; object-fit:cover; transition:transform .4s; display:block; }
+  .sm-g-cell:hover img { transform:scale(1.06); }
+  .sm-gallery-empty {
+    display:flex; align-items:center; gap:.8rem; padding:1.4rem 1.5rem;
     border:1px dashed rgba(255,255,255,.16); border-radius:.9rem; color:#7b7b85; font-size:.85rem;
   }
   .sm-back {
@@ -1035,9 +1066,10 @@
       <aside id="smList" class="sm-list"></aside>
       <div class="sm-detail">
         <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3">Service</div>
-        <h3 id="smTitle" class="font-sora text-2xl md:text-3xl font-bold leading-tight"></h3>
-        <div id="smPhotos"></div>
+        <h3 id="smTitle" class="font-sora text-2xl md:text-3xl font-bold leading-tight mb-4"></h3>
         <p id="smDesc" class="text-slate-300 leading-relaxed"></p>
+        <div id="smBda" hidden></div>
+        <div id="smGallery"></div>
         <div class="mt-7 pt-6 border-t border-white/10 grid sm:grid-cols-2 gap-3">
           <button id="smQuoteBtn"
             class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold py-3.5 rounded-xl transition-all duration-300">
@@ -1739,23 +1771,54 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     applySel.innerHTML = workerList.map(n => `<option>${n}</option>`).join('');
   }
 
+  const camSvg = '<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h4l2-2h6l2 2h4v12H3zM12 10a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>';
+
+  function renderBda(s){
+    const wrap = document.getElementById('smBda');
+    if(s.group !== 'hosp'){ wrap.hidden = true; wrap.innerHTML = ''; return; }
+    wrap.hidden = false;
+    const phases = [
+      { label:'Before', src:(s.before  || null) },
+      { label:'During', src:(s.during  || null) },
+      { label:'After',  src:(s.after   || null) }
+    ];
+    wrap.innerHTML =
+      '<div class="sm-bda-title">Before / During / After</div>' +
+      '<div class="sm-bda-grid">' +
+        phases.map(p => `
+          <div class="sm-bda-card">
+            <div class="sm-bda-photo">${p.src ? `<img src="${encodeURI(p.src)}" alt="${p.label}" loading="lazy" decoding="async">` : camSvg}</div>
+            <div class="sm-bda-label">${p.label}</div>
+          </div>`).join('') +
+      '</div>';
+  }
+
+  function renderGallery(s){
+    const wrap = document.getElementById('smGallery');
+    if(s.photos && s.photos.length){
+      wrap.innerHTML =
+        '<div class="sm-gallery-title">Gallery</div>' +
+        '<div class="sm-gallery">' +
+          s.photos.map(src => `<div class="sm-g-cell"><img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async"></div>`).join('') +
+        '</div>';
+    } else {
+      wrap.innerHTML =
+        '<div class="sm-gallery-title">Gallery</div>' +
+        '<div class="sm-gallery-empty">' +
+          '<span class="text-gold/50 shrink-0">' + camSvg + '</span>' +
+          '<span>Project photos for this service will be added soon.</span>' +
+        '</div>';
+    }
+  }
+
   function select(i){
     cur = i;
     const s = services[i];
     listEl.querySelectorAll('.sm-item').forEach(b => b.classList.toggle('on', +b.dataset.idx === i));
     document.getElementById('smTitle').textContent = s.name;
     document.getElementById('smDesc').textContent  = s.desc;
-    const ph = document.getElementById('smPhotos');
-    if(s.photos && s.photos.length){
-      ph.className = 'sm-photos';
-      ph.innerHTML = s.photos.map(src =>
-        `<img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async">`).join('');
-    } else {
-      ph.className = 'sm-photos-empty';
-      ph.innerHTML =
-        '<svg class="w-7 h-7 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h4l2-2h6l2 2h4v12H3zM12 10a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>' +
-        '<span>Photos of our teams on this type of work will be added soon.</span>';
-    }
+    renderBda(s);
+    renderGallery(s);
   }
 
   function showView(v){
