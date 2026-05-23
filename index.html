@@ -296,14 +296,22 @@
     margin:1.6rem 0 .85rem; display:flex; align-items:center; gap:.5rem;
   }
   .sm-gallery-title::before { content:""; width:6px; height:6px; border-radius:50%; background:#C9A24A; }
-  .sm-gallery { display:grid; grid-template-columns:repeat(2, 1fr); gap:.6rem; }
-  @media (min-width:640px) { .sm-gallery { grid-template-columns:repeat(3, 1fr); } }
-  .sm-g-cell {
-    aspect-ratio:4/3; border-radius:.65rem; overflow:hidden;
-    border:1px solid rgba(255,255,255,.1); background:#17171c; cursor:zoom-in;
+
+  /* coverflow tuning for the in-modal gallery (smaller than the hero one) */
+  .sm-cf .cf-stage { height:240px; }
+  @media (min-width:640px) { .sm-cf .cf-stage { height:320px; } }
+  @media (min-width:1024px){ .sm-cf .cf-stage { height:360px; } }
+  .sm-cf .cf-slide { width:66%; }
+  .sm-cf .cf-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .sm-cf .cf-slide.is-active { cursor:zoom-in; }
+
+  /* clickable BDA cards (when a photo exists) */
+  .sm-bda-clickable { cursor:pointer; transition:transform .25s, border-color .25s, box-shadow .25s; }
+  .sm-bda-clickable:hover {
+    transform:translateY(-3px); border-color:rgba(201,162,74,.55);
+    box-shadow:0 14px 28px -16px rgba(0,0,0,.8);
   }
-  .sm-g-cell img { width:100%; height:100%; object-fit:cover; transition:transform .4s; display:block; }
-  .sm-g-cell:hover img { transform:scale(1.06); }
+
   .sm-gallery-empty {
     display:flex; align-items:center; gap:.8rem; padding:1.4rem 1.5rem;
     border:1px dashed rgba(255,255,255,.16); border-radius:.9rem; color:#7b7b85; font-size:.85rem;
@@ -438,6 +446,35 @@
     animation:tlFade .35s cubic-bezier(.2,.7,.2,1);
   }
   @keyframes tlFade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* photo lightbox — sits ON TOP of other modals, leaves them in place underneath */
+  .lb-modal {
+    position:fixed; inset:0; z-index:95;
+    display:flex; align-items:center; justify-content:center;
+    padding:1.5rem; visibility:hidden; pointer-events:none;
+    transition:visibility 0s linear .3s;
+  }
+  .lb-modal.open { visibility:visible; pointer-events:auto; transition:visibility 0s linear 0s; }
+  .lb-backdrop {
+    position:absolute; inset:0; background:rgba(0,0,0,.88);
+    opacity:0; transition:opacity .3s ease;
+  }
+  .lb-modal.open .lb-backdrop { opacity:1; }
+  .lb-close {
+    position:absolute; top:1.25rem; right:1.25rem; z-index:3;
+    width:42px; height:42px; border-radius:9999px; color:#fff;
+    background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.18);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:background .25s, color .25s;
+  }
+  .lb-close:hover { background:#C9A24A; color:#000; }
+  .lb-img {
+    position:relative; max-width:100%; max-height:88vh; object-fit:contain;
+    border-radius:.5rem; box-shadow:0 30px 80px -20px rgba(0,0,0,.9);
+    opacity:0; transform:scale(.96);
+    transition:opacity .3s ease, transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .lb-modal.open .lb-img { opacity:1; transform:scale(1); }
 </style>
 </head>
 
@@ -1252,6 +1289,15 @@
   </div>
 </div>
 
+<!-- ================= PHOTO LIGHTBOX ================= -->
+<div id="photoLightbox" class="lb-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lb-backdrop"></div>
+  <button class="lb-close" aria-label="Close">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <img class="lb-img" alt="" />
+</div>
+
 <!-- WhatsApp float -->
 <a href="https://wa.me/393295857839" target="_blank" rel="noopener"
    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gold hover:bg-gold-light text-black
@@ -1793,42 +1839,91 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   const camSvg = '<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h4l2-2h6l2 2h4v12H3zM12 10a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>';
 
+  const chevSvg = dir => dir === 'prev'
+    ? '<svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>'
+    : '<svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
+
   function renderBda(s){
     const wrap = document.getElementById('smBda');
     if(s.group !== 'hosp'){ wrap.hidden = true; wrap.innerHTML = ''; return; }
     wrap.hidden = false;
     const phases = [
-      { label:'Before', src:(s.before  || null) },
-      { label:'During', src:(s.during  || null) },
-      { label:'After',  src:(s.after   || null) }
+      { label:'Before', src:(s.before || null) },
+      { label:'During', src:(s.during || null) },
+      { label:'After',  src:(s.after  || null) }
     ];
     wrap.innerHTML =
       '<div class="sm-bda-title">Before / During / After</div>' +
       '<div class="sm-bda-grid">' +
-        phases.map(p => `
-          <div class="sm-bda-card">
-            <div class="sm-bda-photo">${p.src ? `<img src="${encodeURI(p.src)}" alt="${p.label}" loading="lazy" decoding="async">` : camSvg}</div>
-            <div class="sm-bda-label">${p.label}</div>
-          </div>`).join('') +
+        phases.map(p => p.src
+          ? `<button type="button" class="sm-bda-card sm-bda-clickable" data-light="${p.src}">
+               <div class="sm-bda-photo"><img src="${encodeURI(p.src)}" alt="${p.label}" loading="lazy" decoding="async"></div>
+               <div class="sm-bda-label">${p.label}</div>
+             </button>`
+          : `<div class="sm-bda-card">
+               <div class="sm-bda-photo">${camSvg}</div>
+               <div class="sm-bda-label">${p.label}</div>
+             </div>`
+        ).join('') +
       '</div>';
+    wrap.querySelectorAll('[data-light]').forEach(el =>
+      el.addEventListener('click', () => window.openLightbox && window.openLightbox(el.dataset.light)));
   }
 
   function renderGallery(s){
     const wrap = document.getElementById('smGallery');
-    if(s.photos && s.photos.length){
-      wrap.innerHTML =
-        '<div class="sm-gallery-title">Gallery</div>' +
-        '<div class="sm-gallery">' +
-          s.photos.map(src => `<div class="sm-g-cell"><img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async"></div>`).join('') +
-        '</div>';
-    } else {
+    if(!s.photos || !s.photos.length){
       wrap.innerHTML =
         '<div class="sm-gallery-title">Gallery</div>' +
         '<div class="sm-gallery-empty">' +
           '<span class="text-gold/50 shrink-0">' + camSvg + '</span>' +
           '<span>Project photos for this service will be added soon.</span>' +
         '</div>';
+      return;
     }
+    // coverflow: 3 visible at a time, prev/next arrows, click side -> center, click center -> lightbox
+    const n = s.photos.length;
+    wrap.innerHTML =
+      '<div class="sm-gallery-title">Gallery</div>' +
+      '<div class="coverflow sm-cf relative">' +
+        '<div class="cf-stage">' +
+          s.photos.map(src =>
+            `<div class="cf-slide" data-light="${src}"><img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async"></div>`
+          ).join('') +
+        '</div>' +
+        '<button type="button" class="cf-arrow sm-cf-prev" style="left:.5rem" aria-label="Previous">' + chevSvg('prev')  + '</button>' +
+        '<button type="button" class="cf-arrow sm-cf-next" style="right:.5rem" aria-label="Next">' + chevSvg('next') + '</button>' +
+      '</div>';
+
+    const cf = wrap.querySelector('.sm-cf');
+    const slides = [...cf.querySelectorAll('.cf-slide')];
+    let active = 0;
+    function paint(){
+      slides.forEach((sl, i) => {
+        let rel = (i - active + n) % n;
+        if(rel > n / 2) rel -= n;
+        sl.classList.remove('is-active','is-left','is-right','is-far');
+        sl.classList.add(rel === 0 ? 'is-active' : rel === -1 ? 'is-left' : rel === 1 ? 'is-right' : 'is-far');
+      });
+    }
+    function go(i){ active = (i + n) % n; paint(); }
+
+    cf.querySelector('.sm-cf-prev').onclick = () => go(active - 1);
+    cf.querySelector('.sm-cf-next').onclick = () => go(active + 1);
+    slides.forEach((sl, i) => sl.addEventListener('click', () => {
+      if(i !== active) go(i);
+      else if(window.openLightbox) window.openLightbox(sl.dataset.light);
+    }));
+
+    const stage = cf.querySelector('.cf-stage');
+    let sx = 0;
+    stage.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+    stage.addEventListener('touchend',   e => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if(Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1));
+    });
+
+    paint();
   }
 
   function select(i){
@@ -1983,6 +2078,28 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     b.addEventListener('click', () => open(b.dataset.contact)));
 
   window.openContact = open;
+})();
+
+/* ---------- PHOTO LIGHTBOX (opens on top of other modals) ---------- */
+(function(){
+  const modal = document.getElementById('photoLightbox');
+  if(!modal) return;
+  const img = modal.querySelector('.lb-img');
+  function open(src){
+    img.src = encodeURI(src);
+    modal.setAttribute('aria-hidden','false');
+    modal.classList.add('open');
+  }
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  }
+  modal.querySelector('.lb-close').onclick = close;
+  modal.querySelector('.lb-backdrop').onclick = close;
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('open')) { e.stopImmediatePropagation(); close(); }
+  }, true);  // capture phase -> runs before other modals' Esc handlers
+  window.openLightbox = open;
 })();
 
 /* ---------- TEAM MODAL ---------- */
