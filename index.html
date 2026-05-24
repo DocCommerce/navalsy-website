@@ -2305,18 +2305,25 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     form.classList.remove('hidden');
     success.classList.add('hidden');
 
+    if(window.__cfPause) window.__cfPause();
     document.body.style.overflow = 'hidden';
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
-      // page is already frozen (contact modal underneath does that); add-class is idempotent
       pageWrap.classList.add('modal-frozen');
     }));
   }
   function close(){
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
-    // don't release page freeze here — the contact modal underneath is still open
+    // Release the page freeze ONLY if no other modal is still open underneath.
+    // (When opened on top of the contact card, we leave it frozen for that one.)
+    const stillOpen = document.querySelector('.proj-modal.open');
+    if(!stillOpen){
+      pageWrap.classList.remove('modal-frozen');
+      document.body.style.overflow = '';
+      if(window.__cfResume) window.__cfResume();
+    }
   }
 
   modal.querySelector('.em-close').onclick = close;
