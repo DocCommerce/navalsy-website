@@ -1596,7 +1596,12 @@ const I18N = {
 
     // office contact in compose modal
     "office.name": "NavalSy Office",
-    "office.role": "General inquiries"
+    "office.role": "General inquiries",
+
+    "f.cleaningHosp":  "Cleaning & Hospitality",
+    "f.other":         "Other",
+    "f.marineTrades":  "Marine trades",
+    "f.hospCleaning":  "Hospitality & Cleaning"
   },
 
   it: {
@@ -1756,7 +1761,12 @@ const I18N = {
     "errInvalid":"Compila correttamente tutti i campi obbligatori (*).",
 
     "office.name": "Ufficio NavalSy",
-    "office.role": "Richieste generali"
+    "office.role": "Richieste generali",
+
+    "f.cleaningHosp":  "Pulizie & Hospitality",
+    "f.other":         "Altro",
+    "f.marineTrades":  "Mestieri navali",
+    "f.hospCleaning":  "Hospitality e Pulizie"
   },
 
   ro: {
@@ -1916,7 +1926,12 @@ const I18N = {
     "errInvalid":"Te rugăm să completezi corect toate câmpurile obligatorii (*).",
 
     "office.name": "Biroul NavalSy",
-    "office.role": "Solicitări generale"
+    "office.role": "Solicitări generale",
+
+    "f.cleaningHosp":  "Curățenie & Hospitality",
+    "f.other":         "Altul",
+    "f.marineTrades":  "Meserii navale",
+    "f.hospCleaning":  "Hospitality și Curățenie"
   }
 };
 
@@ -2284,6 +2299,31 @@ function renderDynamic(){
      </div>`).join('');
   projGrid.querySelectorAll('.project-card').forEach(card =>
     card.addEventListener('click', () => window.openProject(projects[+card.dataset.idx])));
+
+  // page-level form dropdowns (company quote + worker apply) — rebuilt in the current language
+  const pageSvc = document.querySelector('#companyForm select[name="service"]');
+  if(pageSvc){
+    const coreOpts = services.filter(s => s.group === 'core').map(s => L(s.name));
+    pageSvc.innerHTML =
+      `<option value="">${t('f.serviceReq')}</option>` +
+      coreOpts.map(n => `<option>${n}</option>`).join('') +
+      `<option>${t('f.cleaningHosp')}</option>` +
+      `<option>${t('f.other')}</option>`;
+  }
+  const pagePos = document.querySelector('#workerForm select[name="position"]');
+  if(pagePos){
+    const trades    = coreWorkerJobs.map(L);
+    const hospNames = services.filter(s => s.group === 'hosp').map(s => L(s.name));
+    pagePos.innerHTML =
+      `<option value="">${t('f.position')}</option>` +
+      `<optgroup label="${t('f.marineTrades')}">` +
+        trades.map(n => `<option>${n}</option>`).join('') +
+      `</optgroup>` +
+      `<optgroup label="${t('f.hospCleaning')}">` +
+        hospNames.map(n => `<option>${n}</option>`).join('') +
+      `</optgroup>` +
+      `<option>${t('f.other')}</option>`;
+  }
 }
 window.__renderDynamic = renderDynamic;
 renderDynamic();
