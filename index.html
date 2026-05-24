@@ -493,6 +493,20 @@
   }
   .lb-modal.open .lb-img { opacity:1; transform:scale(1); }
 
+  /* language switcher */
+  .lang-switcher {
+    display:inline-flex; gap:2px; padding:3px;
+    border:1px solid rgba(255,255,255,.15); border-radius:9999px;
+    background:rgba(255,255,255,.02);
+  }
+  .lang-switcher button {
+    font-size:11px; font-weight:700; letter-spacing:.05em;
+    padding:5px 10px; border-radius:9999px; color:#94a3b8;
+    transition:background .2s, color .2s;
+  }
+  .lang-switcher button:hover { color:#fff; }
+  .lang-switcher button.on { background:#C9A24A; color:#0A0A0B; }
+
   /* compose-email modal (opens on top of contact card) */
   #emailModal { z-index:90; }
   .em-dialog { max-width:480px; }
@@ -517,7 +531,7 @@
 <!-- ================= TOP BAR ================= -->
 <div class="hidden md:block bg-black border-b border-white/5 text-[13px]">
   <div class="max-w-7xl mx-auto px-6 h-10 flex items-center justify-between text-slate-400">
-    <span class="tracking-wide">Ship Refitting &amp; Hospitality Services — Operating across Europe</span>
+    <span class="tracking-wide" data-i18n="topbar">Ship Refitting &amp; Hospitality Services — Operating across Europe</span>
     <div class="flex items-center gap-6">
       <a href="mailto:office@navalsy.com" data-office-email class="hover:text-gold transition">office@navalsy.com</a>
       <span class="text-white/15">|</span>
@@ -542,17 +556,23 @@
 
       <!-- DESKTOP NAV -->
       <nav class="hidden lg:flex items-center gap-9 text-sm font-medium text-slate-300">
-        <a href="#home"     class="navlink hover:text-white transition">Home</a>
-        <a href="#about"    class="navlink hover:text-white transition">About</a>
-        <a href="#services" class="navlink hover:text-white transition">Services</a>
-        <a href="#projects" class="navlink hover:text-white transition">Projects</a>
+        <a href="#home"     class="navlink hover:text-white transition" data-i18n="nav.home">Home</a>
+        <a href="#about"    class="navlink hover:text-white transition" data-i18n="nav.about">About</a>
+        <a href="#services" class="navlink hover:text-white transition" data-i18n="nav.services">Services</a>
+        <a href="#projects" class="navlink hover:text-white transition" data-i18n="nav.projects">Projects</a>
       </nav>
 
       <div class="hidden lg:flex items-center gap-3">
+        <!-- language switcher -->
+        <div class="lang-switcher" role="group" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="it">IT</button>
+          <button type="button" data-lang="ro">RO</button>
+        </div>
         <a href="#contact" class="btn-gold inline-block bg-gold hover:bg-gold-light text-black font-semibold
-                  px-6 py-3 rounded-xl transition-all duration-300">Request a Quote</a>
+                  px-6 py-3 rounded-xl transition-all duration-300" data-i18n="cta.quote">Request a Quote</a>
         <a href="#careers" class="inline-block border border-white/20 text-slate-200 hover:border-gold hover:text-gold
-                  font-semibold px-6 py-3 rounded-xl transition-all duration-300">Work with us!</a>
+                  font-semibold px-6 py-3 rounded-xl transition-all duration-300" data-i18n="cta.work">Work with us!</a>
       </div>
 
       <!-- MOBILE TOGGLE -->
@@ -566,12 +586,17 @@
   <!-- MOBILE MENU -->
   <div id="mobileMenu" class="menu-hidden lg:hidden mx-4 mt-2 rounded-2xl bg-coal border border-white/10 p-6">
     <nav class="flex flex-col gap-1 text-slate-200">
-      <a href="#home"     class="py-3 border-b border-white/5 hover:text-gold transition">Home</a>
-      <a href="#about"    class="py-3 border-b border-white/5 hover:text-gold transition">About</a>
-      <a href="#services" class="py-3 border-b border-white/5 hover:text-gold transition">Services</a>
-      <a href="#projects" class="py-3 hover:text-gold transition">Projects</a>
+      <a href="#home"     class="py-3 border-b border-white/5 hover:text-gold transition" data-i18n="nav.home">Home</a>
+      <a href="#about"    class="py-3 border-b border-white/5 hover:text-gold transition" data-i18n="nav.about">About</a>
+      <a href="#services" class="py-3 border-b border-white/5 hover:text-gold transition" data-i18n="nav.services">Services</a>
+      <a href="#projects" class="py-3 hover:text-gold transition" data-i18n="nav.projects">Projects</a>
     </nav>
-    <a href="#contact" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl">Request a Quote</a>
+    <div class="lang-switcher mt-4 mx-auto" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="it">IT</button>
+      <button type="button" data-lang="ro">RO</button>
+    </div>
+    <a href="#contact" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl" data-i18n="cta.quote">Request a Quote</a>
   </div>
 </header>
 
@@ -584,12 +609,12 @@
     <div class="text-center mb-10 md:mb-12 reveal">
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/5 mb-6">
         <span class="w-2 h-2 rounded-full bg-gold"></span>
-        <span class="text-gold-light text-sm tracking-widest uppercase">NavalSy Refitting</span>
+        <span class="text-gold-light text-sm tracking-widest uppercase" data-i18n="team.lbl">NavalSy Refitting</span>
       </div>
       <h1 class="font-sora text-4xl md:text-6xl font-extrabold leading-tight">
-        This is <span class="gold-text">our team!</span>
+        <span data-i18n="team.headPre">This is </span><span class="gold-text" data-i18n="team.headHi">our team!</span>
       </h1>
-      <p class="text-slate-400 mt-5 max-w-2xl mx-auto text-lg">
+      <p class="text-slate-400 mt-5 max-w-2xl mx-auto text-lg" data-i18n="team.desc">
         104+ skilled professionals delivering ship refitting projects across Europe.
       </p>
     </div>
@@ -604,7 +629,7 @@
                  class="w-full h-full object-cover object-center" />
             <div class="cf-shade"></div>
             <div class="cf-caption">
-              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow" data-i18n="team.capCrew">The NavalSy crew — on site, ready to deliver</span>
               <span class="cf-chip">DryDock • Marseille, France</span>
             </div>
           </div>
@@ -614,7 +639,7 @@
                  class="w-full h-full object-cover object-center" />
             <div class="cf-shade"></div>
             <div class="cf-caption">
-              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow" data-i18n="team.capCrew">The NavalSy crew — on site, ready to deliver</span>
               <span class="cf-chip">DryDock • Cadiz, Spain</span>
             </div>
           </div>
@@ -624,7 +649,7 @@
                  class="w-full h-full object-cover object-center" />
             <div class="cf-shade"></div>
             <div class="cf-caption">
-              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow" data-i18n="team.capCrew">The NavalSy crew — on site, ready to deliver</span>
               <span class="cf-chip">Four Seasons • Roma, Italy</span>
             </div>
           </div>
@@ -634,7 +659,7 @@
                  class="w-full h-full object-cover object-center" />
             <div class="cf-shade"></div>
             <div class="cf-caption">
-              <span class="font-sora font-semibold text-base md:text-lg drop-shadow">The NavalSy crew — on site, ready to deliver</span>
+              <span class="font-sora font-semibold text-base md:text-lg drop-shadow" data-i18n="team.capCrew">The NavalSy crew — on site, ready to deliver</span>
               <span class="cf-chip">Port Marghera • Italy</span>
             </div>
           </div>
@@ -677,30 +702,30 @@
       <div class="hero-anim inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/5 mb-7"
            style="animation-delay:.05s">
         <span class="w-2 h-2 rounded-full bg-gold"></span>
-        <span class="text-gold-light text-sm tracking-widest uppercase">NavalSy Refitting</span>
+        <span class="text-gold-light text-sm tracking-widest uppercase" data-i18n="hero.badge">NavalSy Refitting</span>
       </div>
 
       <h1 class="hero-anim font-sora text-5xl md:text-6xl xl:text-7xl font-extrabold leading-[1.05] mb-6"
           style="animation-delay:.15s">
-        Ship Refitting<br>&amp; <span class="gold-text">Hospitality</span><br>Services
+        <span data-i18n="hero.l1">Ship Refitting</span><br><span data-i18n="hero.l2a">&amp; </span><span class="gold-text" data-i18n="hero.l2b">Hospitality</span><br><span data-i18n="hero.l3">Services</span>
       </h1>
 
-      <p class="hero-anim text-slate-300 text-lg leading-relaxed mb-9 max-w-xl" style="animation-delay:.3s">
+      <p class="hero-anim text-slate-300 text-lg leading-relaxed mb-9 max-w-xl" style="animation-delay:.3s" data-i18n="hero.desc">
         Skilled teams for cruise ship refitting, insulation, accommodation works,
         cleaning and hospitality services — mobilized fast, across Europe.
       </p>
 
       <div class="hero-anim flex flex-wrap gap-4 mb-12" style="animation-delay:.45s">
-        <a href="#contact" class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300">
+        <a href="#contact" class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300" data-i18n="cta.quote">
           Request a Quote
         </a>
-        <a href="#careers" class="border border-white/20 hover:border-gold hover:text-gold px-8 py-4 rounded-xl font-semibold transition-all duration-300">
+        <a href="#careers" class="border border-white/20 hover:border-gold hover:text-gold px-8 py-4 rounded-xl font-semibold transition-all duration-300" data-i18n="cta.workAlt">
           Work With Us
         </a>
       </div>
 
       <div class="hero-anim flex items-center gap-6 text-sm text-slate-400" style="animation-delay:.6s">
-        <span>Trusted by shipyards in</span>
+        <span data-i18n="hero.trusted">Trusted by shipyards in</span>
         <div class="flex flex-wrap gap-x-5 gap-y-1 font-semibold text-slate-200">
           <span>Italy</span><span class="text-gold">•</span>
           <span>Canada</span><span class="text-gold">•</span>
@@ -715,29 +740,29 @@
       <div class="relative rounded-3xl border border-white/10 bg-white/[.03] backdrop-blur-xl p-8 shadow-2xl">
         <div class="absolute -top-px left-10 right-10 h-px shimmer"></div>
         <div class="flex items-center justify-between mb-7">
-          <h3 class="font-sora font-semibold text-lg">NavalSy in Numbers</h3>
-          <span class="text-xs uppercase tracking-widest text-gold">Live</span>
+          <h3 class="font-sora font-semibold text-lg" data-i18n="stats.title">NavalSy in Numbers</h3>
+          <span class="text-xs uppercase tracking-widest text-gold" data-i18n="stats.live">Live</span>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
             <div class="counter font-sora text-4xl font-bold text-gold" data-target="104" data-suffix="+">0</div>
-            <div class="text-slate-400 mt-1 text-sm">Skilled Workers</div>
+            <div class="text-slate-400 mt-1 text-sm" data-i18n="stats.workers">Skilled Workers</div>
           </div>
           <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
             <div class="counter font-sora text-4xl font-bold text-gold" data-target="3" data-suffix="">0</div>
-            <div class="text-slate-400 mt-1 text-sm">Countries Active</div>
+            <div class="text-slate-400 mt-1 text-sm" data-i18n="stats.countries">Countries Active</div>
           </div>
           <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
             <div class="counter font-sora text-4xl font-bold text-gold" data-target="24" data-suffix="h">0</div>
-            <div class="text-slate-400 mt-1 text-sm">Rapid Deployment</div>
+            <div class="text-slate-400 mt-1 text-sm" data-i18n="stats.deploy">Rapid Deployment</div>
           </div>
           <div class="rounded-2xl bg-black/40 border border-white/5 p-6 lift">
             <div class="counter font-sora text-4xl font-bold text-gold" data-target="5" data-suffix="+">0</div>
-            <div class="text-slate-400 mt-1 text-sm">Active Projects</div>
+            <div class="text-slate-400 mt-1 text-sm" data-i18n="stats.projects">Active Projects</div>
           </div>
         </div>
         <a href="#projects" class="mt-6 flex items-center justify-center gap-2 text-sm text-slate-300 hover:text-gold transition py-3 rounded-xl border border-white/5 hover:border-gold/40">
-          See recent works
+          <span data-i18n="stats.see">See recent works</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
@@ -749,31 +774,28 @@
 <section id="about" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
   <div class="grid lg:grid-cols-2 gap-16 items-center">
     <div class="reveal-x">
-      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">About Us</div>
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="about.lbl">About Us</div>
       <h2 class="font-sora text-4xl md:text-5xl font-bold mb-7 leading-tight">
-        Real Teams.<br><span class="gold-text">Real Shipyard Experience.</span>
+        <span data-i18n="about.head1">Real Teams.</span><br><span class="gold-text" data-i18n="about.head2">Real Shipyard Experience.</span>
       </h2>
-      <p class="text-slate-300 leading-relaxed mb-5">
-        NavalSy Refitting provides qualified manpower and support teams for ship refitting
-        projects across Europe. We specialize in accommodation works, insulation, onboard
-        support and hospitality services.
+      <p class="text-slate-300 leading-relaxed mb-5" data-i18n="about.p1">
+        NavalSy Refitting provides qualified teams for ship refitting projects across Europe. We specialize in accommodation works, insulation, onboard support and hospitality services.
       </p>
-      <p class="text-slate-300 leading-relaxed mb-8">
-        Our teams are already active in Italy, France, Spain and Canada — supporting marine
-        contractors and cruise ship projects with fast mobilization and reliable execution.
+      <p class="text-slate-300 leading-relaxed mb-8" data-i18n="about.p2">
+        Our teams are already active in Italy, France, Spain and Canada — supporting marine contractors and cruise ship projects with fast mobilization and reliable execution.
       </p>
       <div class="grid sm:grid-cols-2 gap-4">
         <div class="flex items-start gap-3">
           <span class="mt-1 w-9 h-9 shrink-0 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           </span>
-          <div><div class="font-semibold">Certified Crews</div><div class="text-sm text-slate-400">Trained, documented, ready</div></div>
+          <div><div class="font-semibold" data-i18n="about.fCert">Certified Crews</div><div class="text-sm text-slate-400" data-i18n="about.fCertD">Trained, documented, ready</div></div>
         </div>
         <div class="flex items-start gap-3">
           <span class="mt-1 w-9 h-9 shrink-0 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           </span>
-          <div><div class="font-semibold">Fast Mobilization</div><div class="text-sm text-slate-400">On-site within 24 hours</div></div>
+          <div><div class="font-semibold" data-i18n="about.fFast">Fast Mobilization</div><div class="text-sm text-slate-400" data-i18n="about.fFastD">On-site within 24 hours</div></div>
         </div>
       </div>
     </div>
@@ -782,24 +804,24 @@
       <!-- FOUNDERS -->
       <div>
         <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-3 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Founders
+          <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> <span data-i18n="about.founders">Founders</span>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <button data-contact="stefan" class="team-card group">
             <div class="team-photo" style="background-image:url('assets/Team/Stefan%20Mihali%20-%20Founder/Stefan%20Founder.jpg')"></div>
             <div class="team-meta">
               <div class="font-sora font-bold text-white text-sm md:text-base">Stefan Mihali</div>
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase" data-i18n="about.founderRole">Founder</div>
             </div>
-            <span class="team-hint">Contact</span>
+            <span class="team-hint" data-i18n="about.contactHint">Contact</span>
           </button>
           <button data-contact="aurel" class="team-card group">
             <div class="team-photo" style="background-image:url('assets/Team/Aurel%20Timis%20-%20Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg')"></div>
             <div class="team-meta">
               <div class="font-sora font-bold text-white text-sm md:text-base">Aurel Timis</div>
-              <div class="text-[11px] text-gold-light tracking-widest uppercase">Founder</div>
+              <div class="text-[11px] text-gold-light tracking-widest uppercase" data-i18n="about.founderRole">Founder</div>
             </div>
-            <span class="team-hint">Contact</span>
+            <span class="team-hint" data-i18n="about.contactHint">Contact</span>
           </button>
         </div>
       </div>
@@ -809,7 +831,7 @@
         class="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl
                border border-white/15 text-slate-200 hover:border-gold hover:text-gold
                font-semibold transition-all duration-300 group">
-        Learn more about the team
+        <span data-i18n="about.learnMore">Learn more about the team</span>
         <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
     </div>
@@ -820,8 +842,8 @@
 <section id="services" class="bg-coal border-y border-white/5">
   <div class="max-w-7xl mx-auto px-6 py-24 md:py-32">
     <div class="text-center mb-16 reveal">
-      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Services</div>
-      <h2 class="font-sora text-4xl md:text-5xl font-bold">Marine &amp; Hospitality <span class="gold-text">Services</span></h2>
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="svc.lbl">Services</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold"><span data-i18n="svc.h1">Marine &amp; Hospitality </span><span class="gold-text" data-i18n="svc.h2">Services</span></h2>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-7">
@@ -830,11 +852,11 @@
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>
           </span>
-          <h3 class="font-sora text-2xl font-bold">Core Services</h3>
+          <h3 class="font-sora text-2xl font-bold" data-i18n="svc.coreT">Core Services</h3>
         </div>
         <p class="text-xs text-gold/70 mb-5 flex items-center gap-1.5">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3 3 8-8M5 12v6a1 1 0 001 1h12"/></svg>
-          Click any service for details, photos &amp; to request a quote
+          <span data-i18n="svc.hint">Click any service for details, photos &amp; to request a quote</span>
         </p>
         <ul class="space-y-1 text-slate-300" id="coreList"></ul>
       </div>
@@ -844,11 +866,11 @@
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
           </span>
-          <h3 class="font-sora text-2xl font-bold">Hospitality &amp; Cleaning</h3>
+          <h3 class="font-sora text-2xl font-bold" data-i18n="svc.hospT">Hospitality &amp; Cleaning</h3>
         </div>
         <p class="text-xs text-gold/70 mb-5 flex items-center gap-1.5">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3 3 8-8M5 12v6a1 1 0 001 1h12"/></svg>
-          Click any service for details, photos &amp; to request a quote
+          <span data-i18n="svc.hint">Click any service for details, photos &amp; to request a quote</span>
         </p>
         <ul class="space-y-1 text-slate-300" id="hospList"></ul>
       </div>
@@ -859,8 +881,8 @@
 <!-- ================= WHY US ================= -->
 <section class="max-w-7xl mx-auto px-6 py-24 md:py-32">
   <div class="text-center mb-16 reveal">
-    <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Why NavalSy</div>
-    <h2 class="font-sora text-4xl md:text-5xl font-bold">Built for <span class="gold-text">Demanding Shipyards</span></h2>
+    <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="why.lbl">Why NavalSy</div>
+    <h2 class="font-sora text-4xl md:text-5xl font-bold"><span data-i18n="why.h1">Built for </span><span class="gold-text" data-i18n="why.h2">Demanding Shipyards</span></h2>
   </div>
   <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="whyGrid"></div>
 </section>
@@ -870,11 +892,11 @@
   <div class="max-w-7xl mx-auto px-6 py-24 md:py-32">
     <div class="flex flex-wrap items-end justify-between gap-6 mb-14 reveal">
       <div>
-        <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Projects</div>
-        <h2 class="font-sora text-4xl md:text-5xl font-bold">Recent <span class="gold-text">Works</span></h2>
+        <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="works.lbl">Projects</div>
+        <h2 class="font-sora text-4xl md:text-5xl font-bold"><span data-i18n="works.h1">Recent </span><span class="gold-text" data-i18n="works.h2">Works</span></h2>
       </div>
       <a href="#contact" class="text-sm text-slate-300 hover:text-gold transition flex items-center gap-2">
-        Start your project
+        <span data-i18n="works.start">Start your project</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -887,13 +909,12 @@
   <div class="absolute inset-0" style="background:radial-gradient(70% 80% at 15% 20%, rgba(201,162,74,.14), transparent 60%);"></div>
   <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32 grid lg:grid-cols-2 gap-16">
     <div class="reveal-x">
-      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Contact</div>
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="contact.lbl">Contact</div>
       <h2 class="font-sora text-4xl md:text-5xl font-bold mb-7 leading-tight">
-        Let's Discuss Your<br><span class="gold-text">Next Project</span>
+        <span data-i18n="contact.h1">Let's Discuss Your</span><br><span class="gold-text" data-i18n="contact.h2">Next Project</span>
       </h2>
-      <p class="text-slate-300 leading-relaxed mb-10 max-w-md">
-        Need an experienced team for a refitting project? Tell us what you need and we'll send
-        a tailored quote.
+      <p class="text-slate-300 leading-relaxed mb-10 max-w-md" data-i18n="contact.desc">
+        Need an experienced team for a refitting project? Tell us what you need and we'll send a tailored quote.
       </p>
 
       <div class="space-y-5">
@@ -901,40 +922,40 @@
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
           </span>
-          <div><div class="font-semibold">Email</div><div class="text-slate-400 text-sm">office@navalsy.com</div></div>
+          <div><div class="font-semibold" data-i18n="contact.email">Email</div><div class="text-slate-400 text-sm">office@navalsy.com</div></div>
         </a>
         <a href="tel:+393295857839" class="flex items-center gap-4 group">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.5l2 5-2 1.5a11 11 0 005.5 5.5l1.5-2 5 2V21a2 2 0 01-2 2A18 18 0 013 5z"/></svg>
           </span>
-          <div><div class="font-semibold">Phone</div><div class="text-slate-400 text-sm">+39 329 585 7839</div></div>
+          <div><div class="font-semibold" data-i18n="contact.phone">Phone</div><div class="text-slate-400 text-sm">+39 329 585 7839</div></div>
         </a>
         <div class="flex items-center gap-4">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
             <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
           </span>
-          <div><div class="font-semibold">WhatsApp</div><div class="text-slate-400 text-sm">Available 24/7 for inquiries</div></div>
+          <div><div class="font-semibold" data-i18n="contact.wa">WhatsApp</div><div class="text-slate-400 text-sm" data-i18n="contact.waD">Available 24/7 for inquiries</div></div>
         </div>
       </div>
     </div>
 
     <!-- COMPANY HIRING FORM -->
     <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
-      <h3 class="font-sora text-2xl font-bold mb-1">Request a Quote</h3>
-      <p class="text-slate-400 text-sm mb-7">For companies — hire NavalSy teams</p>
+      <h3 class="font-sora text-2xl font-bold mb-1" data-i18n="f.requestQuote">Request a Quote</h3>
+      <p class="text-slate-400 text-sm mb-7" data-i18n="f.companyDesc">For companies — hire NavalSy teams</p>
 
       <form id="companyForm" class="space-y-4" novalidate>
-        <input name="company" required placeholder="Company Name *" class="field w-full rounded-xl px-5 py-3.5" />
+        <input name="company" required placeholder="Company Name *" data-i18n-ph="f.companyName" class="field w-full rounded-xl px-5 py-3.5" />
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="contact" required placeholder="Contact Person *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="email" type="email" required placeholder="Business Email *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="contact" required placeholder="Contact Person *" data-i18n-ph="f.contactPerson" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="email" type="email" required placeholder="Business Email *" data-i18n-ph="f.bizEmail" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="country" required placeholder="Country / Shipyard *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="workers" type="number" min="1" placeholder="Workers Needed" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="country" required placeholder="Country / Shipyard *" data-i18n-ph="f.countryYard" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="workers" type="number" min="1" placeholder="Workers Needed" data-i18n-ph="f.workersNeeded" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
         <select name="service" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
-          <option value="">Service Required *</option>
+          <option value="" data-i18n="f.serviceReq">Service Required *</option>
           <option>Refit Packages</option>
           <option>Demolition &amp; Rebuild</option>
           <option>Cabin &amp; Public Area Refurbishment</option>
@@ -943,9 +964,9 @@
           <option>Cleaning &amp; Hospitality</option>
           <option>Other</option>
         </select>
-        <textarea name="details" rows="4" required placeholder="Describe your project *" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <textarea name="details" rows="4" required placeholder="Describe your project *" data-i18n-ph="f.describeProj" class="field w-full rounded-xl px-5 py-3.5"></textarea>
 
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300" data-i18n="f.sendReq">
           Send Request
         </button>
         <p id="companyError" class="hidden text-red-400 text-sm text-center"></p>
@@ -955,9 +976,9 @@
         <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Request sent</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you. We'll get back to you with a tailored quote within 24 hours.</p>
-        <button type="button" data-reset="companyForm" class="text-gold text-sm font-semibold hover:underline">Send another request</button>
+        <h4 class="font-sora text-xl font-bold mb-2" data-i18n="f.reqSent">Request sent</h4>
+        <p class="text-slate-400 text-sm mb-6" data-i18n="f.reqSentD">Thank you. We'll get back to you with a tailored quote within 24 hours.</p>
+        <button type="button" data-reset="companyForm" class="text-gold text-sm font-semibold hover:underline" data-i18n="f.sendAnother">Send another request</button>
       </div>
     </div>
   </div>
@@ -967,31 +988,30 @@
 <section id="careers" class="max-w-7xl mx-auto px-6 py-24 md:py-32">
   <div class="grid lg:grid-cols-2 gap-16 items-start">
     <div class="reveal-x">
-      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4">Careers</div>
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="careers.lbl">Careers</div>
       <h2 class="font-sora text-4xl md:text-5xl font-bold mb-6 leading-tight">
-        Join Our Teams<br><span class="gold-text">Across Europe</span>
+        <span data-i18n="careers.h1">Join Our Teams</span><br><span class="gold-text" data-i18n="careers.h2">Across Europe</span>
       </h2>
-      <p class="text-slate-300 text-lg leading-relaxed mb-8 max-w-lg">
-        We are constantly looking for skilled workers for marine projects, ship refitting and
-        cleaning services. Submit your CV and our recruitment team will contact you.
+      <p class="text-slate-300 text-lg leading-relaxed mb-8 max-w-lg" data-i18n="careers.desc">
+        We are constantly looking for skilled workers for marine projects, ship refitting and cleaning services. Submit your CV and our recruitment team will contact you.
       </p>
       <div class="grid grid-cols-2 gap-3 max-w-md" id="rolesGrid"></div>
     </div>
 
     <!-- WORKER APPLICATION FORM -->
     <div class="reveal rounded-3xl bg-coal border border-white/10 p-8 md:p-10 shadow-2xl">
-      <h3 class="font-sora text-2xl font-bold mb-1">Apply Now</h3>
-      <p class="text-slate-400 text-sm mb-7">For workers — submit your CV</p>
+      <h3 class="font-sora text-2xl font-bold mb-1" data-i18n="careers.apply">Apply Now</h3>
+      <p class="text-slate-400 text-sm mb-7" data-i18n="careers.applyD">For workers — submit your CV</p>
 
       <form id="workerForm" class="space-y-4" novalidate>
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="name" required placeholder="Full Name *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="phone" required placeholder="Phone Number *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="name" required placeholder="Full Name *" data-i18n-ph="f.fullName" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="phone" required placeholder="Phone Number *" data-i18n-ph="f.phone" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
-        <input name="email" type="email" required placeholder="Email Address *" class="field w-full rounded-xl px-5 py-3.5" />
+        <input name="email" type="email" required placeholder="Email Address *" data-i18n-ph="f.email" class="field w-full rounded-xl px-5 py-3.5" />
         <div class="grid sm:grid-cols-2 gap-4">
           <select name="position" required class="field w-full rounded-xl px-5 py-3.5 text-slate-300">
-            <option value="">Select Position *</option>
+            <option value="" data-i18n="f.position">Select Position *</option>
             <optgroup label="Marine trades">
               <option>Fitter</option>
               <option>Wallpaper Installer</option>
@@ -1012,7 +1032,7 @@
             </optgroup>
             <option>Other</option>
           </select>
-          <input name="country" placeholder="Available in (country)" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="country" placeholder="Available in (country)" data-i18n-ph="f.country" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
 
         <!-- CV upload -->
@@ -1020,13 +1040,13 @@
           <input type="file" name="cv" id="cvInput" required accept=".pdf,.doc,.docx" class="hidden" />
           <div class="border-2 border-dashed border-white/15 rounded-xl p-7 text-center transition hover:border-gold/50 hover:bg-gold/5">
             <svg class="w-8 h-8 mx-auto text-gold mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-5 5m5-5l5 5M5 20h14"/></svg>
-            <div id="cvLabel" class="text-slate-300 text-sm font-medium">Upload your CV <span class="text-slate-500">(PDF / DOC) *</span></div>
+            <div id="cvLabel" class="text-slate-300 text-sm font-medium"><span data-i18n="f.uploadCV">Upload your CV</span> <span class="text-slate-500" data-i18n="f.uploadCVHint">(PDF / DOC) *</span></div>
           </div>
         </label>
 
-        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" data-i18n-ph="f.message" class="field w-full rounded-xl px-5 py-3.5"></textarea>
 
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300" data-i18n="f.sendApp">
           Send Application
         </button>
         <p id="workerError" class="hidden text-red-400 text-sm text-center"></p>
@@ -1037,10 +1057,10 @@
         <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
-        <p class="text-slate-400 text-sm mb-2">Thank you. Our recruitment team will contact you shortly.</p>
-        <p class="text-xs text-gold-light mb-6">Please also email your CV to <a href="mailto:office@navalsy.com" class="underline">office@navalsy.com</a> mentioning this application.</p>
-        <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline">Submit another application</button>
+        <h4 class="font-sora text-xl font-bold mb-2" data-i18n="f.appReceived">Application received</h4>
+        <p class="text-slate-400 text-sm mb-2" data-i18n="f.appReceivedD">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-xs text-gold-light mb-6" data-i18n="f.cvNote">Please also email your CV to office@navalsy.com mentioning this application.</p>
+        <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline" data-i18n="f.submitAnother">Submit another application</button>
       </div>
     </div>
   </div>
@@ -1057,31 +1077,36 @@
             <span class="text-white">Naval</span><span class="text-gold">Sy</span>
           </span>
         </a>
-        <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
-          Ship refitting &amp; hospitality services. Skilled teams for cruise ship
-          refitting, insulation, accommodation and hospitality — across Europe.
+        <p class="text-slate-400 text-sm max-w-sm leading-relaxed" data-i18n="footer.tagline">
+          Ship refitting &amp; hospitality services. Skilled teams for cruise ship refitting, insulation, accommodation and hospitality — across Europe.
         </p>
+        <!-- footer language switcher -->
+        <div class="lang-switcher mt-5" role="group" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="it">IT</button>
+          <button type="button" data-lang="ro">RO</button>
+        </div>
       </div>
       <div>
-        <div class="font-sora font-semibold mb-4">Navigation</div>
+        <div class="font-sora font-semibold mb-4" data-i18n="footer.nav">Navigation</div>
         <ul class="space-y-2 text-sm text-slate-400">
-          <li><a href="#about" class="hover:text-gold transition">About</a></li>
-          <li><a href="#services" class="hover:text-gold transition">Services</a></li>
-          <li><a href="#projects" class="hover:text-gold transition">Projects</a></li>
-          <li><a href="#careers" class="hover:text-gold transition">Careers</a></li>
+          <li><a href="#about" class="hover:text-gold transition" data-i18n="nav.about">About</a></li>
+          <li><a href="#services" class="hover:text-gold transition" data-i18n="nav.services">Services</a></li>
+          <li><a href="#projects" class="hover:text-gold transition" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#careers" class="hover:text-gold transition" data-i18n="careers.lbl">Careers</a></li>
         </ul>
       </div>
       <div>
-        <div class="font-sora font-semibold mb-4">Contact</div>
+        <div class="font-sora font-semibold mb-4" data-i18n="footer.contact">Contact</div>
         <ul class="space-y-2 text-sm text-slate-400">
           <li><a href="mailto:office@navalsy.com" data-office-email class="hover:text-gold transition">office@navalsy.com</a></li>
           <li><a href="tel:+393295857839" class="hover:text-gold transition">+39 329 585 7839</a></li>
-          <li>Canada • France • Italy • Spain — and all around the world!</li>
+          <li data-i18n="footer.countries">Canada • France • Italy • Spain — and all around the world!</li>
         </ul>
       </div>
     </div>
     <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-      <span>© 2026 NavalSy Refitting — Ship Refitting &amp; Hospitality Services</span>
+      <span data-i18n="footer.copy">© 2026 NavalSy Refitting — Ship Refitting &amp; Hospitality Services</span>
     </div>
   </div>
 </footer>
@@ -1151,11 +1176,11 @@
         <div id="smGallery"></div>
         <div class="mt-7 pt-6 border-t border-white/10 grid sm:grid-cols-2 gap-3">
           <button id="smQuoteBtn"
-            class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold py-3.5 rounded-xl transition-all duration-300">
+            class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold py-3.5 rounded-xl transition-all duration-300" data-i18n="cta.quote">
             Request a Quote
           </button>
           <button id="smApplyBtn"
-            class="border border-white/20 text-slate-200 hover:border-gold hover:text-gold font-semibold py-3.5 rounded-xl transition-all duration-300">
+            class="border border-white/20 text-slate-200 hover:border-gold hover:text-gold font-semibold py-3.5 rounded-xl transition-all duration-300" data-i18n="cta.work">
             Work with us!
           </button>
         </div>
@@ -1166,26 +1191,26 @@
     <div id="smQuoteView" class="sm-formview" hidden>
       <button class="sm-back" data-back>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 19l-7-7 7-7"/></svg>
-        Back to services
+        <span data-i18n="m.back">Back to services</span>
       </button>
-      <h3 class="font-sora text-2xl font-bold mb-1">Request a Quote</h3>
-      <p class="text-slate-400 text-sm mb-6">For companies — hire NavalSy teams</p>
+      <h3 class="font-sora text-2xl font-bold mb-1" data-i18n="f.requestQuote">Request a Quote</h3>
+      <p class="text-slate-400 text-sm mb-6" data-i18n="f.companyDesc">For companies — hire NavalSy teams</p>
       <form id="smQuoteForm" class="space-y-4" novalidate>
         <div>
-          <label class="block text-[11px] uppercase tracking-widest text-gold mb-1.5">Service required — preselected</label>
+          <label class="block text-[11px] uppercase tracking-widest text-gold mb-1.5" data-i18n="m.servicePresel">Service required — preselected</label>
           <select name="service" id="smQuoteService" class="field-hl"></select>
         </div>
-        <input name="company" required placeholder="Company Name *" class="field w-full rounded-xl px-5 py-3.5" />
+        <input name="company" required placeholder="Company Name *" data-i18n-ph="f.companyName" class="field w-full rounded-xl px-5 py-3.5" />
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="contact" required placeholder="Contact Person *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="email" type="email" required placeholder="Business Email *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="contact" required placeholder="Contact Person *" data-i18n-ph="f.contactPerson" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="email" type="email" required placeholder="Business Email *" data-i18n-ph="f.bizEmail" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="country" required placeholder="Country / Shipyard *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="workers" type="number" min="1" placeholder="Workers Needed" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="country" required placeholder="Country / Shipyard *" data-i18n-ph="f.countryYard" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="workers" type="number" min="1" placeholder="Workers Needed" data-i18n-ph="f.workersNeeded" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
-        <textarea name="details" rows="4" placeholder="Describe your project" class="field w-full rounded-xl px-5 py-3.5"></textarea>
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+        <textarea name="details" rows="4" placeholder="Describe your project" data-i18n-ph="f.describeProj" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300" data-i18n="f.sendReq">
           Send Request
         </button>
         <p id="smQuoteError" class="hidden text-red-400 text-sm text-center"></p>
@@ -1194,9 +1219,9 @@
         <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Request sent</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you. We'll reply with a tailored quote within 24 hours.</p>
-        <button type="button" data-back class="text-gold text-sm font-semibold hover:underline">Back to services</button>
+        <h4 class="font-sora text-xl font-bold mb-2" data-i18n="f.reqSent">Request sent</h4>
+        <p class="text-slate-400 text-sm mb-6" data-i18n="f.reqSentD">Thank you. We'll reply with a tailored quote within 24 hours.</p>
+        <button type="button" data-back class="text-gold text-sm font-semibold hover:underline" data-i18n="m.back">Back to services</button>
       </div>
     </div>
 
@@ -1204,30 +1229,30 @@
     <div id="smApplyView" class="sm-formview" hidden>
       <button class="sm-back" data-back>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 19l-7-7 7-7"/></svg>
-        Back to services
+        <span data-i18n="m.back">Back to services</span>
       </button>
-      <h3 class="font-sora text-2xl font-bold mb-1">Work with us</h3>
-      <p class="text-slate-400 text-sm mb-6">For workers — submit your CV</p>
+      <h3 class="font-sora text-2xl font-bold mb-1" data-i18n="cta.workAlt">Work with us</h3>
+      <p class="text-slate-400 text-sm mb-6" data-i18n="careers.applyD">For workers — submit your CV</p>
       <form id="smApplyForm" class="space-y-4" novalidate>
         <div>
-          <label class="block text-[11px] uppercase tracking-widest text-gold mb-1.5">Specialty you're applying for — preselected</label>
+          <label class="block text-[11px] uppercase tracking-widest text-gold mb-1.5" data-i18n="m.specialtyPresel">Specialty you're applying for — preselected</label>
           <select name="specialty" id="smApplyService" class="field-hl"></select>
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="name" required placeholder="Full Name *" class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="phone" required placeholder="Phone Number *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="name" required placeholder="Full Name *" data-i18n-ph="f.fullName" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="phone" required placeholder="Phone Number *" data-i18n-ph="f.phone" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
-        <input name="email" type="email" required placeholder="Email Address *" class="field w-full rounded-xl px-5 py-3.5" />
-        <input name="country" placeholder="Available in (country)" class="field w-full rounded-xl px-5 py-3.5" />
+        <input name="email" type="email" required placeholder="Email Address *" data-i18n-ph="f.email" class="field w-full rounded-xl px-5 py-3.5" />
+        <input name="country" placeholder="Available in (country)" data-i18n-ph="f.country" class="field w-full rounded-xl px-5 py-3.5" />
         <label class="block cursor-pointer">
           <input type="file" name="cv" id="smCvInput" required accept=".pdf,.doc,.docx" class="hidden" />
           <div class="border-2 border-dashed border-white/15 rounded-xl p-6 text-center transition hover:border-gold/50 hover:bg-gold/5">
             <svg class="w-7 h-7 mx-auto text-gold mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0l-5 5m5-5l5 5M5 20h14"/></svg>
-            <div id="smCvLabel" class="text-slate-300 text-sm font-medium">Upload your CV <span class="text-slate-500">(PDF / DOC) *</span></div>
+            <div id="smCvLabel" class="text-slate-300 text-sm font-medium"><span data-i18n="f.uploadCV">Upload your CV</span> <span class="text-slate-500" data-i18n="f.uploadCVHint">(PDF / DOC) *</span></div>
           </div>
         </label>
-        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" class="field w-full rounded-xl px-5 py-3.5"></textarea>
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+        <textarea name="message" rows="3" placeholder="Short message (experience, availability...)" data-i18n-ph="f.message" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300" data-i18n="f.sendApp">
           Send Application
         </button>
         <p id="smApplyError" class="hidden text-red-400 text-sm text-center"></p>
@@ -1236,10 +1261,10 @@
         <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
-        <p class="text-slate-400 text-sm mb-2">Thank you. Our recruitment team will contact you shortly.</p>
-        <p class="text-xs text-gold-light mb-6">Please also email your CV to <a href="mailto:office@navalsy.com" class="underline">office@navalsy.com</a> mentioning this application.</p>
-        <button type="button" data-back class="text-gold text-sm font-semibold hover:underline">Back to services</button>
+        <h4 class="font-sora text-xl font-bold mb-2" data-i18n="f.appReceived">Application received</h4>
+        <p class="text-slate-400 text-sm mb-2" data-i18n="f.appReceivedD">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-xs text-gold-light mb-6" data-i18n="f.cvNote">Please also email your CV to office@navalsy.com mentioning this application.</p>
+        <button type="button" data-back class="text-gold text-sm font-semibold hover:underline" data-i18n="m.back">Back to services</button>
       </div>
     </div>
   </div>
@@ -1254,13 +1279,13 @@
     </button>
 
     <div class="tm-content">
-      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2">Our People</div>
-      <h3 class="font-sora text-2xl md:text-3xl font-bold mb-1">The NavalSy Team</h3>
-      <p class="text-slate-400 text-sm mb-8">The people behind the projects — click on a team leader to read more, or on the office coordinator to view contact details.</p>
+      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2" data-i18n="tm.our">Our People</div>
+      <h3 class="font-sora text-2xl md:text-3xl font-bold mb-1" data-i18n="tm.title">The NavalSy Team</h3>
+      <p class="text-slate-400 text-sm mb-8" data-i18n="tm.subtitle">The people behind the projects — click on a team leader to read more, or on the office coordinator to view contact details.</p>
 
       <!-- TEAM LEADERS -->
       <div class="mb-9">
-        <div class="tm-section-title">Team Leaders</div>
+        <div class="tm-section-title" data-i18n="tm.leadersT">Team Leaders</div>
         <div class="grid grid-cols-3 gap-3 mb-4">
           <button class="tl-thumb" data-leader="1">
             <img src="assets/Team/Team%20Leaders/1.jpg" alt="Paul" loading="lazy" decoding="async" />
@@ -1288,15 +1313,15 @@
 
       <!-- OFFICE COORDINATOR -->
       <div>
-        <div class="tm-section-title">Office Coordinator</div>
+        <div class="tm-section-title" data-i18n="tm.ocT">Office Coordinator</div>
         <button data-show-contact="bianca" class="team-card team-card-row group">
           <div class="trow-photo" style="background-image:url('assets/Team/Bianca%20-%20Office%20Coordinator/dca414b5-c15c-46bc-aff6-32d6455a07cf.jpg')"></div>
           <div class="trow-info">
             <div class="font-sora font-bold text-white text-lg">Bianca Timis</div>
-            <div class="text-[11px] text-gold-light tracking-widest uppercase mt-1">Office Coordinator</div>
-            <div class="text-sm text-slate-400 mt-3">Click to view contact details</div>
+            <div class="text-[11px] text-gold-light tracking-widest uppercase mt-1" data-i18n="tm.ocRole">Office Coordinator</div>
+            <div class="text-sm text-slate-400 mt-3" data-i18n="tm.clickCont">Click to view contact details</div>
           </div>
-          <span class="team-hint">Contact</span>
+          <span class="team-hint" data-i18n="about.contactHint">Contact</span>
         </button>
       </div>
     </div>
@@ -1321,11 +1346,11 @@
       <div class="cm-buttons">
         <a class="cm-btn cm-btn-wa cm-wa" href="#" target="_blank" rel="noopener">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3c-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
-          Send a message
+          <span data-i18n="cm.sendMsg">Send a message</span>
         </a>
         <a class="cm-btn cm-btn-em cm-em" href="#">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
-          Send an email
+          <span data-i18n="cm.sendEmail">Send an email</span>
         </a>
       </div>
     </div>
@@ -1340,12 +1365,12 @@
       <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div class="em-content">
-      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2">Send a message</div>
-      <h3 class="font-sora text-2xl font-bold mb-1">Email <span id="emRecipientName">someone</span></h3>
-      <p class="text-slate-400 text-sm mb-5">We'll deliver your message directly.</p>
+      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2" data-i18n="em.lbl">Send a message</div>
+      <h3 class="font-sora text-2xl font-bold mb-1"><span data-i18n="em.headPre">Email </span><span id="emRecipientName">someone</span></h3>
+      <p class="text-slate-400 text-sm mb-5" data-i18n="em.intro">We'll deliver your message directly.</p>
 
       <div class="em-to">
-        <div class="em-to-label">To</div>
+        <div class="em-to-label" data-i18n="em.to">To</div>
         <div class="em-to-name"  id="emToNameDisplay"></div>
         <div class="em-to-email" id="emToEmailDisplay"></div>
       </div>
@@ -1354,12 +1379,12 @@
         <input type="hidden" name="to_name"  id="emToName" />
         <input type="hidden" name="to_email" id="emToEmail" />
         <div class="grid sm:grid-cols-2 gap-4">
-          <input name="name"  required placeholder="Your name *"  class="field w-full rounded-xl px-5 py-3.5" />
-          <input name="email" type="email" required placeholder="Your email *" class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="name"  required placeholder="Your name *"  data-i18n-ph="em.yourName"  class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="email" type="email" required placeholder="Your email *" data-i18n-ph="em.yourEmail" class="field w-full rounded-xl px-5 py-3.5" />
         </div>
-        <input name="topic" placeholder="Subject (optional)" class="field w-full rounded-xl px-5 py-3.5" />
-        <textarea name="message" rows="5" required placeholder="Your message *" class="field w-full rounded-xl px-5 py-3.5"></textarea>
-        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+        <input name="topic" placeholder="Subject (optional)" data-i18n-ph="em.subject" class="field w-full rounded-xl px-5 py-3.5" />
+        <textarea name="message" rows="5" required placeholder="Your message *" data-i18n-ph="em.message" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300" data-i18n="em.send">
           Send message
         </button>
         <p id="emailError" class="hidden text-red-400 text-sm text-center"></p>
@@ -1369,9 +1394,9 @@
         <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h4 class="font-sora text-xl font-bold mb-2">Message sent</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you — we'll get back to you shortly.</p>
-        <button type="button" id="emailClose2" class="text-gold text-sm font-semibold hover:underline">Close</button>
+        <h4 class="font-sora text-xl font-bold mb-2" data-i18n="em.sent">Message sent</h4>
+        <p class="text-slate-400 text-sm mb-6" data-i18n="em.sentD">Thank you — we'll get back to you shortly.</p>
+        <button type="button" id="emailClose2" class="text-gold text-sm font-semibold hover:underline" data-i18n="em.close">Close</button>
       </div>
     </div>
   </div>
@@ -1402,6 +1427,533 @@
 </button>
 
 <script>
+/* ============================================================
+   I18N — EN / IT / RO
+   Translations are natural, not literal.
+   ============================================================ */
+const I18N = {
+  en: {
+    topbar:       "Ship Refitting & Hospitality Services — Operating across Europe",
+    "nav.home":     "Home",
+    "nav.about":    "About",
+    "nav.services": "Services",
+    "nav.projects": "Projects",
+    "cta.quote":    "Request a Quote",
+    "cta.work":     "Work with us!",
+    "cta.workAlt":  "Work With Us",
+
+    "hero.badge":   "NavalSy Refitting",
+    "hero.l1":      "Ship Refitting",
+    "hero.l2a":     "& ",
+    "hero.l2b":     "Hospitality",
+    "hero.l3":      "Services",
+    "hero.desc":    "Skilled teams for cruise ship refitting, insulation, accommodation works, cleaning and hospitality services — mobilized fast, across Europe.",
+    "hero.trusted": "Trusted by shipyards in",
+
+    "stats.title":     "NavalSy in Numbers",
+    "stats.live":      "Live",
+    "stats.workers":   "Skilled Workers",
+    "stats.countries": "Countries Active",
+    "stats.deploy":    "Rapid Deployment",
+    "stats.projects":  "Active Projects",
+    "stats.see":       "See recent works",
+
+    "team.lbl":     "NavalSy Refitting",
+    "team.headPre": "This is ",
+    "team.headHi":  "our team!",
+    "team.desc":    "104+ skilled professionals delivering ship refitting projects across Europe.",
+    "team.capCrew": "The NavalSy crew — on site, ready to deliver",
+
+    "about.lbl":        "About Us",
+    "about.head1":      "Real Teams.",
+    "about.head2":      "Real Shipyard Experience.",
+    "about.p1":         "NavalSy Refitting provides qualified teams for ship refitting projects across Europe. We specialize in accommodation works, insulation, onboard support and hospitality services.",
+    "about.p2":         "Our teams are already active in Italy, France, Spain and Canada — supporting marine contractors and cruise ship projects with fast mobilization and reliable execution.",
+    "about.fCert":      "Certified Crews",
+    "about.fCertD":     "Trained, documented, ready",
+    "about.fFast":      "Fast Mobilization",
+    "about.fFastD":     "On-site within 24 hours",
+    "about.founders":   "Founders",
+    "about.founderRole":"Founder",
+    "about.contactHint":"Contact",
+    "about.learnMore":  "Learn more about the team",
+
+    "svc.lbl":      "Services",
+    "svc.h1":       "Marine & Hospitality ",
+    "svc.h2":       "Services",
+    "svc.hint":     "Click any service for details, photos & to request a quote",
+    "svc.coreT":    "Core Services",
+    "svc.hospT":    "Hospitality & Cleaning",
+
+    "why.lbl":      "Why NavalSy",
+    "why.h1":       "Built for ",
+    "why.h2":       "Demanding Shipyards",
+
+    "works.lbl":      "Projects",
+    "works.h1":       "Recent ",
+    "works.h2":       "Works",
+    "works.start":    "Start your project",
+    "works.viewProj": "View project",
+    "works.workers":  "workers",
+    "works.vessel":   "Vessel",
+
+    "careers.lbl":      "Careers",
+    "careers.h1":       "Join Our Teams",
+    "careers.h2":       "Across Europe",
+    "careers.desc":     "We are constantly looking for skilled workers for marine projects, ship refitting and cleaning services. Submit your CV and our recruitment team will contact you.",
+    "careers.apply":    "Apply Now",
+    "careers.applyD":   "For workers — submit your CV",
+    "f.fullName":       "Full Name *",
+    "f.phone":          "Phone Number *",
+    "f.email":          "Email Address *",
+    "f.position":       "Select Position *",
+    "f.country":        "Available in (country)",
+    "f.uploadCV":       "Upload your CV",
+    "f.uploadCVHint":   "(PDF / DOC) *",
+    "f.message":        "Short message (experience, availability...)",
+    "f.sendApp":        "Send Application",
+    "f.appReceived":    "Application received",
+    "f.appReceivedD":   "Thank you. Our recruitment team will contact you shortly.",
+    "f.cvNote":         "Please also email your CV to office@navalsy.com mentioning this application.",
+    "f.submitAnother":  "Submit another application",
+
+    "contact.lbl":      "Contact",
+    "contact.h1":       "Let's Discuss Your",
+    "contact.h2":       "Next Project",
+    "contact.desc":     "Need an experienced team for a refitting project? Tell us what you need and we'll send a tailored quote.",
+    "contact.email":    "Email",
+    "contact.phone":    "Phone",
+    "contact.wa":       "WhatsApp",
+    "contact.waD":      "Available 24/7 for inquiries",
+    "f.requestQuote":   "Request a Quote",
+    "f.companyDesc":    "For companies — hire NavalSy teams",
+    "f.companyName":    "Company Name *",
+    "f.contactPerson":  "Contact Person *",
+    "f.bizEmail":       "Business Email *",
+    "f.countryYard":    "Country / Shipyard *",
+    "f.workersNeeded":  "Workers Needed",
+    "f.serviceReq":     "Service Required *",
+    "f.describeProj":   "Describe your project *",
+    "f.sendReq":        "Send Request",
+    "f.reqSent":        "Request sent",
+    "f.reqSentD":       "Thank you. We'll get back to you with a tailored quote within 24 hours.",
+    "f.sendAnother":    "Send another request",
+
+    "footer.tagline":   "Ship refitting & hospitality services. Skilled teams for cruise ship refitting, insulation, accommodation and hospitality — across Europe.",
+    "footer.nav":       "Navigation",
+    "footer.contact":   "Contact",
+    "footer.countries": "Canada • France • Italy • Spain — and all around the world!",
+    "footer.copy":      "© 2026 NavalSy Refitting — Ship Refitting & Hospitality Services",
+
+    // modals
+    "m.back":            "Back to services",
+    "m.service":         "Service",
+    "m.servicePresel":   "Service required — preselected",
+    "m.specialtyPresel": "Specialty you're applying for — preselected",
+    "m.galleryTitle":    "Gallery",
+    "m.bdaTitle":        "Before / During / After",
+    "m.photosSoon":      "Project photos for this service will be added soon.",
+    "m.photosSoon2":     "Project photos coming soon",
+
+    // project modal
+    "pm.shipyard":  "Shipyard",
+    "pm.workersD":  "deployed",
+    "pm.location":  "Location",
+
+    // team modal
+    "tm.our":        "Our People",
+    "tm.title":      "The NavalSy Team",
+    "tm.subtitle":   "The people behind the projects — click on a team leader to read more, or on the office coordinator to view contact details.",
+    "tm.leadersT":   "Team Leaders",
+    "tm.ocT":        "Office Coordinator",
+    "tm.ocRole":     "Office Coordinator",
+    "tm.clickCont":  "Click to view contact details",
+    "tm.bioSoon":    "Experience and personal background to be added — full bio coming soon.",
+    "tm.leader":     "Team Leader",
+
+    // contact card
+    "cm.sendMsg":   "Send a message",
+    "cm.sendEmail": "Send an email",
+
+    // email modal
+    "em.lbl":      "Send a message",
+    "em.headPre":  "Email ",
+    "em.intro":    "We'll deliver your message directly.",
+    "em.to":       "To",
+    "em.yourName": "Your name *",
+    "em.yourEmail":"Your email *",
+    "em.subject":  "Subject (optional)",
+    "em.message":  "Your message *",
+    "em.send":     "Send message",
+    "em.sent":     "Message sent",
+    "em.sentD":    "Thank you — we'll get back to you shortly.",
+    "em.close":    "Close",
+
+    // states
+    "sending":   "Sending…",
+    "errSubmit": "Something went wrong sending the message. Please try again, or email us directly at ",
+    "errInvalid":"Please complete all required fields (*) correctly.",
+
+    // office contact in compose modal
+    "office.name": "NavalSy Office",
+    "office.role": "General inquiries"
+  },
+
+  it: {
+    topbar:       "Servizi di Refitting Navale & Hospitality — Attivi in tutta Europa",
+    "nav.home":     "Home",
+    "nav.about":    "Chi siamo",
+    "nav.services": "Servizi",
+    "nav.projects": "Progetti",
+    "cta.quote":    "Richiedi un Preventivo",
+    "cta.work":     "Lavora con noi!",
+    "cta.workAlt":  "Lavora con noi",
+
+    "hero.badge":   "NavalSy Refitting",
+    "hero.l1":      "Refitting Navale",
+    "hero.l2a":     "& Servizi di ",
+    "hero.l2b":     "Hospitality",
+    "hero.l3":      "",
+    "hero.desc":    "Squadre qualificate per refitting di navi da crociera, coibentazioni, lavori di cabina, pulizie e servizi di hospitality — mobilitate rapidamente, in tutta Europa.",
+    "hero.trusted": "Scelti dai cantieri di",
+
+    "stats.title":     "NavalSy in Numeri",
+    "stats.live":      "Live",
+    "stats.workers":   "Operai Qualificati",
+    "stats.countries": "Paesi Attivi",
+    "stats.deploy":    "Mobilitazione Rapida",
+    "stats.projects":  "Progetti Attivi",
+    "stats.see":       "Guarda i lavori recenti",
+
+    "team.lbl":     "NavalSy Refitting",
+    "team.headPre": "Questa è ",
+    "team.headHi":  "la nostra squadra!",
+    "team.desc":    "Oltre 104 professionisti qualificati che realizzano progetti di refitting navale in tutta Europa.",
+    "team.capCrew": "La squadra NavalSy — sul posto, pronta a consegnare",
+
+    "about.lbl":        "Chi Siamo",
+    "about.head1":      "Squadre vere.",
+    "about.head2":      "Vera esperienza di cantiere.",
+    "about.p1":         "NavalSy Refitting fornisce squadre qualificate per progetti di refitting navale in tutta Europa. Siamo specializzati in lavori di cabina, coibentazioni, supporto a bordo e servizi di hospitality.",
+    "about.p2":         "Le nostre squadre sono già attive in Italia, Francia, Spagna e Canada — affiancando contractor navali e progetti di navi da crociera con mobilitazione rapida ed esecuzione affidabile.",
+    "about.fCert":      "Equipaggi Certificati",
+    "about.fCertD":     "Formati, documentati, pronti",
+    "about.fFast":      "Mobilitazione Rapida",
+    "about.fFastD":     "Sul posto entro 24 ore",
+    "about.founders":   "Fondatori",
+    "about.founderRole":"Fondatore",
+    "about.contactHint":"Contatta",
+    "about.learnMore":  "Scopri di più sulla squadra",
+
+    "svc.lbl":      "Servizi",
+    "svc.h1":       "Servizi Navali & ",
+    "svc.h2":       "Hospitality",
+    "svc.hint":     "Clicca su un servizio per dettagli, foto e per richiedere un preventivo",
+    "svc.coreT":    "Servizi Principali",
+    "svc.hospT":    "Hospitality e Pulizie",
+
+    "why.lbl":      "Perché NavalSy",
+    "why.h1":       "Pensati per i ",
+    "why.h2":       "cantieri più esigenti",
+
+    "works.lbl":      "Progetti",
+    "works.h1":       "Lavori ",
+    "works.h2":       "Recenti",
+    "works.start":    "Inizia il tuo progetto",
+    "works.viewProj": "Vedi il progetto",
+    "works.workers":  "operai",
+    "works.vessel":   "Imbarcazione",
+
+    "careers.lbl":      "Carriere",
+    "careers.h1":       "Unisciti alle Nostre Squadre",
+    "careers.h2":       "In tutta Europa",
+    "careers.desc":     "Cerchiamo costantemente operai qualificati per progetti navali, refitting e servizi di pulizia. Invia il tuo CV e il nostro team di recruiting ti contatterà.",
+    "careers.apply":    "Candidati Ora",
+    "careers.applyD":   "Per i lavoratori — invia il tuo CV",
+    "f.fullName":       "Nome e Cognome *",
+    "f.phone":          "Numero di Telefono *",
+    "f.email":          "Indirizzo Email *",
+    "f.position":       "Seleziona Posizione *",
+    "f.country":        "Disponibile in (paese)",
+    "f.uploadCV":       "Carica il tuo CV",
+    "f.uploadCVHint":   "(PDF / DOC) *",
+    "f.message":        "Breve messaggio (esperienza, disponibilità...)",
+    "f.sendApp":        "Invia Candidatura",
+    "f.appReceived":    "Candidatura ricevuta",
+    "f.appReceivedD":   "Grazie. Il nostro team di recruiting ti contatterà a breve.",
+    "f.cvNote":         "Invia anche il tuo CV via email a office@navalsy.com menzionando questa candidatura.",
+    "f.submitAnother":  "Invia un'altra candidatura",
+
+    "contact.lbl":      "Contatti",
+    "contact.h1":       "Parliamo del tuo",
+    "contact.h2":       "prossimo progetto",
+    "contact.desc":     "Cerchi una squadra esperta per un progetto di refitting? Raccontaci di cosa hai bisogno e ti invieremo un preventivo su misura.",
+    "contact.email":    "Email",
+    "contact.phone":    "Telefono",
+    "contact.wa":       "WhatsApp",
+    "contact.waD":      "Disponibili 24/7 per qualsiasi richiesta",
+    "f.requestQuote":   "Richiedi un Preventivo",
+    "f.companyDesc":    "Per le aziende — ingaggia le squadre NavalSy",
+    "f.companyName":    "Nome Azienda *",
+    "f.contactPerson":  "Persona di Riferimento *",
+    "f.bizEmail":       "Email Aziendale *",
+    "f.countryYard":    "Paese / Cantiere *",
+    "f.workersNeeded":  "Operai Necessari",
+    "f.serviceReq":     "Servizio Richiesto *",
+    "f.describeProj":   "Descrivi il tuo progetto *",
+    "f.sendReq":        "Invia Richiesta",
+    "f.reqSent":        "Richiesta inviata",
+    "f.reqSentD":       "Grazie. Ti risponderemo con un preventivo su misura entro 24 ore.",
+    "f.sendAnother":    "Invia un'altra richiesta",
+
+    "footer.tagline":   "Servizi di refitting navale e hospitality. Squadre qualificate per refitting di navi da crociera, coibentazioni, alloggi e hospitality — in tutta Europa.",
+    "footer.nav":       "Navigazione",
+    "footer.contact":   "Contatti",
+    "footer.countries": "Canada • Francia • Italia • Spagna — e in tutto il mondo!",
+    "footer.copy":      "© 2026 NavalSy Refitting — Servizi di Refitting Navale e Hospitality",
+
+    "m.back":            "Torna ai servizi",
+    "m.service":         "Servizio",
+    "m.servicePresel":   "Servizio richiesto — preselezionato",
+    "m.specialtyPresel": "Specialità per cui ti candidi — preselezionata",
+    "m.galleryTitle":    "Galleria",
+    "m.bdaTitle":        "Prima / Durante / Dopo",
+    "m.photosSoon":      "Le foto dei progetti per questo servizio verranno aggiunte a breve.",
+    "m.photosSoon2":     "Foto dei progetti in arrivo",
+
+    "pm.shipyard":  "Cantiere",
+    "pm.workersD":  "impiegati",
+    "pm.location":  "Località",
+
+    "tm.our":        "Le Nostre Persone",
+    "tm.title":      "La Squadra NavalSy",
+    "tm.subtitle":   "Le persone dietro i progetti — clicca su un team leader per saperne di più, o sulla coordinatrice d'ufficio per i contatti.",
+    "tm.leadersT":   "Team Leader",
+    "tm.ocT":        "Coordinatrice d'Ufficio",
+    "tm.ocRole":     "Coordinatrice d'Ufficio",
+    "tm.clickCont":  "Clicca per vedere i contatti",
+    "tm.bioSoon":    "Esperienza e percorso personale in arrivo — biografia completa a breve.",
+    "tm.leader":     "Team Leader",
+
+    "cm.sendMsg":   "Invia un messaggio",
+    "cm.sendEmail": "Invia un'email",
+
+    "em.lbl":      "Invia un messaggio",
+    "em.headPre":  "Scrivi a ",
+    "em.intro":    "Recapiteremo il tuo messaggio direttamente.",
+    "em.to":       "A",
+    "em.yourName": "Il tuo nome *",
+    "em.yourEmail":"La tua email *",
+    "em.subject":  "Oggetto (facoltativo)",
+    "em.message":  "Il tuo messaggio *",
+    "em.send":     "Invia messaggio",
+    "em.sent":     "Messaggio inviato",
+    "em.sentD":    "Grazie — ti risponderemo a breve.",
+    "em.close":    "Chiudi",
+
+    "sending":   "Invio in corso…",
+    "errSubmit": "Si è verificato un errore durante l'invio. Riprova, oppure scrivici direttamente a ",
+    "errInvalid":"Compila correttamente tutti i campi obbligatori (*).",
+
+    "office.name": "Ufficio NavalSy",
+    "office.role": "Richieste generali"
+  },
+
+  ro: {
+    topbar:       "Servicii de refitting naval & hospitality — Activi în toată Europa",
+    "nav.home":     "Acasă",
+    "nav.about":    "Despre",
+    "nav.services": "Servicii",
+    "nav.projects": "Proiecte",
+    "cta.quote":    "Cere o ofertă",
+    "cta.work":     "Lucrează cu noi!",
+    "cta.workAlt":  "Lucrează cu noi",
+
+    "hero.badge":   "NavalSy Refitting",
+    "hero.l1":      "Refitting Naval",
+    "hero.l2a":     "& Servicii ",
+    "hero.l2b":     "Hospitality",
+    "hero.l3":      "",
+    "hero.desc":    "Echipe calificate pentru refitting de nave de croazieră, izolații, amenajări de cabine, curățenie și servicii de hospitality — mobilizate rapid, în toată Europa.",
+    "hero.trusted": "De încredere pentru șantierele din",
+
+    "stats.title":     "NavalSy în Cifre",
+    "stats.live":      "Live",
+    "stats.workers":   "Muncitori Calificați",
+    "stats.countries": "Țări Active",
+    "stats.deploy":    "Mobilizare Rapidă",
+    "stats.projects":  "Proiecte Active",
+    "stats.see":       "Vezi lucrările recente",
+
+    "team.lbl":     "NavalSy Refitting",
+    "team.headPre": "Aceasta este ",
+    "team.headHi":  "echipa noastră!",
+    "team.desc":    "Peste 104 profesioniști calificați care realizează proiecte de refitting naval în toată Europa.",
+    "team.capCrew": "Echipa NavalSy — pe teren, gata să livreze",
+
+    "about.lbl":        "Despre Noi",
+    "about.head1":      "Echipe reale.",
+    "about.head2":      "Experiență reală în șantier.",
+    "about.p1":         "NavalSy Refitting oferă echipe calificate pentru proiecte de refitting naval în toată Europa. Suntem specializați în amenajări de cabine, izolații, suport la bord și servicii de hospitality.",
+    "about.p2":         "Echipele noastre sunt deja active în Italia, Franța, Spania și Canada — colaborând cu contractori marini și proiecte de nave de croazieră, cu mobilizare rapidă și execuție de încredere.",
+    "about.fCert":      "Echipe Certificate",
+    "about.fCertD":     "Instruite, documentate, gata de lucru",
+    "about.fFast":      "Mobilizare Rapidă",
+    "about.fFastD":     "Pe teren în 24 de ore",
+    "about.founders":   "Fondatori",
+    "about.founderRole":"Fondator",
+    "about.contactHint":"Contactează",
+    "about.learnMore":  "Află mai multe despre echipă",
+
+    "svc.lbl":      "Servicii",
+    "svc.h1":       "Servicii Navale & ",
+    "svc.h2":       "Hospitality",
+    "svc.hint":     "Apasă pe un serviciu pentru detalii, poze și pentru a cere o ofertă",
+    "svc.coreT":    "Servicii Principale",
+    "svc.hospT":    "Hospitality și Curățenie",
+
+    "why.lbl":      "De ce NavalSy",
+    "why.h1":       "Construit pentru ",
+    "why.h2":       "șantierele cele mai exigente",
+
+    "works.lbl":      "Proiecte",
+    "works.h1":       "Lucrări ",
+    "works.h2":       "Recente",
+    "works.start":    "Începe proiectul tău",
+    "works.viewProj": "Vezi proiectul",
+    "works.workers":  "muncitori",
+    "works.vessel":   "Navă",
+
+    "careers.lbl":      "Cariere",
+    "careers.h1":       "Alătură-te echipelor noastre",
+    "careers.h2":       "în toată Europa",
+    "careers.desc":     "Căutăm permanent muncitori calificați pentru proiecte navale, refitting și servicii de curățenie. Trimite-ne CV-ul și echipa de recrutare te va contacta.",
+    "careers.apply":    "Aplică acum",
+    "careers.applyD":   "Pentru muncitori — trimite-ți CV-ul",
+    "f.fullName":       "Nume complet *",
+    "f.phone":          "Număr de telefon *",
+    "f.email":          "Adresă de email *",
+    "f.position":       "Alege poziția *",
+    "f.country":        "Disponibil în (țară)",
+    "f.uploadCV":       "Încarcă CV-ul",
+    "f.uploadCVHint":   "(PDF / DOC) *",
+    "f.message":        "Mesaj scurt (experiență, disponibilitate...)",
+    "f.sendApp":        "Trimite aplicația",
+    "f.appReceived":    "Aplicație primită",
+    "f.appReceivedD":   "Mulțumim. Echipa de recrutare te va contacta în scurt timp.",
+    "f.cvNote":         "Te rugăm să trimiți CV-ul și pe email la office@navalsy.com, menționând această aplicație.",
+    "f.submitAnother":  "Trimite altă aplicație",
+
+    "contact.lbl":      "Contact",
+    "contact.h1":       "Hai să vorbim despre",
+    "contact.h2":       "următorul tău proiect",
+    "contact.desc":     "Cauți o echipă experimentată pentru un proiect de refitting? Spune-ne ce-ți trebuie și îți trimitem o ofertă personalizată.",
+    "contact.email":    "Email",
+    "contact.phone":    "Telefon",
+    "contact.wa":       "WhatsApp",
+    "contact.waD":      "Disponibili 24/7 pentru orice solicitare",
+    "f.requestQuote":   "Cere o ofertă",
+    "f.companyDesc":    "Pentru companii — angajează echipele NavalSy",
+    "f.companyName":    "Numele firmei *",
+    "f.contactPerson":  "Persoană de contact *",
+    "f.bizEmail":       "Email business *",
+    "f.countryYard":    "Țară / Șantier *",
+    "f.workersNeeded":  "Muncitori necesari",
+    "f.serviceReq":     "Serviciu solicitat *",
+    "f.describeProj":   "Descrie proiectul *",
+    "f.sendReq":        "Trimite cererea",
+    "f.reqSent":        "Cerere trimisă",
+    "f.reqSentD":       "Mulțumim. Îți răspundem cu o ofertă personalizată în 24 de ore.",
+    "f.sendAnother":    "Trimite altă cerere",
+
+    "footer.tagline":   "Servicii de refitting naval și hospitality. Echipe calificate pentru refitting de nave de croazieră, izolații, amenajări și hospitality — în toată Europa.",
+    "footer.nav":       "Navigare",
+    "footer.contact":   "Contact",
+    "footer.countries": "Canada • Franța • Italia • Spania — și în toată lumea!",
+    "footer.copy":      "© 2026 NavalSy Refitting — Servicii de refitting naval și hospitality",
+
+    "m.back":            "Înapoi la servicii",
+    "m.service":         "Serviciu",
+    "m.servicePresel":   "Serviciu solicitat — preselectat",
+    "m.specialtyPresel": "Specialitatea pentru care aplici — preselectată",
+    "m.galleryTitle":    "Galerie",
+    "m.bdaTitle":        "Înainte / În timpul / După",
+    "m.photosSoon":      "Pozele cu lucrările pentru acest serviciu vor fi adăugate în curând.",
+    "m.photosSoon2":     "Pozele proiectului urmează în curând",
+
+    "pm.shipyard":  "Șantier",
+    "pm.workersD":  "alocați",
+    "pm.location":  "Locație",
+
+    "tm.our":        "Echipa Noastră",
+    "tm.title":      "Echipa NavalSy",
+    "tm.subtitle":   "Oamenii din spatele proiectelor — apasă pe un team leader pentru detalii, sau pe coordonatoarea de birou pentru contact.",
+    "tm.leadersT":   "Team Leaders",
+    "tm.ocT":        "Coordonatoare de birou",
+    "tm.ocRole":     "Coordonatoare de birou",
+    "tm.clickCont":  "Apasă pentru detalii de contact",
+    "tm.bioSoon":    "Experiența și parcursul personal urmează — biografia completă în curând.",
+    "tm.leader":     "Team Leader",
+
+    "cm.sendMsg":   "Trimite un mesaj",
+    "cm.sendEmail": "Trimite un email",
+
+    "em.lbl":      "Trimite un mesaj",
+    "em.headPre":  "Scrie-i lui ",
+    "em.intro":    "Mesajul ajunge direct la el/ea.",
+    "em.to":       "Către",
+    "em.yourName": "Numele tău *",
+    "em.yourEmail":"Email-ul tău *",
+    "em.subject":  "Subiect (opțional)",
+    "em.message":  "Mesajul tău *",
+    "em.send":     "Trimite mesajul",
+    "em.sent":     "Mesaj trimis",
+    "em.sentD":    "Mulțumim — îți răspundem în scurt timp.",
+    "em.close":    "Închide",
+
+    "sending":   "Se trimite…",
+    "errSubmit": "Ceva n-a mers la trimitere. Încearcă din nou, sau scrie-ne direct la ",
+    "errInvalid":"Te rugăm să completezi corect toate câmpurile obligatorii (*).",
+
+    "office.name": "Biroul NavalSy",
+    "office.role": "Solicitări generale"
+  }
+};
+
+let LANG = (function(){
+  try {
+    const stored = localStorage.getItem('navalsy.lang');
+    if(stored && I18N[stored]) return stored;
+  } catch(e){}
+  const b = (navigator.language || 'en').slice(0,2).toLowerCase();
+  return I18N[b] ? b : 'en';
+})();
+
+function t(key){
+  return (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || key;
+}
+// pick the right variant of a {en,it,ro} object (or fall back to en, or the value itself if it's a plain string)
+function L(field){
+  if(field == null) return '';
+  if(typeof field === 'string') return field;
+  return field[LANG] || field.en || '';
+}
+
+function applyTranslations(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === LANG));
+  if(window.__renderDynamic) window.__renderDynamic();
+}
+function setLang(lang){
+  if(!I18N[lang]) return;
+  LANG = lang;
+  try { localStorage.setItem('navalsy.lang', lang); } catch(e){}
+  applyTranslations();
+}
+
 /* ---------- BACKEND ---------- */
 // Web3Forms access key (delivers all form submissions to office@navalsy.com).
 // Upgrade to paid plan at web3forms.com to unlock CV file attachments — code stays the same.
@@ -1422,30 +1974,90 @@ async function submitToWeb3Forms(formEl, extras){
 
 /* ---------- DATA ---------- */
 const services = [
-  {name:"Refit Packages", group:"core", photos:[],
-   desc:"Complete refit packages tailored to the scope of each project. Our experienced crews deliver end-to-end work across multiple trades — managed as one coordinated package so the yard and the operator deal with a single, accountable team that owns the result from start to finish."},
-  {name:"Demolition & Rebuild", group:"core", photos:[],
-   desc:"Full strip-out and rebuild work, from cabins to public areas. Our skilled professionals handle every stage — controlled demolition, structural rework, insulation, panelling and finishing — bringing tired spaces back to a like-new, cruise-line standard with no shortcuts."},
-  {name:"Cabin & Public Area Refurbishment", group:"core", photos:[],
-   desc:"Refurbishment of guest cabins, suites and public areas to genuine hospitality quality. Panelling, flooring, fit-out and finishing carried out by detail-focused teams that understand the look and feel a premium vessel needs — every surface inspected, every detail right."},
-  {name:"Mobile Teams & Fast Mobilisation", group:"core", photos:[],
-   desc:"Mobile crews ready to deploy across Europe within 24 hours. When your dry-dock window or yard schedule shifts, our teams move fast, set up quickly and integrate seamlessly with main contractors — keeping your project on track when every hour counts."},
-  {name:"Site Coordination & Progress Reporting", group:"core", photos:[],
-   desc:"Hands-on site coordination with clear, regular progress reporting. Our supervisors track manpower, scope and quality on the ground and keep your project manager informed at every stage — so you always know exactly where the work stands, with no surprises."},
-  {name:"General Cleaning", group:"hosp", photos:[],
-   desc:"Professional general cleaning carried out by trained teams who understand the exacting standards of cruise and marine environments. Thorough, discreet and dependable — our staff leave every space spotless and ready for guests or the next stage of work."},
-  {name:"Carpet Cleaning", group:"hosp", photos:[],
-   desc:"Deep carpet cleaning that restores cabins, corridors and public areas to like-new condition. Our specialists use the right equipment and proven methods for marine carpeting, lifting stains and odours without damaging fibres — a careful, professional finish every time."},
-  {name:"Wallpaper Cleaning", group:"hosp", photos:[],
-   desc:"Specialist wallpaper and wall-covering cleaning by careful, experienced hands. We refresh delicate surfaces in guest areas without marks or damage, preserving the original finish while restoring a clean, premium look throughout the vessel."},
-  {name:"Deep Cleaning Services", group:"hosp", photos:[],
-   desc:"Intensive deep cleaning for spaces that need far more than a routine service. Our teams tackle built-up grime, technical areas and post-works residue with professional products and a methodical approach — a genuinely thorough, reliable result."},
-  {name:"Accommodation Area Cleaning", group:"hosp", photos:[],
-   desc:"Detailed cleaning of cabins and crew accommodation, delivered to true hospitality standards. Our teams turn around large numbers of rooms efficiently and consistently, so every space is fresh, hygienic and fully guest-ready."},
-  {name:"Turnover Cleaning After Refit", group:"hosp", photos:[],
-   desc:"Post-refit turnover cleaning that takes a vessel from a working site to guest-ready. We remove all construction dust and residue, detail every surface and hand over clean, presentable spaces — the final, essential step that makes a refit shine."},
-  {name:"Dedicated Female Teams Available", group:"hosp", photos:[],
-   desc:"Dedicated female cleaning and hospitality teams, available on request. Experienced, professional and trusted by our partners, these teams give you full flexibility in crewing while maintaining the same consistently high standard across every task."}
+  { group:"core", photos:[],
+    name:{ en:"Refit Packages", it:"Pacchetti di Refitting", ro:"Pachete de refitting" },
+    desc:{
+      en:"Complete refit packages tailored to the scope of each project. Our experienced crews deliver end-to-end work across multiple trades — managed as one coordinated package so the yard and the operator deal with a single, accountable team that owns the result from start to finish.",
+      it:"Pacchetti di refitting completi, su misura per la portata di ogni progetto. Le nostre squadre esperte realizzano il lavoro end-to-end su più specialità — gestito come un unico pacchetto coordinato, così cantiere e armatore hanno un unico interlocutore responsabile dall'inizio alla fine.",
+      ro:"Pachete complete de refitting, adaptate la specificul fiecărui proiect. Echipele noastre experimentate execută lucrarea integral, pe mai multe specialități — gestionate ca un pachet unic coordonat, astfel încât șantierul și operatorul au un singur interlocutor responsabil de la început până la final."
+    }},
+  { group:"core", photos:[],
+    name:{ en:"Demolition & Rebuild", it:"Demolizione e Ricostruzione", ro:"Demolare și reconstrucție" },
+    desc:{
+      en:"Full strip-out and rebuild work, from cabins to public areas. Our skilled professionals handle every stage — controlled demolition, structural rework, insulation, panelling and finishing — bringing tired spaces back to a like-new, cruise-line standard with no shortcuts.",
+      it:"Smantellamento totale e ricostruzione, dalle cabine alle aree comuni. I nostri professionisti gestiscono ogni fase — demolizione controllata, rifacimento strutturale, coibentazioni, pannellature e finiture — riportando gli spazi consumati a uno standard come-nuovo, senza scorciatoie.",
+      ro:"Demolare completă și reconstrucție, de la cabine la zone comune. Profesioniștii noștri gestionează fiecare etapă — demolare controlată, refacere structurală, izolații, panouri și finisaje — readucând spațiile uzate la standard ca-nou, fără compromisuri."
+    }},
+  { group:"core", photos:[],
+    name:{ en:"Cabin & Public Area Refurbishment", it:"Rinnovo Cabine e Aree Comuni", ro:"Renovare cabine și zone comune" },
+    desc:{
+      en:"Refurbishment of guest cabins, suites and public areas to genuine hospitality quality. Panelling, flooring, fit-out and finishing carried out by detail-focused teams that understand the look and feel a premium vessel needs — every surface inspected, every detail right.",
+      it:"Rinnovo di cabine, suite e aree comuni a una vera qualità hospitality. Pannellature, pavimentazioni, allestimento e finiture eseguite da squadre attente al dettaglio, che conoscono l'estetica e il livello richiesti da una nave premium — ogni superficie controllata, ogni dettaglio curato.",
+      ro:"Renovare de cabine, suite și zone comune la o calitate reală de hospitality. Panouri, pardoseli, amenajări și finisaje executate de echipe atente la detalii, care înțeleg aspectul cerut de o navă premium — fiecare suprafață verificată, fiecare detaliu pus la punct."
+    }},
+  { group:"core", photos:[],
+    name:{ en:"Mobile Teams & Fast Mobilisation", it:"Squadre Mobili e Mobilitazione Rapida", ro:"Echipe mobile și mobilizare rapidă" },
+    desc:{
+      en:"Mobile crews ready to deploy across Europe within 24 hours. When your dry-dock window or yard schedule shifts, our teams move fast, set up quickly and integrate seamlessly with main contractors — keeping your project on track when every hour counts.",
+      it:"Squadre mobili pronte a partire in tutta Europa entro 24 ore. Quando la finestra di dry-dock o il programma di cantiere cambia, le nostre squadre si muovono in fretta, si insediano rapidamente e si integrano senza attriti con il main contractor — tenendo il progetto in pista quando ogni ora conta.",
+      ro:"Echipe mobile gata să plece în toată Europa în 24 de ore. Când fereastra de dry-dock sau programul de șantier se modifică, echipele noastre se mobilizează rapid, se instalează imediat și se integrează fără probleme cu contractorul principal — ținând proiectul pe traseu când fiecare oră contează."
+    }},
+  { group:"core", photos:[],
+    name:{ en:"Site Coordination & Progress Reporting", it:"Coordinamento Cantiere e Report di Avanzamento", ro:"Coordonare șantier și rapoarte de progres" },
+    desc:{
+      en:"Hands-on site coordination with clear, regular progress reporting. Our supervisors track manpower, scope and quality on the ground and keep your project manager informed at every stage — so you always know exactly where the work stands, with no surprises.",
+      it:"Coordinamento operativo in cantiere con report di avanzamento chiari e regolari. I nostri supervisori monitorano forza lavoro, scope e qualità sul campo e tengono informato il vostro project manager in ogni fase — così sapete sempre esattamente a che punto è il lavoro, senza sorprese.",
+      ro:"Coordonare operațională în șantier, cu rapoarte de progres clare și regulate. Supervizorii noștri urmăresc resursa umană, scope-ul și calitatea pe teren și îl țin la curent pe project manager-ul vostru în fiecare etapă — astfel încât știți mereu exact unde e lucrarea, fără surprize."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"General Cleaning", it:"Pulizie Generali", ro:"Curățenie generală" },
+    desc:{
+      en:"Professional general cleaning carried out by trained teams who understand the exacting standards of cruise and marine environments. Thorough, discreet and dependable — our staff leave every space spotless and ready for guests or the next stage of work.",
+      it:"Pulizie generali professionali eseguite da squadre formate che conoscono gli standard rigorosi degli ambienti crocieristici e navali. Accurate, discrete e affidabili — il nostro personale lascia ogni spazio impeccabile e pronto per gli ospiti o per la fase di lavoro successiva.",
+      ro:"Curățenie generală profesionistă efectuată de echipe instruite, care cunosc standardele exigente ale mediilor de croazieră și navale. Riguroasă, discretă și de încredere — personalul nostru lasă fiecare spațiu impecabil și gata pentru oaspeți sau pentru următoarea etapă de lucru."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Carpet Cleaning", it:"Pulizia Tappeti e Moquette", ro:"Curățarea mochetelor" },
+    desc:{
+      en:"Deep carpet cleaning that restores cabins, corridors and public areas to like-new condition. Our specialists use the right equipment and proven methods for marine carpeting, lifting stains and odours without damaging fibres — a careful, professional finish every time.",
+      it:"Pulizia profonda di tappeti e moquette che riporta cabine, corridoi e aree comuni a una condizione come-nuova. I nostri specialisti usano l'attrezzatura giusta e metodi collaudati per la moquette navale, rimuovendo macchie e odori senza danneggiare le fibre — una finitura curata e professionale ogni volta.",
+      ro:"Curățare profundă de mochete care readuce cabinele, coridoarele și zonele comune la o stare ca-nouă. Specialiștii noștri folosesc echipamentul potrivit și metode încercate pentru mocheta navală, eliminând pete și mirosuri fără a deteriora fibrele — o finisare îngrijită și profesionistă de fiecare dată."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Wallpaper Cleaning", it:"Pulizia Carta da Parati", ro:"Curățarea tapetului" },
+    desc:{
+      en:"Specialist wallpaper and wall-covering cleaning by careful, experienced hands. We refresh delicate surfaces in guest areas without marks or damage, preserving the original finish while restoring a clean, premium look throughout the vessel.",
+      it:"Pulizia specializzata di carta da parati e rivestimenti murali, eseguita da mani esperte e attente. Rinfreschiamo superfici delicate nelle aree ospiti senza segni o danni, preservando la finitura originale e restituendo un aspetto pulito e premium in tutta la nave.",
+      ro:"Curățare specializată de tapet și învelitori murale, executată de mâini atente și experimentate. Reîmprospătăm suprafețele delicate din zonele oaspeților fără urme sau deteriorări, păstrând finisajul original și redând un aspect curat și premium în toată nava."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Deep Cleaning Services", it:"Servizi di Pulizia Profonda", ro:"Servicii de curățenie profundă" },
+    desc:{
+      en:"Intensive deep cleaning for spaces that need far more than a routine service. Our teams tackle built-up grime, technical areas and post-works residue with professional products and a methodical approach — a genuinely thorough, reliable result.",
+      it:"Pulizia profonda intensiva per spazi che richiedono molto più di un servizio di routine. Le nostre squadre affrontano sporco accumulato, aree tecniche e residui post-lavori con prodotti professionali e un approccio metodico — un risultato davvero accurato e affidabile.",
+      ro:"Curățare profundă intensivă pentru spații care au nevoie de mult mai mult decât un serviciu de rutină. Echipele noastre se ocupă de murdărie acumulată, zone tehnice și reziduuri post-lucrare cu produse profesionale și o abordare metodică — un rezultat cu adevărat riguros și de încredere."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Accommodation Area Cleaning", it:"Pulizia Aree Alloggi", ro:"Curățenia zonelor de cazare" },
+    desc:{
+      en:"Detailed cleaning of cabins and crew accommodation, delivered to true hospitality standards. Our teams turn around large numbers of rooms efficiently and consistently, so every space is fresh, hygienic and fully guest-ready.",
+      it:"Pulizia dettagliata di cabine e alloggi equipaggio, eseguita a veri standard hospitality. Le nostre squadre gestiscono grandi volumi di camere in modo efficiente e costante, così ogni spazio è fresco, igienico e completamente pronto per gli ospiti.",
+      ro:"Curățare detaliată a cabinelor și a zonelor de cazare pentru echipaj, la standarde reale de hospitality. Echipele noastre rotesc volume mari de camere eficient și constant, astfel încât fiecare spațiu este proaspăt, igienic și complet pregătit pentru oaspeți."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Turnover Cleaning After Refit", it:"Pulizia di Rilascio Post-Refitting", ro:"Curățenie de predare după refitting" },
+    desc:{
+      en:"Post-refit turnover cleaning that takes a vessel from a working site to guest-ready. We remove all construction dust and residue, detail every surface and hand over clean, presentable spaces — the final, essential step that makes a refit shine.",
+      it:"Pulizia di rilascio post-refitting che porta la nave da cantiere a pronta-per-gli-ospiti. Rimuoviamo tutta la polvere e i residui di cantiere, curiamo nel dettaglio ogni superficie e consegniamo spazi puliti e presentabili — il passaggio finale, essenziale, che fa risplendere un refitting.",
+      ro:"Curățenie de predare după refitting care duce nava de la șantier la gata-pentru-oaspeți. Înlăturăm tot praful și reziduurile de construcție, detaliem fiecare suprafață și predăm spații curate și prezentabile — pasul final, esențial, care face un refitting să strălucească."
+    }},
+  { group:"hosp", photos:[],
+    name:{ en:"Dedicated Female Teams Available", it:"Squadre Femminili Dedicate Disponibili", ro:"Echipe feminine dedicate, disponibile" },
+    desc:{
+      en:"Dedicated female cleaning and hospitality teams, available on request. Experienced, professional and trusted by our partners, these teams give you full flexibility in crewing while maintaining the same consistently high standard across every task.",
+      it:"Squadre femminili dedicate per pulizie e hospitality, disponibili su richiesta. Esperte, professionali e di fiducia dei nostri partner, queste squadre offrono piena flessibilità nell'organico mantenendo lo stesso standard elevato e costante in ogni attività.",
+      ro:"Echipe feminine dedicate pentru curățenie și hospitality, disponibile la cerere. Experimentate, profesioniste și de încredere pentru partenerii noștri, aceste echipe oferă flexibilitate totală în personal, păstrând același standard ridicat și constant la fiecare sarcină."
+    }}
 ];
 // shared core-services photos — apply the same gallery + BDA to every core service for now
 const CORE_DIR = "assets/Core Services/";
@@ -1477,26 +2089,47 @@ services.filter(s => s.group === "hosp").forEach(s => {
   s.during = HOSP_DIR + "During.jpg";
   s.after  = HOSP_DIR + "After.jpg";
 });
-const core = services.filter(s => s.group === "core").map(s => s.name);
-const hosp = services.filter(s => s.group === "hosp").map(s => s.name);
 // trades shown ONLY to workers (Core "Work with us!" dropdown). Not visible on the public page.
 const coreWorkerJobs = [
-  "Fitter", "Wallpaper Installer", "Carpet Layer",
-  "Carpenter", "Welder", "Plasterer", "Laborer"
+  { en:"Fitter",              it:"Montatore",                ro:"Montator" },
+  { en:"Wallpaper Installer", it:"Tappezziere",              ro:"Tapeter" },
+  { en:"Carpet Layer",        it:"Posatore di Moquette",     ro:"Mochetar" },
+  { en:"Carpenter",           it:"Falegname",                ro:"Tâmplar" },
+  { en:"Welder",              it:"Saldatore",                ro:"Sudor" },
+  { en:"Plasterer",           it:"Intonacatore",             ro:"Stucator" },
+  { en:"Laborer",             it:"Manovale",                 ro:"Manovar" }
 ];
 const roles = [
-  "Fitters", "Wallpaper Installers", "Carpet Layers", "Carpenters",
-  "Welders", "Plasterers", "Laborers", "Cleaning & Hospitality Crew"
+  { en:"Fitters",                     it:"Montatori",                        ro:"Montatori" },
+  { en:"Wallpaper Installers",        it:"Tappezzieri",                      ro:"Tapeteri" },
+  { en:"Carpet Layers",               it:"Posatori di Moquette",             ro:"Mochetari" },
+  { en:"Carpenters",                  it:"Falegnami",                        ro:"Tâmplari" },
+  { en:"Welders",                     it:"Saldatori",                        ro:"Sudori" },
+  { en:"Plasterers",                  it:"Intonacatori",                     ro:"Stucatori" },
+  { en:"Laborers",                    it:"Manovali",                         ro:"Manovari" },
+  { en:"Cleaning & Hospitality Crew", it:"Equipaggio Pulizie e Hospitality", ro:"Echipă Curățenie & Hospitality" }
 ];
 const why = [
-  {t:"24h Deployment", d:"Crews mobilized and on-site within a day of confirmation.",
-   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
-  {t:"Certified Workers", d:"Trained, documented teams ready for shipyard requirements.",
-   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
-  {t:"EU-Wide Coverage", d:"Active operations across Italy, the Netherlands and Norway.",
-   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/>'},
-  {t:"Reliable Execution", d:"Consistent quality, supervised teams, on-schedule delivery.",
-   i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
+  { t:{ en:"24h Deployment",      it:"Mobilitazione in 24h",     ro:"Mobilizare în 24h" },
+    d:{ en:"Crews mobilized and on-site within a day of confirmation.",
+        it:"Squadre mobilitate e sul posto entro un giorno dalla conferma.",
+        ro:"Echipe mobilizate și pe teren într-o zi de la confirmare." },
+    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+  { t:{ en:"Certified Workers",   it:"Operai Certificati",       ro:"Muncitori Certificați" },
+    d:{ en:"Trained, documented teams ready for shipyard requirements.",
+        it:"Squadre formate e documentate, pronte per i requisiti di cantiere.",
+        ro:"Echipe instruite și documentate, gata pentru cerințele de șantier." },
+    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+  { t:{ en:"EU-Wide Coverage",    it:"Copertura in tutta l'UE",  ro:"Acoperire în toată UE" },
+    d:{ en:"Active operations across Italy, France, Spain and Canada.",
+        it:"Operatività attiva in Italia, Francia, Spagna e Canada.",
+        ro:"Operațiuni active în Italia, Franța, Spania și Canada." },
+    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/>'},
+  { t:{ en:"Reliable Execution",  it:"Esecuzione Affidabile",    ro:"Execuție de Încredere" },
+    d:{ en:"Consistent quality, supervised teams, on-schedule delivery.",
+        it:"Qualità costante, squadre supervisionate, consegna nei tempi.",
+        ro:"Calitate constantă, echipe supravegheate, livrare la termen." },
+    i:'<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'}
 ];
 // build a photo list for a project folder: primary photo first, then 1.jpg .. n.jpg
 const gallery = (folder, primary, n) => {
@@ -1506,92 +2139,159 @@ const gallery = (folder, primary, n) => {
   return arr;
 };
 const projects = [
-  {t:"Norwegian Jade — Victoria Port, Canada", country:"Canada",
-   boat:"Norwegian Jade", yard:"Victoria Port", loc:"Victoria, Canada", w:17,
-   d:"17 workers deployed to build 10 new cabins — full accommodation works covering framing, insulation, wall panelling, flooring and final finishing.",
-   desc:"Aboard the Norwegian Jade at Victoria Port, Canada, our 17-strong NavalSy crew delivered a complete cabin-build project — constructing 10 brand-new cabins from the ground up. The scope covered structural framing, thermal and acoustic insulation, wall and ceiling panelling, flooring and full interior finishing, all completed to cruise-line standards and on schedule.",
-   tags:["Accommodation","Cabin Build","Insulation","Finishing"],
-   photos:gallery("Victoria Port canada","Primary photo.jpg",6)},
-  {t:"Norwegian Gem — Marseille Port, France", country:"France",
-   boat:"Norwegian Gem", yard:"Marseille Port", loc:"Marseille, France", w:60,
-   d:"60-strong team — spa restructuring, 3 full cabin rebuilds and a new photo studio aboard the Norwegian Gem.",
-   desc:"At Marseille Port, France, a NavalSy team of 60 refitted the Norwegian Gem — restructuring the ship's spa, rebuilding 3 cabins from A to Z and fitting out a new photo studio. Works spanned wet-zone construction, panelling, insulation, fit-out and finishing, mobilised quickly to meet a tight dry-dock window.",
-   tags:["Spa Refit","Cabin Rebuild","Photo Studio","Finishing"],
-   photos:gallery("Drydock Marseille France","Primary photo.jpg",12)},
-  {t:"NCL — Port Marghera, Italy", country:"Italy",
-   boat:"NCL", yard:"Port Marghera", loc:"Marghera, Italy", w:55,
-   d:"55 workers covering the complete scope — from metal structural works through to final finishing across multiple decks.",
-   desc:"In Port Marghera, Italy, our 55-worker crew handled the complete refit scope for the NCL vessel — from heavy metal structural works through to the final finishing touches. The team worked across multiple decks, delivering structural fabrication, insulation, accommodation works and detailed finishing as a single coordinated team.",
-   tags:["Structural Works","Refitting","Finishing"],
-   photos:gallery("NCL - port marghera italy","Primary photo.jpg",9)},
-  {t:"Four Seasons — Port Ancona, Italy", country:"Italy",
-   boat:"Four Seasons", yard:"Port Ancona", loc:"Ancona, Italy", w:70,
-   d:"70-person crew refitting luxury suites and exterior pool areas — high-end finishing, decking, accommodation and onboard support.",
-   desc:"At Port Ancona, Italy, a NavalSy crew of 70 refitted the Four Seasons vessel — focusing on luxury suites and exterior pool areas. The project demanded high-end finishing, exterior decking, accommodation works and onboard support, with our team delivering premium-standard results across both interior and open-deck zones.",
-   tags:["Suites","Pool Areas","Decking","Finishing"],
-   photos:gallery("Four Seasons","Primary Photo.jpg",8)}
+  { boat:"Norwegian Jade", yard:"Victoria Port", w:17,
+    country:{ en:"Canada", it:"Canada", ro:"Canada" },
+    loc:    { en:"Victoria, Canada", it:"Victoria, Canada", ro:"Victoria, Canada" },
+    t:{ en:"Norwegian Jade — Victoria Port, Canada",
+        it:"Norwegian Jade — Porto di Victoria, Canada",
+        ro:"Norwegian Jade — Portul Victoria, Canada" },
+    d:{ en:"17 workers deployed to build 10 new cabins — full accommodation works covering framing, insulation, wall panelling, flooring and final finishing.",
+        it:"17 operai impiegati per costruire 10 nuove cabine — lavori di alloggio completi che includono carpenteria, coibentazione, pannellature, pavimentazione e finiture finali.",
+        ro:"17 muncitori alocați pentru construirea a 10 cabine noi — lucrări complete de cazare: structură, izolații, panouri, pardoseli și finisaje finale." },
+    desc:{
+      en:"Aboard the Norwegian Jade at Victoria Port, Canada, our 17-strong NavalSy crew delivered a complete cabin-build project — constructing 10 brand-new cabins from the ground up. The scope covered structural framing, thermal and acoustic insulation, wall and ceiling panelling, flooring and full interior finishing, all completed to cruise-line standards and on schedule.",
+      it:"A bordo della Norwegian Jade nel Porto di Victoria, Canada, la nostra squadra NavalSy di 17 persone ha realizzato un progetto completo di costruzione cabine — 10 cabine nuove da zero. Il lavoro ha incluso carpenteria strutturale, coibentazione termica e acustica, pannellature di pareti e soffitti, pavimentazione e finiture interne complete, tutto secondo gli standard delle compagnie crocieristiche e nei tempi previsti.",
+      ro:"La bordul Norwegian Jade în Portul Victoria, Canada, echipa noastră NavalSy de 17 oameni a realizat un proiect complet de construcție de cabine — 10 cabine noi de la zero. Lucrarea a inclus structură, izolații termice și acustice, panouri pereți și tavane, pardoseli și finisaje interioare complete, totul la standardele companiilor de croazieră și în termen."
+    },
+    tags:[
+      { en:"Accommodation",  it:"Alloggi",            ro:"Cazare" },
+      { en:"Cabin Build",    it:"Costruzione Cabine", ro:"Construcție cabine" },
+      { en:"Insulation",     it:"Coibentazione",      ro:"Izolații" },
+      { en:"Finishing",      it:"Finiture",           ro:"Finisaje" }
+    ],
+    photos:gallery("Victoria Port canada","Primary photo.jpg",6) },
+
+  { boat:"Norwegian Gem", yard:"Marseille Port", w:60,
+    country:{ en:"France", it:"Francia", ro:"Franța" },
+    loc:    { en:"Marseille, France", it:"Marsiglia, Francia", ro:"Marsilia, Franța" },
+    t:{ en:"Norwegian Gem — Marseille Port, France",
+        it:"Norwegian Gem — Porto di Marsiglia, Francia",
+        ro:"Norwegian Gem — Portul Marsilia, Franța" },
+    d:{ en:"60-strong team — spa restructuring, 3 full cabin rebuilds and a new photo studio aboard the Norwegian Gem.",
+        it:"Squadra di 60 — ristrutturazione spa, 3 cabine completamente ricostruite e un nuovo studio fotografico a bordo della Norwegian Gem.",
+        ro:"Echipă de 60 — restructurare spa, 3 cabine refăcute integral și un studio foto nou la bordul Norwegian Gem." },
+    desc:{
+      en:"At Marseille Port, France, a NavalSy team of 60 refitted the Norwegian Gem — restructuring the ship's spa, rebuilding 3 cabins from A to Z and fitting out a new photo studio. Works spanned wet-zone construction, panelling, insulation, fit-out and finishing, mobilised quickly to meet a tight dry-dock window.",
+      it:"Al Porto di Marsiglia, in Francia, una squadra NavalSy di 60 persone ha rifatto la Norwegian Gem — ristrutturando la spa, ricostruendo 3 cabine dalla A alla Z e allestendo un nuovo studio fotografico. I lavori hanno incluso costruzione di zone umide, pannellature, coibentazione, allestimento e finiture, con mobilitazione rapida per rispettare una finestra di dry-dock stretta.",
+      ro:"În Portul Marsilia, Franța, o echipă NavalSy de 60 de oameni a refăcut nava Norwegian Gem — restructurând spa-ul navei, reconstruind 3 cabine de la A la Z și amenajând un studio foto nou. Lucrările au inclus construcție de zone umede, panouri, izolații, amenajare și finisaje, cu mobilizare rapidă pentru a respecta o fereastră strânsă de dry-dock."
+    },
+    tags:[
+      { en:"Spa Refit",     it:"Refitting Spa",        ro:"Refitting Spa" },
+      { en:"Cabin Rebuild", it:"Ricostruzione Cabine", ro:"Reconstrucție cabine" },
+      { en:"Photo Studio",  it:"Studio Fotografico",   ro:"Studio Foto" },
+      { en:"Finishing",     it:"Finiture",             ro:"Finisaje" }
+    ],
+    photos:gallery("Drydock Marseille France","Primary photo.jpg",12) },
+
+  { boat:"NCL", yard:"Port Marghera", w:55,
+    country:{ en:"Italy", it:"Italia", ro:"Italia" },
+    loc:    { en:"Marghera, Italy", it:"Marghera, Italia", ro:"Marghera, Italia" },
+    t:{ en:"NCL — Port Marghera, Italy",
+        it:"NCL — Porto Marghera, Italia",
+        ro:"NCL — Port Marghera, Italia" },
+    d:{ en:"55 workers covering the complete scope — from metal structural works through to final finishing across multiple decks.",
+        it:"55 operai per l'intero scope — dalle strutture metalliche alle finiture finali su più ponti.",
+        ro:"55 de muncitori pentru întregul scope — de la structuri metalice până la finisaje finale, pe mai multe punți." },
+    desc:{
+      en:"In Port Marghera, Italy, our 55-worker crew handled the complete refit scope for the NCL vessel — from heavy metal structural works through to the final finishing touches. The team worked across multiple decks, delivering structural fabrication, insulation, accommodation works and detailed finishing as a single coordinated team.",
+      it:"A Porto Marghera, in Italia, la nostra squadra di 55 operai ha gestito l'intero scope di refitting per la nave NCL — dai pesanti lavori strutturali in metallo fino alle finiture finali. La squadra ha lavorato su più ponti, eseguendo carpenteria strutturale, coibentazione, lavori di alloggio e finiture dettagliate come un'unica squadra coordinata.",
+      ro:"În Port Marghera, Italia, echipa noastră de 55 de muncitori a gestionat întregul scope de refitting pentru nava NCL — de la lucrări structurale metalice grele până la finisajele finale. Echipa a lucrat pe mai multe punți, executând structuri metalice, izolații, lucrări de cazare și finisaje detaliate, ca o singură echipă coordonată."
+    },
+    tags:[
+      { en:"Structural Works", it:"Lavori Strutturali", ro:"Lucrări Structurale" },
+      { en:"Refitting",        it:"Refitting",          ro:"Refitting" },
+      { en:"Finishing",        it:"Finiture",           ro:"Finisaje" }
+    ],
+    photos:gallery("NCL - port marghera italy","Primary photo.jpg",9) },
+
+  { boat:"Four Seasons", yard:"Port Ancona", w:70,
+    country:{ en:"Italy", it:"Italia", ro:"Italia" },
+    loc:    { en:"Ancona, Italy", it:"Ancona, Italia", ro:"Ancona, Italia" },
+    t:{ en:"Four Seasons — Port Ancona, Italy",
+        it:"Four Seasons — Porto di Ancona, Italia",
+        ro:"Four Seasons — Portul Ancona, Italia" },
+    d:{ en:"70-person crew refitting luxury suites and exterior pool areas — high-end finishing, decking, accommodation and onboard support.",
+        it:"Squadra di 70 persone per il refitting di suite di lusso e aree piscina esterne — finiture di alta gamma, ponti, alloggi e supporto a bordo.",
+        ro:"Echipă de 70 de oameni pentru refitting de suite de lux și zone exterioare cu piscină — finisaje high-end, punți, cazare și suport la bord." },
+    desc:{
+      en:"At Port Ancona, Italy, a NavalSy crew of 70 refitted the Four Seasons vessel — focusing on luxury suites and exterior pool areas. The project demanded high-end finishing, exterior decking, accommodation works and onboard support, with our team delivering premium-standard results across both interior and open-deck zones.",
+      it:"Al Porto di Ancona, in Italia, una squadra NavalSy di 70 persone ha rifatto la nave Four Seasons — concentrandosi su suite di lusso e aree piscina esterne. Il progetto richiedeva finiture di alta gamma, ponti esterni, lavori di alloggio e supporto a bordo, con la nostra squadra che ha consegnato risultati di standard premium sia all'interno che nelle zone open-deck.",
+      ro:"În Portul Ancona, Italia, o echipă NavalSy de 70 de oameni a refăcut nava Four Seasons — concentrându-se pe suite de lux și zone exterioare cu piscină. Proiectul a cerut finisaje high-end, punți exterioare, lucrări de cazare și suport la bord, iar echipa noastră a livrat rezultate la standard premium atât în interior, cât și în zonele de pe punte."
+    },
+    tags:[
+      { en:"Suites",     it:"Suite",          ro:"Suite" },
+      { en:"Pool Areas", it:"Aree Piscina",   ro:"Zone Piscină" },
+      { en:"Decking",    it:"Ponti Esterni",  ro:"Punți Exterioare" },
+      { en:"Finishing",  it:"Finiture",       ro:"Finisaje" }
+    ],
+    photos:gallery("Four Seasons","Primary Photo.jpg",8) }
 ];
 
-/* ---------- RENDER LISTS ---------- */
-const svcRow = (s, idx) =>
-  `<li><button data-svc="${idx}" class="svc-row group flex items-center gap-3 w-full text-left text-slate-300 hover:text-white transition-colors py-1.5">
-     <span class="w-1.5 h-1.5 rounded-full bg-gold shrink-0"></span>
-     <span class="flex-1">${s.name}</span>
-     <svg class="w-4 h-4 text-gold opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
-   </button></li>`;
-document.getElementById('coreList').innerHTML =
-  services.map((s,i)=>({s,i})).filter(o=>o.s.group==='core').map(o=>svcRow(o.s,o.i)).join('');
-document.getElementById('hospList').innerHTML =
-  services.map((s,i)=>({s,i})).filter(o=>o.s.group==='hosp').map(o=>svcRow(o.s,o.i)).join('');
-document.querySelectorAll('.svc-row').forEach(b =>
-  b.addEventListener('click', (e) => { e.stopPropagation(); window.openService(+b.dataset.svc); }));
+/* ---------- RENDER LISTS (re-runs when language changes) ---------- */
+function renderDynamic(){
+  const svcRow = (s, idx) =>
+    `<li><button data-svc="${idx}" class="svc-row group flex items-center gap-3 w-full text-left text-slate-300 hover:text-white transition-colors py-1.5">
+       <span class="w-1.5 h-1.5 rounded-full bg-gold shrink-0"></span>
+       <span class="flex-1">${L(s.name)}</span>
+       <svg class="w-4 h-4 text-gold opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+     </button></li>`;
+  document.getElementById('coreList').innerHTML =
+    services.map((s,i)=>({s,i})).filter(o=>o.s.group==='core').map(o=>svcRow(o.s,o.i)).join('');
+  document.getElementById('hospList').innerHTML =
+    services.map((s,i)=>({s,i})).filter(o=>o.s.group==='hosp').map(o=>svcRow(o.s,o.i)).join('');
+  document.querySelectorAll('.svc-row').forEach(b =>
+    b.addEventListener('click', (e) => { e.stopPropagation(); window.openService(+b.dataset.svc); }));
+
+  document.getElementById('rolesGrid').innerHTML = roles.map(r =>
+    `<div class="flex items-center gap-2 rounded-xl bg-white/[.03] border border-white/10 px-4 py-3 text-sm">
+       <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>${L(r)}</div>`).join('');
+
+  document.getElementById('whyGrid').innerHTML = why.map((w,idx) =>
+    `<div class="reveal rounded-3xl bg-coal border border-white/10 p-7 lift in" data-d="${idx*100}">
+       <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center mb-5">
+         <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">${w.i}</svg>
+       </span>
+       <h3 class="font-sora text-lg font-bold mb-2">${L(w.t)}</h3>
+       <p class="text-slate-400 text-sm leading-relaxed">${L(w.d)}</p>
+     </div>`).join('');
+
+  const projGrid = document.getElementById('projectGrid');
+  projGrid.innerHTML = projects.map((p,idx) =>
+    `<div class="project-card reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift cursor-pointer in" data-idx="${idx}" data-d="${idx*120}">
+       <div class="media h-52 flex items-center justify-center relative">
+         ${p.photos && p.photos.length
+           ? `<img src="${encodeURI(p.photos[0])}" alt="${L(p.t)}" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/40"></div>`
+           : `<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>`}
+         <span class="absolute top-4 right-4 text-xs font-semibold px-3 py-1.5 rounded-full bg-gold text-black">${p.w} ${t('works.workers')}</span>
+         <span class="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-slate-300">${t('works.vessel')} · ${p.boat}</span>
+         ${p.photos && p.photos.length
+           ? `<span class="absolute bottom-4 right-4 text-xs flex items-center gap-1.5 text-white bg-black/55 border border-white/15 px-2.5 py-1 rounded-full">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 15l4-4 4 4 4-5 4 5"/></svg>${p.photos.length}</span>`
+           : ''}
+       </div>
+       <div class="p-7">
+         <h3 class="font-sora text-xl font-bold mb-3">${L(p.t)}</h3>
+         <p class="text-slate-400 text-sm leading-relaxed mb-5">${L(p.d)}</p>
+         <div class="flex flex-wrap gap-2 mb-5">
+           ${p.tags.map(tg=>`<span class="text-xs px-3 py-1.5 rounded-full bg-gold/10 text-gold-light border border-gold/20">${L(tg)}</span>`).join('')}
+         </div>
+         <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
+           ${t('works.viewProj')}
+           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+         </span>
+       </div>
+     </div>`).join('');
+  projGrid.querySelectorAll('.project-card').forEach(card =>
+    card.addEventListener('click', () => window.openProject(projects[+card.dataset.idx])));
+}
+window.__renderDynamic = renderDynamic;
+renderDynamic();
+
 // whole card clickable -> opens the modal at the first service of that category
 document.querySelectorAll('.svc-card').forEach(card =>
   card.addEventListener('click', () =>
     window.openService(services.findIndex(s => s.group === card.dataset.group))));
-
-document.getElementById('rolesGrid').innerHTML = roles.map(r =>
-  `<div class="flex items-center gap-2 rounded-xl bg-white/[.03] border border-white/10 px-4 py-3 text-sm">
-     <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>${r}</div>`).join('');
-
-document.getElementById('whyGrid').innerHTML = why.map((w,idx) =>
-  `<div class="reveal rounded-3xl bg-coal border border-white/10 p-7 lift" data-d="${idx*100}">
-     <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center mb-5">
-       <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">${w.i}</svg>
-     </span>
-     <h3 class="font-sora text-lg font-bold mb-2">${w.t}</h3>
-     <p class="text-slate-400 text-sm leading-relaxed">${w.d}</p>
-   </div>`).join('');
-
-const projGrid = document.getElementById('projectGrid');
-projGrid.innerHTML = projects.map((p,idx) =>
-  `<div class="project-card reveal rounded-3xl bg-ink border border-white/10 overflow-hidden lift cursor-pointer" data-idx="${idx}" data-d="${idx*120}">
-     <div class="media h-52 flex items-center justify-center relative">
-       ${p.photos && p.photos.length
-         ? `<img src="${encodeURI(p.photos[0])}" alt="${p.t}" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/40"></div>`
-         : `<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>`}
-       <span class="absolute top-4 right-4 text-xs font-semibold px-3 py-1.5 rounded-full bg-gold text-black">${p.w} workers</span>
-       <span class="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-slate-300">Vessel · ${p.boat}</span>
-       ${p.photos && p.photos.length
-         ? `<span class="absolute bottom-4 right-4 text-xs flex items-center gap-1.5 text-white bg-black/55 border border-white/15 px-2.5 py-1 rounded-full">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 15l4-4 4 4 4-5 4 5"/></svg>${p.photos.length}</span>`
-         : ''}
-     </div>
-     <div class="p-7">
-       <h3 class="font-sora text-xl font-bold mb-3">${p.t}</h3>
-       <p class="text-slate-400 text-sm leading-relaxed mb-5">${p.d}</p>
-       <div class="flex flex-wrap gap-2 mb-5">
-         ${p.tags.map(t=>`<span class="text-xs px-3 py-1.5 rounded-full bg-gold/10 text-gold-light border border-gold/20">${t}</span>`).join('')}
-       </div>
-       <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
-         View project
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
-       </span>
-     </div>
-   </div>`).join('');
-projGrid.querySelectorAll('.project-card').forEach(card =>
-  card.addEventListener('click', () => window.openProject(projects[+card.dataset.idx])));
 
 /* ---------- NAVBAR SCROLL ---------- */
 const navInner = document.getElementById('navInner');
@@ -1685,7 +2385,7 @@ function handleForm(formId, successId, errorId, extrasFn){
       if(!invalid) invalid = email;
     }
     if(invalid){
-      errEl.textContent = 'Please complete all required fields (*) correctly.';
+      errEl.textContent = t('errInvalid');
       errEl.classList.remove('hidden');
       invalid.focus();
       return;
@@ -1693,7 +2393,7 @@ function handleForm(formId, successId, errorId, extrasFn){
 
     const submitBtn = form.querySelector('button[type=submit]');
     const originalText = submitBtn ? submitBtn.textContent : '';
-    if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+    if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = t('sending'); }
 
     try {
       const extras = typeof extrasFn === 'function' ? extrasFn(form) : (extrasFn || {});
@@ -1701,7 +2401,7 @@ function handleForm(formId, successId, errorId, extrasFn){
       form.classList.add('hidden');
       document.getElementById(successId).classList.remove('hidden');
     } catch (err) {
-      errEl.textContent = 'Something went wrong sending the message. Please try again, or email us directly at ' + OFFICE_EMAIL + '.';
+      errEl.textContent = t('errSubmit') + OFFICE_EMAIL + '.';
       errEl.classList.remove('hidden');
     } finally {
       if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = originalText; }
@@ -1877,13 +2577,16 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   }
 
   function openProject(p){
-    document.getElementById('pmCountry').textContent = p.country;
-    document.getElementById('pmTitle').textContent   = p.t;
-    document.getElementById('pmDesc').textContent    = p.desc;
+    document.getElementById('pmCountry').textContent = L(p.country);
+    document.getElementById('pmTitle').textContent   = L(p.t);
+    document.getElementById('pmDesc').textContent    = L(p.desc);
     document.getElementById('pmMeta').innerHTML = [
-      ['Vessel', p.boat], ['Shipyard', p.yard], ['Workers', p.w + ' deployed'], ['Location', p.loc]
+      [t('works.vessel'),    p.boat],
+      [t('pm.shipyard'),     p.yard],
+      [t('stats.workers'),   p.w + ' ' + t('pm.workersD')],
+      [t('pm.location'),     L(p.loc)]
     ].map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
-    document.getElementById('pmTags').innerHTML = p.tags.map(t => `<span class="pm-tag">${t}</span>`).join('');
+    document.getElementById('pmTags').innerHTML = p.tags.map(tg => `<span class="pm-tag">${L(tg)}</span>`).join('');
 
     thumbs.innerHTML = '';
     photos = (p.photos && p.photos.length) ? p.photos.slice() : [];
@@ -1911,7 +2614,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
       stage.className = 'pm-empty';
       stage.innerHTML =
         '<svg class="w-14 h-14 text-gold/40" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l9 4 9-4M3 12l9 4 9-4M12 3L3 7l9 4 9-4-9-4z"/></svg>' +
-        '<span class="text-sm">Project photos coming soon</span>';
+        `<span class="text-sm">${t('m.photosSoon2')}</span>`;
       thumbBtns = []; thumbs.style.display = 'none';
       reveal();
     }
@@ -1964,13 +2667,13 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const defaultCv = 'Upload your CV <span class="text-slate-500">(PDF / DOC) *</span>';
   let cur = 0;
 
-  const groupLabel = { core:'Core Services', hosp:'Hospitality & Cleaning' };
+  function groupLabel(g){ return g === 'core' ? t('svc.coreT') : t('svc.hospT'); }
 
   // the left list shows only the category of the service being viewed
   function renderList(group){
-    listEl.innerHTML = `<div class="sm-group">${groupLabel[group]}</div>` +
+    listEl.innerHTML = `<div class="sm-group">${groupLabel(group)}</div>` +
       services.map((s,i) => ({s,i})).filter(o => o.s.group === group)
-        .map(o => `<button class="sm-item" data-idx="${o.i}"><span class="dot"></span>${o.s.name}</button>`)
+        .map(o => `<button class="sm-item" data-idx="${o.i}"><span class="dot"></span>${L(o.s.name)}</button>`)
         .join('');
     listEl.querySelectorAll('.sm-item').forEach(b => b.onclick = () => select(+b.dataset.idx));
   }
@@ -1978,9 +2681,11 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   // workers in Core get a different list (their own trades) — hospitality stays the same for both
   function fillSelects(group){
     const companyOpts = services.filter(s => s.group === group)
-      .map(s => `<option>${s.name}</option>`).join('');
+      .map(s => `<option>${L(s.name)}</option>`).join('');
     quoteSel.innerHTML = companyOpts;
-    const workerList = group === 'core' ? coreWorkerJobs : services.filter(s => s.group === group).map(s => s.name);
+    const workerList = group === 'core'
+      ? coreWorkerJobs.map(L)
+      : services.filter(s => s.group === group).map(s => L(s.name));
     applySel.innerHTML = workerList.map(n => `<option>${n}</option>`).join('');
   }
 
@@ -1994,24 +2699,31 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     const wrap = document.getElementById('smBda');
     if(!s.before && !s.during && !s.after){ wrap.hidden = true; wrap.innerHTML = ''; return; }
     wrap.hidden = false;
+    const bdaLabels = {
+      Before: { en:"Before", it:"Prima",   ro:"Înainte" },
+      During: { en:"During", it:"Durante", ro:"În timpul" },
+      After:  { en:"After",  it:"Dopo",    ro:"După" }
+    };
     const phases = [
-      { label:'Before', src:(s.before || null) },
-      { label:'During', src:(s.during || null) },
-      { label:'After',  src:(s.after  || null) }
+      { key:'Before', src:(s.before || null) },
+      { key:'During', src:(s.during || null) },
+      { key:'After',  src:(s.after  || null) }
     ];
     wrap.innerHTML =
-      '<div class="sm-bda-title">Before / During / After</div>' +
+      `<div class="sm-bda-title">${t('m.bdaTitle')}</div>` +
       '<div class="sm-bda-grid">' +
-        phases.map(p => p.src
+        phases.map(p => {
+          const label = L(bdaLabels[p.key]);
+          return p.src
           ? `<button type="button" class="sm-bda-card sm-bda-clickable" data-light="${p.src}">
-               <div class="sm-bda-photo"><img src="${encodeURI(p.src)}" alt="${p.label}" loading="lazy" decoding="async"></div>
-               <div class="sm-bda-label">${p.label}</div>
+               <div class="sm-bda-photo"><img src="${encodeURI(p.src)}" alt="${label}" loading="lazy" decoding="async"></div>
+               <div class="sm-bda-label">${label}</div>
              </button>`
           : `<div class="sm-bda-card">
                <div class="sm-bda-photo">${camSvg}</div>
-               <div class="sm-bda-label">${p.label}</div>
-             </div>`
-        ).join('') +
+               <div class="sm-bda-label">${label}</div>
+             </div>`;
+        }).join('') +
       '</div>';
     wrap.querySelectorAll('[data-light]').forEach(el =>
       el.addEventListener('click', () => window.openLightbox && window.openLightbox(el.dataset.light)));
@@ -2021,22 +2733,22 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     const wrap = document.getElementById('smGallery');
     if(!s.photos || !s.photos.length){
       wrap.innerHTML =
-        '<div class="sm-gallery-title">Gallery</div>' +
+        `<div class="sm-gallery-title">${t('m.galleryTitle')}</div>` +
         '<div class="sm-gallery-empty">' +
           '<span class="text-gold/50 shrink-0">' + camSvg + '</span>' +
-          '<span>Project photos for this service will be added soon.</span>' +
+          `<span>${t('m.photosSoon')}</span>` +
         '</div>';
       return;
     }
-    // coverflow: 3 visible at a time, prev/next arrows, click side -> center, click center -> lightbox
+    const sName = L(s.name);
     const n = s.photos.length;
     wrap.innerHTML =
-      '<div class="sm-gallery-title">Gallery</div>' +
+      `<div class="sm-gallery-title">${t('m.galleryTitle')}</div>` +
       '<div class="coverflow sm-cf relative">' +
         '<div class="cf-stage">' +
           s.photos.map(src =>
             `<div class="cf-slide" data-light="${src}">
-               <img src="${encodeURI(src)}" alt="${s.name}" loading="lazy" decoding="async">
+               <img src="${encodeURI(src)}" alt="${sName}" loading="lazy" decoding="async">
                <span class="cf-zoom" aria-hidden="true">
                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3M10 4a6 6 0 100 12 6 6 0 000-12zM7 10h6M10 7v6"/></svg>
                </span>
@@ -2082,8 +2794,8 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     cur = i;
     const s = services[i];
     listEl.querySelectorAll('.sm-item').forEach(b => b.classList.toggle('on', +b.dataset.idx === i));
-    document.getElementById('smTitle').textContent = s.name;
-    document.getElementById('smDesc').textContent  = s.desc;
+    document.getElementById('smTitle').textContent = L(s.name);
+    document.getElementById('smDesc').textContent  = L(s.desc);
     renderBda(s);
     renderGallery(s);
   }
@@ -2128,7 +2840,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   document.getElementById('smQuoteBtn').onclick = () => {
     document.getElementById('smQuoteForm').reset();
     prepForm('smQuoteForm','smQuoteSuccess');
-    quoteSel.value = services[cur].name;
+    quoteSel.value = L(services[cur].name);
     showView('quote');
   };
   document.getElementById('smApplyBtn').onclick = () => {
@@ -2136,7 +2848,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     smCvLabel.innerHTML = defaultCv;
     prepForm('smApplyForm','smApplySuccess');
     // hospitality: service name matches a worker option; core: default to first trade
-    applySel.value = services[cur].group === 'core' ? coreWorkerJobs[0] : services[cur].name;
+    applySel.value = services[cur].group === 'core' ? L(coreWorkerJobs[0]) : L(services[cur].name);
     showView('apply');
   };
   modal.querySelectorAll('[data-back]').forEach(b => b.onclick = () => showView('browser'));
@@ -2181,9 +2893,9 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     prepForm('smApplyForm','smApplySuccess');
     smCvLabel.innerHTML = defaultCv;
     if(view === 'apply'){
-      applySel.value = group === 'core' ? coreWorkerJobs[0] : services[i].name;
+      applySel.value = group === 'core' ? L(coreWorkerJobs[0]) : L(services[i].name);
     } else {
-      quoteSel.value = services[i].name;
+      quoteSel.value = L(services[i].name);
     }
     showView(view === 'apply' ? 'apply' : 'quote');
     if(window.__cfPause) window.__cfPause();
@@ -2206,13 +2918,13 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const pageWrap = document.getElementById('pageWrap');
 
   const teamContacts = {
-    stefan: { name:"Stefan Mihali", role:"Founder",
+    stefan: { name:"Stefan Mihali", roleKey:"about.founderRole",
               photo:"assets/Team/Stefan Mihali - Founder/Stefan Founder.jpg",
               phone:"+39 329 585 7839", email:"stefan.mihali@navalsy.com" },
-    aurel:  { name:"Aurel Timis",  role:"Founder",
+    aurel:  { name:"Aurel Timis",  roleKey:"about.founderRole",
               photo:"assets/Team/Aurel Timis - Founder/1040a669-9dba-4166-a46c-3ec1de4b0ded.jpg",
               phone:"+39 351 128 8735", email:"aurel.timis@navalsy.com" },
-    bianca: { name:"Bianca Timis", role:"Office Coordinator",
+    bianca: { name:"Bianca Timis", roleKey:"tm.ocRole",
               photo:"assets/Team/Bianca - Office Coordinator/dca414b5-c15c-46bc-aff6-32d6455a07cf.jpg",
               phone:"+40 774 402 807", email:"bianca.timis@navalsy.com" }
   };
@@ -2235,7 +2947,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
       photoEl.textContent = p.name[0];
     }
     nameEl.textContent  = p.name;
-    roleEl.textContent  = p.role;
+    roleEl.textContent  = t(p.roleKey);
     phoneEl.textContent = p.phone;
     phoneEl.href = 'tel:' + p.phone.replace(/\s+/g,'');
     emailEl.textContent = p.email;
@@ -2243,7 +2955,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     waBtn.href = 'https://wa.me/' + p.phone.replace(/[^\d]/g,'');
     // "Send an email" -> open in-site compose modal instead of mailto
     emBtn.href = '#';
-    emBtn.onclick = (e) => { e.preventDefault(); if(window.openEmail) window.openEmail(p); };
+    emBtn.onclick = (e) => { e.preventDefault(); if(window.openEmail) window.openEmail({ name:p.name, role:t(p.roleKey), email:p.email }); };
 
     if(window.__cfPause) window.__cfPause();
     document.body.style.overflow = 'hidden';
@@ -2360,9 +3072,11 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   window.openEmail = open;
 
   // any element with [data-office-email] opens the compose modal to the office address
-  const officeContact = { name:"NavalSy Office", role:"General inquiries", email:OFFICE_EMAIL };
   document.querySelectorAll('[data-office-email]').forEach(el => {
-    el.addEventListener('click', e => { e.preventDefault(); open(officeContact); });
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      open({ name:t('office.name'), role:t('office.role'), email:OFFICE_EMAIL });
+    });
   });
 })();
 
@@ -2375,21 +3089,28 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   // placeholder bios — to be replaced with real ones from the team
   const leaders = {
-    1: { name:"Paul",   desc:"Experience and personal background to be added — full bio coming soon." },
-    2: { name:"Petrea", desc:"Experience and personal background to be added — full bio coming soon." },
-    3: { name:"Duțu",   desc:"Experience and personal background to be added — full bio coming soon." }
+    1: "Paul",
+    2: "Petrea",
+    3: "Duțu"
   };
+  let currentLeader = 1;
 
   const thumbs = [...modal.querySelectorAll('.tl-thumb')];
   const tlName = modal.querySelector('#tlName');
   const tlDesc = modal.querySelector('#tlDesc');
 
   function selectLeader(n){
+    currentLeader = n;
     thumbs.forEach(b => b.classList.toggle('on', +b.dataset.leader === n));
-    const l = leaders[n] || {name:'Team Leader', desc:''};
-    tlName.textContent = l.name;
-    tlDesc.textContent = l.desc;
+    tlName.textContent = leaders[n] || t('tm.leader');
+    tlDesc.textContent = t('tm.bioSoon');
   }
+  // re-localize the bio panel when the language changes
+  const _origRender = window.__renderDynamic;
+  window.__renderDynamic = function(){
+    if(_origRender) _origRender();
+    if(modal.classList.contains('open')) selectLeader(currentLeader);
+  };
   thumbs.forEach(b => b.onclick = () => selectLeader(+b.dataset.leader));
 
   function open(){
@@ -2427,6 +3148,11 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   selectLeader(1);
 })();
+
+/* ---------- LANGUAGE SWITCHER + INITIAL TRANSLATION ---------- */
+document.querySelectorAll('[data-lang]').forEach(btn =>
+  btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+applyTranslations();
 </script>
 </body>
 </html>
