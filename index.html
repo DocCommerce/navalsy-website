@@ -519,7 +519,7 @@
   <div class="max-w-7xl mx-auto px-6 h-10 flex items-center justify-between text-slate-400">
     <span class="tracking-wide">Ship Refitting &amp; Hospitality Services — Operating across Europe</span>
     <div class="flex items-center gap-6">
-      <a href="mailto:office@navalsy.com" class="hover:text-gold transition">office@navalsy.com</a>
+      <a href="mailto:office@navalsy.com" data-office-email class="hover:text-gold transition">office@navalsy.com</a>
       <span class="text-white/15">|</span>
       <a href="tel:+393295857839" class="hover:text-gold transition">+39 329 585 7839</a>
     </div>
@@ -897,7 +897,7 @@
       </p>
 
       <div class="space-y-5">
-        <a href="mailto:office@navalsy.com" class="flex items-center gap-4 group">
+        <a href="mailto:office@navalsy.com" data-office-email class="flex items-center gap-4 group">
           <span class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center group-hover:bg-gold/20 transition">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8M3 8a2 2 0 012-2h14a2 2 0 012 2"/></svg>
           </span>
@@ -1061,8 +1061,8 @@
       <div>
         <div class="font-sora font-semibold mb-4">Contact</div>
         <ul class="space-y-2 text-sm text-slate-400">
-          <li>office@navalsy.com</li>
-          <li>+39 329 585 7839</li>
+          <li><a href="mailto:office@navalsy.com" data-office-email class="hover:text-gold transition">office@navalsy.com</a></li>
+          <li><a href="tel:+393295857839" class="hover:text-gold transition">+39 329 585 7839</a></li>
           <li>Canada • France • Italy • Spain — and all around the world!</li>
         </ul>
       </div>
@@ -2335,6 +2335,12 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   }));
 
   window.openEmail = open;
+
+  // any element with [data-office-email] opens the compose modal to the office address
+  const officeContact = { name:"NavalSy Office", role:"General inquiries", email:OFFICE_EMAIL };
+  document.querySelectorAll('[data-office-email]').forEach(el => {
+    el.addEventListener('click', e => { e.preventDefault(); open(officeContact); });
+  });
 })();
 
 /* ---------- TEAM MODAL ---------- */
