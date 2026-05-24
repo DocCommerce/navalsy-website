@@ -1355,6 +1355,16 @@ const services = [
   {name:"Dedicated Female Teams Available", group:"hosp", photos:[],
    desc:"Dedicated female cleaning and hospitality teams, available on request. Experienced, professional and trusted by our partners, these teams give you full flexibility in crewing while maintaining the same consistently high standard across every task."}
 ];
+// shared core-services photos — apply the same gallery + BDA to every core service for now
+const CORE_DIR = "assets/Core Services/";
+const CORE_PHOTOS = [1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19].map(n => CORE_DIR + n + ".jpg");
+services.filter(s => s.group === "core").forEach(s => {
+  s.photos = CORE_PHOTOS;
+  s.before = CORE_DIR + "before.jpg";
+  s.during = CORE_DIR + "during.jpg";
+  s.after  = CORE_DIR + "after.jpg";
+});
+
 // shared hospitality photos — apply the same gallery + BDA to every hospitality service for now
 const HOSP_DIR = "assets/Hospitality and cleaning/";
 const HOSP_PHOTOS = [
@@ -1863,7 +1873,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   function renderBda(s){
     const wrap = document.getElementById('smBda');
-    if(s.group !== 'hosp'){ wrap.hidden = true; wrap.innerHTML = ''; return; }
+    if(!s.before && !s.during && !s.after){ wrap.hidden = true; wrap.innerHTML = ''; return; }
     wrap.hidden = false;
     const phases = [
       { label:'Before', src:(s.before || null) },
