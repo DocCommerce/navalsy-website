@@ -492,6 +492,20 @@
     transition:opacity .3s ease, transform .35s cubic-bezier(.2,.7,.2,1);
   }
   .lb-modal.open .lb-img { opacity:1; transform:scale(1); }
+
+  /* compose-email modal (opens on top of contact card) */
+  #emailModal { z-index:90; }
+  .em-dialog { max-width:480px; }
+  .em-content { padding:2rem 1.75rem; max-height:90vh; overflow-y:auto; }
+  @media (min-width:640px) { .em-content { padding:2.4rem 2rem; } }
+  .em-to {
+    margin-bottom:1.25rem; padding:.85rem 1rem;
+    border:1px solid rgba(201,162,74,.3); background:rgba(201,162,74,.06);
+    border-radius:.65rem;
+  }
+  .em-to-label { font-size:.6rem; text-transform:uppercase; letter-spacing:.16em; color:#C9A24A; }
+  .em-to-name  { font-family:"Sora",sans-serif; font-weight:600; color:#fff; margin-top:.2rem; }
+  .em-to-email { font-size:.8rem; color:#94a3b8; margin-top:.1rem; }
 </style>
 </head>
 
@@ -1011,7 +1025,8 @@
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
         <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-slate-400 text-sm mb-2">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-xs text-gold-light mb-6">Please also email your CV to <a href="mailto:office@navalsy.com" class="underline">office@navalsy.com</a> mentioning this application.</p>
         <button type="button" data-reset="workerForm" class="text-gold text-sm font-semibold hover:underline">Submit another application</button>
       </div>
     </div>
@@ -1209,7 +1224,8 @@
           <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
         <h4 class="font-sora text-xl font-bold mb-2">Application received</h4>
-        <p class="text-slate-400 text-sm mb-6">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-slate-400 text-sm mb-2">Thank you. Our recruitment team will contact you shortly.</p>
+        <p class="text-xs text-gold-light mb-6">Please also email your CV to <a href="mailto:office@navalsy.com" class="underline">office@navalsy.com</a> mentioning this application.</p>
         <button type="button" data-back class="text-gold text-sm font-semibold hover:underline">Back to services</button>
       </div>
     </div>
@@ -1303,6 +1319,51 @@
   </div>
 </div>
 
+<!-- ================= COMPOSE EMAIL MODAL ================= -->
+<div id="emailModal" class="proj-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="proj-backdrop"></div>
+  <div class="proj-dialog em-dialog">
+    <button class="em-close proj-close" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="em-content">
+      <div class="text-gold uppercase tracking-[.25em] text-[11px] font-semibold mb-2">Send a message</div>
+      <h3 class="font-sora text-2xl font-bold mb-1">Email <span id="emRecipientName">someone</span></h3>
+      <p class="text-slate-400 text-sm mb-5">We'll deliver your message directly.</p>
+
+      <div class="em-to">
+        <div class="em-to-label">To</div>
+        <div class="em-to-name"  id="emToNameDisplay"></div>
+        <div class="em-to-email" id="emToEmailDisplay"></div>
+      </div>
+
+      <form id="emailForm" class="space-y-4" novalidate>
+        <input type="hidden" name="to_name"  id="emToName" />
+        <input type="hidden" name="to_email" id="emToEmail" />
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input name="name"  required placeholder="Your name *"  class="field w-full rounded-xl px-5 py-3.5" />
+          <input name="email" type="email" required placeholder="Your email *" class="field w-full rounded-xl px-5 py-3.5" />
+        </div>
+        <input name="topic" placeholder="Subject (optional)" class="field w-full rounded-xl px-5 py-3.5" />
+        <textarea name="message" rows="5" required placeholder="Your message *" class="field w-full rounded-xl px-5 py-3.5"></textarea>
+        <button type="submit" class="btn-gold w-full bg-gold hover:bg-gold-light text-black font-bold py-4 rounded-xl transition-all duration-300">
+          Send message
+        </button>
+        <p id="emailError" class="hidden text-red-400 text-sm text-center"></p>
+      </form>
+
+      <div id="emailSuccess" class="hidden text-center py-10">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center mb-5">
+          <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h4 class="font-sora text-xl font-bold mb-2">Message sent</h4>
+        <p class="text-slate-400 text-sm mb-6">Thank you — we'll get back to you shortly.</p>
+        <button type="button" id="emailClose2" class="text-gold text-sm font-semibold hover:underline">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ================= PHOTO LIGHTBOX ================= -->
 <div id="photoLightbox" class="lb-modal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="lb-backdrop"></div>
@@ -1328,6 +1389,24 @@
 </button>
 
 <script>
+/* ---------- BACKEND ---------- */
+// Web3Forms access key (delivers all form submissions to office@navalsy.com).
+// Upgrade to paid plan at web3forms.com to unlock CV file attachments — code stays the same.
+const WEB3FORMS_KEY = "28290356-5dbf-427f-8fb3-a5962fe8e63c";
+const OFFICE_EMAIL  = "office@navalsy.com";
+
+async function submitToWeb3Forms(formEl, extras){
+  const data = new FormData(formEl);
+  data.append("access_key", WEB3FORMS_KEY);
+  if(extras){
+    for(const [k, v] of Object.entries(extras)) data.append(k, v);
+  }
+  const res = await fetch("https://api.web3forms.com/submit", { method:"POST", body:data });
+  const json = await res.json().catch(() => ({success:false}));
+  if(!json.success) throw new Error(json.message || "Submission failed");
+  return json;
+}
+
 /* ---------- DATA ---------- */
 const services = [
   {name:"Refit Packages", group:"core", photos:[],
@@ -1570,10 +1649,10 @@ cvInput.addEventListener('change', () => {
 });
 
 /* ---------- FORM HANDLING ---------- */
-function handleForm(formId, successId, errorId){
+function handleForm(formId, successId, errorId, extrasFn){
   const form = document.getElementById(formId);
   const errEl = document.getElementById(errorId);
-  form.addEventListener('submit', (ev) => {
+  form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     errEl.classList.add('hidden');
 
@@ -1596,17 +1675,41 @@ function handleForm(formId, successId, errorId){
       return;
     }
 
-    /* DEMO: data is collected client-side only.
-       To make it live, POST `new FormData(form)` to your backend
-       or a service like Formspree / a NavalSy email endpoint. */
-    console.log(formId + ' submitted:', Object.fromEntries(new FormData(form)));
+    const submitBtn = form.querySelector('button[type=submit]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+    if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
 
-    form.classList.add('hidden');
-    document.getElementById(successId).classList.remove('hidden');
+    try {
+      const extras = typeof extrasFn === 'function' ? extrasFn(form) : (extrasFn || {});
+      await submitToWeb3Forms(form, extras);
+      form.classList.add('hidden');
+      document.getElementById(successId).classList.remove('hidden');
+    } catch (err) {
+      errEl.textContent = 'Something went wrong sending the message. Please try again, or email us directly at ' + OFFICE_EMAIL + '.';
+      errEl.classList.remove('hidden');
+    } finally {
+      if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = originalText; }
+    }
   });
 }
-handleForm('workerForm',  'workerSuccess',  'workerError');
-handleForm('companyForm', 'companySuccess', 'companyError');
+
+// extras builders — give each email a clear subject and the relevant context line
+const quoteExtras = form => ({
+  subject: 'New quote request — NavalSy website',
+  from_name: 'NavalSy website',
+  _replyto: form.querySelector('input[name="email"]')?.value || '',
+  inquiry_type: 'Company — Request a Quote'
+});
+const workerExtras = form => ({
+  subject: 'New job application — NavalSy website',
+  from_name: 'NavalSy website',
+  _replyto: form.querySelector('input[name="email"]')?.value || '',
+  inquiry_type: 'Worker — Job application',
+  note: 'If CV is missing from this email, the applicant was asked to email it separately.'
+});
+
+handleForm('workerForm',  'workerSuccess',  'workerError',  workerExtras);
+handleForm('companyForm', 'companySuccess', 'companyError', quoteExtras);
 
 /* reset buttons */
 document.querySelectorAll('[data-reset]').forEach(btn => {
@@ -2035,8 +2138,19 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   });
 
   // validation + success — reuses the page form handler
-  handleForm('smQuoteForm','smQuoteSuccess','smQuoteError');
-  handleForm('smApplyForm','smApplySuccess','smApplyError');
+  handleForm('smQuoteForm', 'smQuoteSuccess', 'smQuoteError', form => ({
+    subject: 'New quote request — ' + (form.querySelector('select[name="service"]')?.value || 'NavalSy website'),
+    from_name: 'NavalSy website',
+    _replyto: form.querySelector('input[name="email"]')?.value || '',
+    inquiry_type: 'Company — Request a Quote (from Services modal)'
+  }));
+  handleForm('smApplyForm', 'smApplySuccess', 'smApplyError', form => ({
+    subject: 'New job application — ' + (form.querySelector('select[name="specialty"]')?.value || 'NavalSy website'),
+    from_name: 'NavalSy website',
+    _replyto: form.querySelector('input[name="email"]')?.value || '',
+    inquiry_type: 'Worker — Job application (from Services modal)',
+    note: 'If CV is missing from this email, the applicant was asked to email it separately.'
+  }));
 
   // open the modal directly in a form view (used by Recent Works CTAs)
   function openServiceForm(view, group){
@@ -2111,7 +2225,9 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     emailEl.textContent = p.email;
     emailEl.href = 'mailto:' + p.email;
     waBtn.href = 'https://wa.me/' + p.phone.replace(/[^\d]/g,'');
-    emBtn.href = 'mailto:' + p.email;
+    // "Send an email" -> open in-site compose modal instead of mailto
+    emBtn.href = '#';
+    emBtn.onclick = (e) => { e.preventDefault(); if(window.openEmail) window.openEmail(p); };
 
     if(window.__cfPause) window.__cfPause();
     document.body.style.overflow = 'hidden';
@@ -2161,6 +2277,64 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(e.key === 'Escape' && modal.classList.contains('open')) { e.stopImmediatePropagation(); close(); }
   }, true);  // capture phase -> runs before other modals' Esc handlers
   window.openLightbox = open;
+})();
+
+/* ---------- COMPOSE EMAIL MODAL ---------- */
+(function(){
+  const modal = document.getElementById('emailModal');
+  if(!modal) return;
+  const pageWrap = document.getElementById('pageWrap');
+  const nameSpan  = document.getElementById('emRecipientName');
+  const toName    = document.getElementById('emToName');
+  const toEmail   = document.getElementById('emToEmail');
+  const toNameDsp = document.getElementById('emToNameDisplay');
+  const toEmailDsp= document.getElementById('emToEmailDisplay');
+  const form    = document.getElementById('emailForm');
+  const success = document.getElementById('emailSuccess');
+
+  function open(person){
+    // person = { name, email, role }
+    nameSpan.textContent    = person.name.split(' ')[0]; // first name in headline
+    toName.value            = person.name;
+    toEmail.value           = person.email;
+    toNameDsp.textContent   = person.name + (person.role ? ' — ' + person.role : '');
+    toEmailDsp.textContent  = person.email;
+    form.reset();
+    toName.value  = person.name;     // reset() also clears hidden inputs
+    toEmail.value = person.email;
+    form.classList.remove('hidden');
+    success.classList.add('hidden');
+
+    document.body.style.overflow = 'hidden';
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('open');
+      // page is already frozen (contact modal underneath does that); add-class is idempotent
+      pageWrap.classList.add('modal-frozen');
+    }));
+  }
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    // don't release page freeze here — the contact modal underneath is still open
+  }
+
+  modal.querySelector('.em-close').onclick = close;
+  modal.querySelector('.proj-backdrop').onclick = close;
+  document.getElementById('emailClose2').onclick = close;
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('open')){ e.stopImmediatePropagation(); close(); }
+  }, true);
+
+  // submit -> Web3Forms (subject names the recipient so office routes it correctly)
+  handleForm('emailForm', 'emailSuccess', 'emailError', form => ({
+    subject: 'Website message — to ' + toName.value,
+    from_name: 'NavalSy website',
+    _replyto: form.querySelector('input[name="email"]')?.value || '',
+    inquiry_type: 'Direct message — ' + toName.value + ' (' + toEmail.value + ')'
+  }));
+
+  window.openEmail = open;
 })();
 
 /* ---------- TEAM MODAL ---------- */
