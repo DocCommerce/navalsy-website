@@ -145,9 +145,12 @@
     position:absolute; top:50%; transform:translateY(-50%); z-index:40;
     width:44px; height:44px; border-radius:9999px;
     display:flex; align-items:center; justify-content:center;
-    background:rgba(10,10,11,.7); color:#fff;
-    border:1px solid rgba(201,162,74,.4); backdrop-filter:blur(6px);
+    background:rgba(10,10,11,.85); color:#fff;
+    border:1px solid rgba(201,162,74,.4);
     transition:background .3s, color .3s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cf-arrow { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); background:rgba(10,10,11,.7); }
   }
   @media (hover: hover) { .cf-arrow:hover { background:#C9A24A; color:#0A0A0B; } }
   .cf-dot {
@@ -315,9 +318,8 @@
   .cf-zoom {
     position:absolute; top:.7rem; right:.7rem; z-index:3;
     width:38px; height:38px; border-radius:9999px;
-    background:rgba(0,0,0,.55); border:1px solid rgba(201,162,74,.45); color:#fff;
+    background:rgba(0,0,0,.7); border:1px solid rgba(201,162,74,.45); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
     opacity:0; transform:scale(.8); pointer-events:none;
     transition:opacity .35s, transform .35s, background .25s, color .25s;
   }
@@ -462,8 +464,7 @@
     position:absolute; left:.55rem; bottom:.55rem;
     font-family:"Sora",sans-serif; font-weight:700; font-size:.85rem; color:#fff;
     padding:.25rem .6rem; border-radius:.5rem;
-    background:rgba(0,0,0,.6); border:1px solid rgba(201,162,74,.35);
-    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    background:rgba(0,0,0,.75); border:1px solid rgba(201,162,74,.35);
   }
   .tl-thumb.on .tl-tag { background:#C9A24A; color:#0A0A0B; border-color:#C9A24A; }
 
@@ -760,7 +761,7 @@
 
     <!-- right: stats card -->
     <div class="hero-anim" style="animation-delay:.4s">
-      <div class="relative rounded-3xl border border-white/10 bg-white/[.03] backdrop-blur-xl p-8 shadow-2xl">
+      <div class="relative rounded-3xl border border-white/10 bg-white/[.03] p-8 shadow-2xl">
         <div class="absolute -top-px left-10 right-10 h-px shimmer"></div>
         <div class="flex items-center justify-between mb-7">
           <h3 class="font-sora font-semibold text-lg" data-i18n="stats.title">NavalSy in Numbers</h3>
@@ -2384,7 +2385,10 @@ const navInner = document.getElementById('navInner');
 function onScroll(){
   const s = window.scrollY > 30;
   navInner.classList.toggle('bg-coal/90', s);
-  navInner.classList.toggle('backdrop-blur-xl', s);
+  // NOTE: backdrop-blur on a fixed navbar creates touch dead-zones below it
+  // on iOS Safari (taps in the upper half of the viewport silently fail).
+  // The semi-opaque bg-coal/90 keeps the navbar legible without it.
+  // navInner.classList.toggle('backdrop-blur-xl', s);  // intentionally disabled
   navInner.classList.toggle('border-b', s);
   navInner.classList.toggle('border-white/10', s);
   navInner.classList.toggle('px-5', s);
