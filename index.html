@@ -39,7 +39,7 @@
   ::-webkit-scrollbar { width:10px; }
   ::-webkit-scrollbar-track { background:#0A0A0B; }
   ::-webkit-scrollbar-thumb { background:#2a2a2e; border-radius:8px; }
-  ::-webkit-scrollbar-thumb:hover { background:#C9A24A; }
+  @media (hover: hover) { ::-webkit-scrollbar-thumb:hover { background:#C9A24A; } }
 
   /* scroll reveal */
   .reveal { opacity:0; transform:translateY(34px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
@@ -69,10 +69,10 @@
   }
 
   .lift { transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s, box-shadow .45s; }
-  .lift:hover { transform:translateY(-10px); border-color:rgba(201,162,74,.55); box-shadow:0 30px 60px -25px rgba(0,0,0,.9); }
+  @media (hover: hover) { .lift:hover { transform:translateY(-10px); border-color:rgba(201,162,74,.55); box-shadow:0 30px 60px -25px rgba(0,0,0,.9); } }
 
   .btn-gold { box-shadow:0 14px 38px -12px rgba(201,162,74,.6); }
-  .btn-gold:hover { box-shadow:0 18px 48px -10px rgba(201,162,74,.85); }
+  @media (hover: hover) { .btn-gold:hover { box-shadow:0 18px 48px -10px rgba(201,162,74,.85); } }
 
   /* media placeholder */
   .media {
@@ -149,7 +149,7 @@
     border:1px solid rgba(201,162,74,.4); backdrop-filter:blur(6px);
     transition:background .3s, color .3s;
   }
-  .cf-arrow:hover   { background:#C9A24A; color:#0A0A0B; }
+  @media (hover: hover) { .cf-arrow:hover { background:#C9A24A; color:#0A0A0B; } }
   .cf-dot {
     width:9px; height:9px; border-radius:9999px; border:0; padding:0;
     background:rgba(255,255,255,.22); cursor:pointer; transition:all .35s;
@@ -199,7 +199,7 @@
     background:rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.18); color:#fff;
     display:flex; align-items:center; justify-content:center; transition:background .3s, color .3s;
   }
-  .proj-close:hover { background:#C9A24A; color:#000; }
+  @media (hover: hover) { .proj-close:hover { background:#C9A24A; color:#000; } }
 
   .pm-grid { display:grid; grid-template-columns:1fr; max-height:90vh; overflow-y:auto; }
   @media (min-width:900px) { .pm-grid { grid-template-columns:1.5fr 1fr; overflow:hidden; } }
@@ -224,7 +224,7 @@
     background:rgba(10,10,11,.72); color:#fff; border:1px solid rgba(201,162,74,.45);
     display:flex; align-items:center; justify-content:center; transition:background .3s, color .3s;
   }
-  .pm-arrow:hover { background:#C9A24A; color:#000; }
+  @media (hover: hover) { .pm-arrow:hover { background:#C9A24A; color:#000; } }
   .pm-counter {
     position:absolute; bottom:.7rem; right:.7rem; z-index:5;
     font-size:.7rem; letter-spacing:.08em; color:#fff;
@@ -263,7 +263,7 @@
     padding:.65rem .7rem; border-radius:.6rem; color:#cbd5e1; font-size:.875rem;
     border:1px solid transparent; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
   }
-  .sm-item:hover { background:rgba(255,255,255,.04); color:#fff; }
+  @media (hover: hover) { .sm-item:hover { background:rgba(255,255,255,.04); color:#fff; } }
   .sm-item.on { background:rgba(201,162,74,.12); border-color:rgba(201,162,74,.4); color:#E7CE89; }
   .sm-item .dot { width:6px; height:6px; border-radius:50%; background:#C9A24A; flex:none; }
 
@@ -326,9 +326,11 @@
 
   /* clickable BDA cards (when a photo exists) */
   .sm-bda-clickable { cursor:pointer; transition:transform .25s, border-color .25s, box-shadow .25s; }
-  .sm-bda-clickable:hover {
-    transform:translateY(-3px); border-color:rgba(201,162,74,.55);
-    box-shadow:0 14px 28px -16px rgba(0,0,0,.8);
+  @media (hover: hover) {
+    .sm-bda-clickable:hover {
+      transform:translateY(-3px); border-color:rgba(201,162,74,.55);
+      box-shadow:0 14px 28px -16px rgba(0,0,0,.8);
+    }
   }
 
   .sm-gallery-empty {
@@ -339,7 +341,7 @@
     display:inline-flex; align-items:center; gap:.4rem; margin-bottom:1.1rem;
     color:#94a3b8; font-size:.85rem; transition:color .2s;
   }
-  .sm-back:hover { color:#C9A24A; }
+  @media (hover: hover) { .sm-back:hover { color:#C9A24A; } }
 
   /* preselected service field — visibly highlighted, still a normal clickable dropdown */
   .field-hl {
@@ -361,10 +363,12 @@
     border:1px solid rgba(255,255,255,.1); background:#0c0c0f;
     transition:transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
   }
-  .team-card:not(.team-card-static):hover {
-    transform:translateY(-4px); border-color:rgba(201,162,74,.55);
-    box-shadow:0 18px 40px -18px rgba(0,0,0,.8);
-    cursor:pointer;
+  @media (hover: hover) {
+    .team-card:not(.team-card-static):hover {
+      transform:translateY(-4px); border-color:rgba(201,162,74,.55);
+      box-shadow:0 18px 40px -18px rgba(0,0,0,.8);
+      cursor:pointer;
+    }
   }
   .team-photo {
     width:100%; aspect-ratio:4/5;
@@ -387,7 +391,7 @@
     padding:.28rem .55rem; border-radius:9999px;
     opacity:0; transform:translateY(-3px); transition:opacity .25s, transform .25s;
   }
-  .team-card:not(.team-card-static):hover .team-hint { opacity:1; transform:none; }
+  @media (hover: hover) { .team-card:not(.team-card-static):hover .team-hint { opacity:1; transform:none; } }
   .team-card-wide .team-photo { aspect-ratio:16/9; background-position:center; }
 
   /* horizontal card variant (portrait photo on left, info on right) */
@@ -422,7 +426,7 @@
   .cm-role { color:#C9A24A; font-size:.7rem; text-transform:uppercase; letter-spacing:.18em; margin-top:.35rem; margin-bottom:1.25rem; }
   .cm-contact { font-size:.875rem; color:#cbd5e1; margin-bottom:1.5rem; line-height:1.7; }
   .cm-contact a { color:#cbd5e1; transition:color .2s; }
-  .cm-contact a:hover { color:#C9A24A; }
+  @media (hover: hover) { .cm-contact a:hover { color:#C9A24A; } }
   .cm-buttons { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
   .cm-btn {
     display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
@@ -430,9 +434,9 @@
     transition:background .25s, color .25s, border-color .25s, box-shadow .25s;
   }
   .cm-btn-wa { background:#C9A24A; color:#0A0A0B; box-shadow:0 12px 28px -10px rgba(201,162,74,.55); }
-  .cm-btn-wa:hover { background:#E7CE89; box-shadow:0 16px 36px -8px rgba(201,162,74,.7); }
+  @media (hover: hover) { .cm-btn-wa:hover { background:#E7CE89; box-shadow:0 16px 36px -8px rgba(201,162,74,.7); } }
   .cm-btn-em { background:transparent; color:#cbd5e1; border:1px solid rgba(255,255,255,.18); }
-  .cm-btn-em:hover { border-color:#C9A24A; color:#C9A24A; }
+  @media (hover: hover) { .cm-btn-em:hover { border-color:#C9A24A; color:#C9A24A; } }
 
   /* ----- team modal ----- */
   .tm-dialog { max-width:760px; }
@@ -490,7 +494,7 @@
     display:flex; align-items:center; justify-content:center; cursor:pointer;
     transition:background .25s, color .25s;
   }
-  .lb-close:hover { background:#C9A24A; color:#000; }
+  @media (hover: hover) { .lb-close:hover { background:#C9A24A; color:#000; } }
   .lb-img {
     position:relative; max-width:100%; max-height:88vh; object-fit:contain;
     border-radius:.5rem; box-shadow:0 30px 80px -20px rgba(0,0,0,.9);
@@ -504,30 +508,6 @@
   .team-card[data-show-contact],
   .svc-card,
   .project-card { touch-action:manipulation; cursor:pointer; }
-
-  /* On touch devices, neutralise all :hover visual changes — they cause the
-     iOS "first tap shows hover, second tap activates" bug. The lift, border
-     and shadow effects only make sense with a mouse. */
-  @media (hover: none) {
-    .lift:hover,
-    .team-card:not(.team-card-static):hover,
-    .project-card:hover,
-    .svc-card:hover {
-      transform:none !important;
-      border-color:rgba(255,255,255,.1) !important;
-      box-shadow:none !important;
-    }
-    .navlink:hover::after { width:0 !important; }
-    .team-card:not(.team-card-static):hover .team-hint { opacity:0 !important; transform:translateY(-3px) !important; }
-    .sm-cf .cf-slide.is-active:hover .cf-zoom { background:rgba(0,0,0,.55) !important; color:#fff !important; }
-  }
-  /* make every visual element inside a clickable card pass clicks through to the card */
-  .team-card[data-contact] > *,
-  .team-card[data-show-contact] > *,
-  .project-card > * { pointer-events:none; }
-  .svc-card > * { pointer-events:none; }
-  /* but keep the nested service-row buttons clickable for their own actions */
-  .svc-card ul, .svc-card ul *, .svc-card .svc-row { pointer-events:auto; }
 
   /* scroll offset so the navbar doesn't cover the form when CTAs jump to it */
   #companyForm, #workerForm { scroll-margin-top:120px; }
@@ -546,7 +526,7 @@
     padding:5px 10px; border-radius:9999px; color:#94a3b8;
     transition:background .2s, color .2s;
   }
-  .lang-switcher button:hover { color:#fff; }
+  @media (hover: hover) { .lang-switcher button:hover { color:#fff; } }
   .lang-switcher button.on { background:#C9A24A; color:#0A0A0B; }
 
   /* compose-email modal (opens on top of contact card) */
@@ -1470,6 +1450,11 @@
 </button>
 
 <script>
+/* Always start from the top on a fresh page load (mobile browsers otherwise
+   restore stale scroll positions after navigation/refresh, which was
+   throwing the user mid-page). */
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 /* ============================================================
    I18N — EN / IT / RO
    Translations are natural, not literal.
@@ -2018,34 +2003,16 @@ function setLang(lang){
 const WEB3FORMS_KEY = "28290356-5dbf-427f-8fb3-a5962fe8e63c";
 const OFFICE_EMAIL  = "office@navalsy.com";
 
-/* iOS-safe scroll lock used by every modal — plain body.overflow:hidden leaves
-   residual scroll state on iOS Safari that breaks subsequent taps. Refcounted
-   so stacked modals (lightbox on top of compose, etc.) lock/unlock correctly. */
-let __lockedScrollY = 0;
+/* Simple, refcounted scroll lock — just toggles body.overflow.
+   Refcount keeps it correct when modals stack (e.g. lightbox over compose). */
 let __lockCount = 0;
 function lockScroll(){
-  if(__lockCount === 0){
-    __lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-    document.body.style.position = 'fixed';
-    document.body.style.top      = `-${__lockedScrollY}px`;
-    document.body.style.left     = '0';
-    document.body.style.right    = '0';
-    document.body.style.width    = '100%';
-    lockScroll();
-  }
+  if(__lockCount === 0) document.body.style.overflow = 'hidden';
   __lockCount++;
 }
 function unlockScroll(){
   __lockCount = Math.max(0, __lockCount - 1);
-  if(__lockCount > 0) return;
-  document.body.style.position = '';
-  document.body.style.top      = '';
-  document.body.style.left     = '';
-  document.body.style.right    = '';
-  document.body.style.width    = '';
-  unlockScroll();
-  // restore the visual position WITHOUT smooth scroll (would feel like a glitch)
-  window.scrollTo(0, __lockedScrollY);
+  if(__lockCount === 0) document.body.style.overflow = '';
 }
 
 async function submitToWeb3Forms(formEl, extras){
