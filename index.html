@@ -1459,8 +1459,14 @@
 <script>
 /* Always start from the top on a fresh page load (mobile browsers otherwise
    restore stale scroll positions after navigation/refresh, which was
-   throwing the user mid-page). */
+   throwing the user mid-page). Also drop any leftover #hash from a previous
+   CTA click (#companyForm / #workerForm) so a refresh lands on Home, not
+   wherever the user last jumped to. */
 if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if(location.hash) {
+  history.replaceState(null, '', location.pathname + location.search);
+}
+window.addEventListener('load', () => window.scrollTo(0, 0));
 
 /* ============================================================
    I18N — EN / IT / RO
