@@ -104,7 +104,13 @@
   }
   .field::placeholder { color:#6b6b73; }
 
-  #mobileMenu { transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s; }
+  /* Mobile menu is positioned ABSOLUTELY so it doesn't add its (~400px)
+     collapsed height to the fixed header. Without this, the header bounding
+     box covered the upper half of the viewport, swallowing every tap. */
+  #mobileMenu {
+    position:absolute; top:100%; left:0; right:0;
+    transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s;
+  }
   .menu-hidden { transform:translateY(-12px); opacity:0; pointer-events:none; }
 
   .to-top { transition:opacity .35s, transform .35s; }
