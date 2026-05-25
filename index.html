@@ -1979,9 +1979,10 @@ function setLang(lang){
 }
 
 /* ---------- BACKEND ---------- */
-// Web3Forms access key (delivers all form submissions to office@navalsy.com).
-// Upgrade to paid plan at web3forms.com to unlock CV file attachments — code stays the same.
-const WEB3FORMS_KEY = "28290356-5dbf-427f-8fb3-a5962fe8e63c";
+// Web3Forms paid account. Default inbox (set in dashboard) is office@navalsy.com.
+// Per-recipient routing for the compose modal is done with the `to` parameter,
+// which must be one of the linked/verified emails on the Web3Forms account.
+const WEB3FORMS_KEY = "66a184e7-6fb3-4e13-adea-33dc3e29be93";
 const OFFICE_EMAIL  = "office@navalsy.com";
 
 /* Simple, refcounted scroll lock — just toggles body.overflow.
@@ -3167,11 +3168,15 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(e.key === 'Escape' && modal.classList.contains('open')){ e.stopImmediatePropagation(); close(); }
   }, true);
 
-  // submit -> Web3Forms (subject names the recipient so office routes it correctly)
+  // submit -> Web3Forms. `to` routes the email to the linked address on the paid
+  // account (Aurel / Stefan / Bianca / Office). If `to` is ignored, the email
+  // still reaches the recipient through the `cc` field as a safety net.
   handleForm('emailForm', 'emailSuccess', 'emailError', form => ({
     subject: 'Website message — to ' + toName.value,
     from_name: 'NavalSy website',
     _replyto: form.querySelector('input[name="email"]')?.value || '',
+    to: toEmail.value,
+    cc: toEmail.value,
     inquiry_type: 'Direct message — ' + toName.value + ' (' + toEmail.value + ')'
   }));
 
