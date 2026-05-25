@@ -493,6 +493,25 @@
   }
   .lb-modal.open .lb-img { opacity:1; transform:scale(1); }
 
+  /* mobile-friendly tap targets — entire card responds to a tap anywhere */
+  .team-card[data-contact],
+  .team-card[data-show-contact],
+  .svc-card,
+  .project-card { touch-action:manipulation; cursor:pointer; }
+  /* make every visual element inside a clickable card pass clicks through to the card */
+  .team-card[data-contact] > *,
+  .team-card[data-show-contact] > *,
+  .project-card > * { pointer-events:none; }
+  .svc-card > * { pointer-events:none; }
+  /* but keep the nested service-row buttons clickable for their own actions */
+  .svc-card ul, .svc-card ul *, .svc-card .svc-row { pointer-events:auto; }
+
+  /* scroll offset so the navbar doesn't cover the form when CTAs jump to it */
+  #companyForm, #workerForm { scroll-margin-top:120px; }
+
+  /* hero coverflow: zoom cursor on the active (clickable to enlarge) slide */
+  #coverflow .cf-slide.is-active { cursor:zoom-in; }
+
   /* language switcher */
   .lang-switcher {
     display:inline-flex; gap:2px; padding:3px;
@@ -569,9 +588,9 @@
           <button type="button" data-lang="it">IT</button>
           <button type="button" data-lang="ro">RO</button>
         </div>
-        <a href="#contact" class="btn-gold inline-block bg-gold hover:bg-gold-light text-black font-semibold
+        <a href="#companyForm" class="btn-gold inline-block bg-gold hover:bg-gold-light text-black font-semibold
                   px-6 py-3 rounded-xl transition-all duration-300" data-i18n="cta.quote">Request a Quote</a>
-        <a href="#careers" class="inline-block border border-white/20 text-slate-200 hover:border-gold hover:text-gold
+        <a href="#workerForm" class="inline-block border border-white/20 text-slate-200 hover:border-gold hover:text-gold
                   font-semibold px-6 py-3 rounded-xl transition-all duration-300" data-i18n="cta.work">Work with us!</a>
       </div>
 
@@ -596,7 +615,8 @@
       <button type="button" data-lang="it">IT</button>
       <button type="button" data-lang="ro">RO</button>
     </div>
-    <a href="#contact" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl" data-i18n="cta.quote">Request a Quote</a>
+    <a href="#companyForm" class="mt-4 block text-center bg-gold text-black font-semibold py-3 rounded-xl" data-i18n="cta.quote">Request a Quote</a>
+    <a href="#workerForm" class="mt-3 block text-center border border-white/20 text-slate-200 font-semibold py-3 rounded-xl" data-i18n="cta.work">Work with us!</a>
   </div>
 </header>
 
@@ -716,10 +736,10 @@
       </p>
 
       <div class="hero-anim flex flex-wrap gap-4 mb-12" style="animation-delay:.45s">
-        <a href="#contact" class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300" data-i18n="cta.quote">
+        <a href="#companyForm" class="btn-gold bg-gold hover:bg-gold-light text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300" data-i18n="cta.quote">
           Request a Quote
         </a>
-        <a href="#careers" class="border border-white/20 hover:border-gold hover:text-gold px-8 py-4 rounded-xl font-semibold transition-all duration-300" data-i18n="cta.workAlt">
+        <a href="#workerForm" class="border border-white/20 hover:border-gold hover:text-gold px-8 py-4 rounded-xl font-semibold transition-all duration-300" data-i18n="cta.workAlt">
           Work With Us
         </a>
       </div>
@@ -2512,7 +2532,15 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   document.getElementById('cfNext').onclick = next;
   document.getElementById('cfPrev').onclick = prev;
-  slides.forEach((s, i) => s.addEventListener('click', () => { if(i !== active) go(i); }));
+  slides.forEach((s, i) => s.addEventListener('click', () => {
+    if(i !== active) { go(i); return; }
+    // click on the active slide opens it large in the lightbox (mobile-friendly photo zoom)
+    const img = s.querySelector('img');
+    if(img && window.openLightbox) {
+      // decode first so encodeURI inside the lightbox doesn't double-encode %20
+      window.openLightbox(decodeURI(img.getAttribute('src')));
+    }
+  }));
 
   // touch swipe
   let sx = 0;
