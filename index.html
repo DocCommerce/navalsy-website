@@ -504,6 +504,23 @@
   .team-card[data-show-contact],
   .svc-card,
   .project-card { touch-action:manipulation; cursor:pointer; }
+
+  /* On touch devices, neutralise all :hover visual changes — they cause the
+     iOS "first tap shows hover, second tap activates" bug. The lift, border
+     and shadow effects only make sense with a mouse. */
+  @media (hover: none) {
+    .lift:hover,
+    .team-card:not(.team-card-static):hover,
+    .project-card:hover,
+    .svc-card:hover {
+      transform:none !important;
+      border-color:rgba(255,255,255,.1) !important;
+      box-shadow:none !important;
+    }
+    .navlink:hover::after { width:0 !important; }
+    .team-card:not(.team-card-static):hover .team-hint { opacity:0 !important; transform:translateY(-3px) !important; }
+    .sm-cf .cf-slide.is-active:hover .cf-zoom { background:rgba(0,0,0,.55) !important; color:#fff !important; }
+  }
   /* make every visual element inside a clickable card pass clicks through to the card */
   .team-card[data-contact] > *,
   .team-card[data-show-contact] > *,
@@ -2001,6 +2018,36 @@ function setLang(lang){
 const WEB3FORMS_KEY = "28290356-5dbf-427f-8fb3-a5962fe8e63c";
 const OFFICE_EMAIL  = "office@navalsy.com";
 
+/* iOS-safe scroll lock used by every modal — plain body.overflow:hidden leaves
+   residual scroll state on iOS Safari that breaks subsequent taps. Refcounted
+   so stacked modals (lightbox on top of compose, etc.) lock/unlock correctly. */
+let __lockedScrollY = 0;
+let __lockCount = 0;
+function lockScroll(){
+  if(__lockCount === 0){
+    __lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.style.position = 'fixed';
+    document.body.style.top      = `-${__lockedScrollY}px`;
+    document.body.style.left     = '0';
+    document.body.style.right    = '0';
+    document.body.style.width    = '100%';
+    lockScroll();
+  }
+  __lockCount++;
+}
+function unlockScroll(){
+  __lockCount = Math.max(0, __lockCount - 1);
+  if(__lockCount > 0) return;
+  document.body.style.position = '';
+  document.body.style.top      = '';
+  document.body.style.left     = '';
+  document.body.style.right    = '';
+  document.body.style.width    = '';
+  unlockScroll();
+  // restore the visual position WITHOUT smooth scroll (would feel like a glitch)
+  window.scrollTo(0, __lockedScrollY);
+}
+
 async function submitToWeb3Forms(formEl, extras){
   const data = new FormData(formEl);
   data.append("access_key", WEB3FORMS_KEY);
@@ -2634,7 +2681,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   function reveal(){
     if(window.__cfPause) window.__cfPause();   // stop coverflow autoplay
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden', 'false');
 
     // animate the dialog in + scale the page back — both pure GPU transforms -> 60fps
@@ -2699,7 +2746,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(!keepFrozen) pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
-    if(!keepFrozen) document.body.style.overflow = '';
+    if(!keepFrozen) unlockScroll();
     if(!keepFrozen && window.__cfResume) window.__cfResume();
   }
 
@@ -2895,7 +2942,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     prepForm('smApplyForm','smApplySuccess');
     smCvLabel.innerHTML = defaultCv;
     if(window.__cfPause) window.__cfPause();
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -2906,7 +2953,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+    unlockScroll();
     if(window.__cfResume) window.__cfResume();
   }
 
@@ -2973,7 +3020,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     }
     showView(view === 'apply' ? 'apply' : 'quote');
     if(window.__cfPause) window.__cfPause();
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -3032,7 +3079,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     emBtn.onclick = (e) => { e.preventDefault(); if(window.openEmail) window.openEmail({ name:p.name, role:t(p.roleKey), email:p.email }); };
 
     if(window.__cfPause) window.__cfPause();
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -3043,7 +3090,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+    unlockScroll();
     if(window.__cfResume) window.__cfResume();
   }
 
@@ -3108,7 +3155,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     success.classList.add('hidden');
 
     if(window.__cfPause) window.__cfPause();
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -3123,7 +3170,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     const stillOpen = document.querySelector('.proj-modal.open');
     if(!stillOpen){
       pageWrap.classList.remove('modal-frozen');
-      document.body.style.overflow = '';
+      unlockScroll();
       if(window.__cfResume) window.__cfResume();
     }
   }
@@ -3189,7 +3236,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
 
   function open(){
     if(window.__cfPause) window.__cfPause();
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     modal.setAttribute('aria-hidden','false');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       modal.classList.add('open');
@@ -3200,7 +3247,7 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+    unlockScroll();
     if(window.__cfResume) window.__cfResume();
   }
 
