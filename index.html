@@ -164,13 +164,19 @@
   }
   .proj-modal.open { pointer-events:auto; visibility:visible; transition:visibility 0s linear 0s; }
 
-  /* while the modal is open: gently scale the page back + pause its animations
-     (depth effect instead of blur — transform is GPU-composited, 100% smooth) */
-  #pageWrap { transition:transform .45s cubic-bezier(.2,.7,.2,1); }
-  #pageWrap.modal-frozen { transform:scale(.97); }
+  /* freeze background animations while a modal is open (cheap and helpful everywhere) */
   #pageWrap.modal-frozen *,
   #pageWrap.modal-frozen *::before,
   #pageWrap.modal-frozen *::after { animation-play-state:paused !important; }
+
+  /* depth effect (page scales back slightly) — ONLY on mouse/desktop devices.
+     iOS/Android break touch hit-testing on a transformed wrapper that contains
+     position:fixed children (the navbar), forcing users to "shake" the page
+     before taps work again. The dark backdrop alone is enough on touch. */
+  @media (hover: hover) and (pointer: fine) {
+    #pageWrap { transition:transform .45s cubic-bezier(.2,.7,.2,1); }
+    #pageWrap.modal-frozen { transform:scale(.97); }
+  }
 
   /* dim layer: a strong, plain dark overlay — GPU-composited, no blur, runs at full fps */
   .proj-backdrop {
