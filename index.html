@@ -2508,19 +2508,40 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const cf = document.getElementById('coverflow');
   if(!cf) return;
   const track = document.getElementById('cfTrack');
+  if(!track) return;
   const slides = [...track.children];
   const dotsWrap = document.getElementById('cfDots');
   const n = slides.length;
   let active = 0, timer;
 
-  slides.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'cf-dot';
-    d.setAttribute('aria-label', 'Show photo ' + (i + 1));
-    d.onclick = () => go(i);
-    dotsWrap.appendChild(d);
-  });
-  const dots = [...dotsWrap.children];
+  // single-slide carousel: no need for dots, arrows, swipe or autoplay —
+  // just show the slide as active and expose no-op pause/resume so other
+  // modals can still call them without crashing.
+  if(n <= 1){
+    if(slides[0]) slides[0].classList.add('is-active');
+    if(dotsWrap) dotsWrap.classList.add('hidden');
+    window.__cfPause  = () => {};
+    window.__cfResume = () => {};
+    // still let users tap a single photo to enlarge it
+    if(slides[0]){
+      slides[0].addEventListener('click', () => {
+        const img = slides[0].querySelector('img');
+        if(img && window.openLightbox) window.openLightbox(decodeURI(img.getAttribute('src')));
+      });
+    }
+    return;
+  }
+
+  if(dotsWrap){
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'cf-dot';
+      d.setAttribute('aria-label', 'Show photo ' + (i + 1));
+      d.onclick = () => go(i);
+      dotsWrap.appendChild(d);
+    });
+  }
+  const dots = dotsWrap ? [...dotsWrap.children] : [];
 
   function render(){
     slides.forEach((s, i) => {
@@ -2535,8 +2556,11 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const next = () => go(active + 1);
   const prev = () => go(active - 1);
 
-  document.getElementById('cfNext').onclick = next;
-  document.getElementById('cfPrev').onclick = prev;
+  // arrows are optional — they were removed when the slide list shrunk to 1
+  const nextBtn = document.getElementById('cfNext');
+  const prevBtn = document.getElementById('cfPrev');
+  if(nextBtn) nextBtn.onclick = next;
+  if(prevBtn) prevBtn.onclick = prev;
   slides.forEach((s, i) => s.addEventListener('click', () => {
     if(i !== active) { go(i); return; }
     // click on the active slide opens it large in the lightbox (mobile-friendly photo zoom)
