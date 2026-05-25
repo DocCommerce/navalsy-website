@@ -2012,7 +2012,13 @@ function lockScroll(){
 }
 function unlockScroll(){
   __lockCount = Math.max(0, __lockCount - 1);
-  if(__lockCount === 0) document.body.style.overflow = '';
+  if(__lockCount === 0){
+    document.body.style.overflow = '';
+    // forced layout read — nudges iOS Safari to recompute touch hit-areas
+    // after the body overflow flips back, otherwise taps near the top can
+    // miss their targets until the user scrolls
+    void document.body.offsetHeight;
+  }
 }
 
 async function submitToWeb3Forms(formEl, extras){
@@ -2713,7 +2719,10 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(!keepFrozen) pageWrap.classList.remove('modal-frozen');
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
-    if(!keepFrozen) unlockScroll();
+    // ALWAYS decrement the lock count — the refcount itself decides whether
+    // body.overflow gets restored. The previous conditional was leaving the
+    // counter stuck > 0 after a project -> service-form transition.
+    unlockScroll();
     if(!keepFrozen && window.__cfResume) window.__cfResume();
   }
 
@@ -3132,12 +3141,13 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   function close(){
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
-    // Release the page freeze ONLY if no other modal is still open underneath.
-    // (When opened on top of the contact card, we leave it frozen for that one.)
+    // ALWAYS decrement the lock count (refcounted — body.overflow stays hidden
+    // automatically while another modal is still open underneath).
+    unlockScroll();
+    // Only drop the visual "page frozen" class if nothing else is open below.
     const stillOpen = document.querySelector('.proj-modal.open');
     if(!stillOpen){
       pageWrap.classList.remove('modal-frozen');
-      unlockScroll();
       if(window.__cfResume) window.__cfResume();
     }
   }
