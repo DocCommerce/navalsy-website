@@ -1944,13 +1944,61 @@ const I18N = {
   }
 };
 
+// Language priority (highest to lowest):
+//   1. MANUAL_KEY — user explicitly clicked a language switcher (sticks forever)
+//   2. GEO_CACHE_KEY — country derived from /api/geo, cached 24h (RO->ro, IT->it, else->en)
+//   3. navigator.language (browser locale)
+//   4. 'en'
+const LANG_KEY_LEGACY = 'navalsy.lang';
+const MANUAL_KEY      = 'navalsy.lang.manual';
+const GEO_CACHE_KEY   = 'navalsy.lang.geo';
+const GEO_TTL_MS      = 24 * 60 * 60 * 1000;
+const COUNTRY_TO_LANG = { RO: 'ro', IT: 'it' };
+
 let LANG = (function(){
   try {
-    const stored = localStorage.getItem('navalsy.lang');
-    if(stored && I18N[stored]) return stored;
+    // Backfill: legacy code wrote user choices to LANG_KEY_LEGACY. Promote
+    // that to MANUAL_KEY once so returning users keep their picked language.
+    const legacy = localStorage.getItem(LANG_KEY_LEGACY);
+    if(legacy && I18N[legacy] && !localStorage.getItem(MANUAL_KEY)){
+      localStorage.setItem(MANUAL_KEY, legacy);
+      localStorage.removeItem(LANG_KEY_LEGACY);
+    }
+    const manual = localStorage.getItem(MANUAL_KEY);
+    if(manual && I18N[manual]) return manual;
+    const cacheRaw = localStorage.getItem(GEO_CACHE_KEY);
+    if(cacheRaw){
+      const geo = JSON.parse(cacheRaw);
+      if(geo && geo.lang && I18N[geo.lang] && (Date.now() - geo.ts) < GEO_TTL_MS){
+        return geo.lang;
+      }
+    }
   } catch(e){}
   const b = (navigator.language || 'en').slice(0,2).toLowerCase();
   return I18N[b] ? b : 'en';
+})();
+
+// Async geo detection — only runs when the user hasn't manually picked a language
+// and the cached geo result is stale. Updates LANG live if the visitor's country
+// disagrees with the current sync fallback (e.g. Romanian visitor with English browser).
+(async function detectGeoLang(){
+  try {
+    if(localStorage.getItem(MANUAL_KEY)) return;
+    const cacheRaw = localStorage.getItem(GEO_CACHE_KEY);
+    if(cacheRaw){
+      const cache = JSON.parse(cacheRaw);
+      if(cache && (Date.now() - cache.ts) < GEO_TTL_MS) return;
+    }
+    const res = await fetch('/api/geo', { cache: 'no-store' });
+    if(!res.ok) return;
+    const data = await res.json();
+    const lang = COUNTRY_TO_LANG[(data.country || '').toUpperCase()] || 'en';
+    localStorage.setItem(GEO_CACHE_KEY, JSON.stringify({ lang, ts: Date.now() }));
+    if(!localStorage.getItem(MANUAL_KEY) && lang !== LANG){
+      LANG = lang;
+      if(typeof applyTranslations === 'function') applyTranslations();
+    }
+  } catch(e){ /* offline / local dev / api missing — keep sync fallback */ }
 })();
 
 function t(key){
@@ -1974,7 +2022,9 @@ function applyTranslations(){
 function setLang(lang){
   if(!I18N[lang]) return;
   LANG = lang;
-  try { localStorage.setItem('navalsy.lang', lang); } catch(e){}
+  // MANUAL_KEY signals "user chose this on purpose" — geo detection will never
+  // override it on later visits (only another manual click can change it).
+  try { localStorage.setItem(MANUAL_KEY, lang); } catch(e){}
   applyTranslations();
 }
 
