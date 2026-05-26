@@ -387,6 +387,11 @@
     width:100%; aspect-ratio:4/5;
     background-size:cover; background-position:center top; background-color:#17171c;
   }
+  /* Stefan's source photo has a lot of empty wall above his head — zoom in
+     and shift the face into the upper-middle so the framing matches Aurel's
+     tight head-and-shoulders crop. Targets both team cards and contact modal. */
+  .team-photo[style*="Stefan"],
+  .cm-photo[style*="Stefan"]   { background-size:155%; background-position:center 38%; }
   .team-photo-empty {
     display:flex; align-items:center; justify-content:center;
     font-family:"Sora",sans-serif; font-weight:700; font-size:3.5rem;
