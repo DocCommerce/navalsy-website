@@ -2959,7 +2959,11 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   function openProject(p){
     document.getElementById('pmCountry').textContent = L(p.country);
     document.getElementById('pmTitle').textContent   = L(p.t);
-    document.getElementById('pmDesc').textContent    = L(p.desc);
+    const pmDescEl = document.getElementById('pmDesc');
+    pmDescEl.textContent = L(p.desc);
+    // Reset description scroll — otherwise the position from the previous
+    // project carries over (e.g. opening Four Seasons after scrolling NCL).
+    pmDescEl.scrollTop = 0;
     document.getElementById('pmMeta').innerHTML = [
       [t('works.vessel'),    p.boat],
       [t('pm.shipyard'),     p.yard],
@@ -3500,12 +3504,16 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     const l = leaders[n];
     tlName.textContent = l ? l.name : t('tm.leader');
     tlDesc.textContent = l ? t(l.bioKey) : t('tm.bioSoon');
+    // Reset bio scroll so each leader starts at the top of its description.
+    tlDesc.scrollTop = 0;
   }
-  // re-localize the bio panel when the language changes
+  // Re-localize the bio panel whenever a language change triggers a re-render.
+  // (Always re-run — modal-open gate caused stale text on the active leader
+  // when language switched before the user clicked any other thumbnail.)
   const _origRender = window.__renderDynamic;
   window.__renderDynamic = function(){
     if(_origRender) _origRender();
-    if(modal.classList.contains('open')) selectLeader(currentLeader);
+    selectLeader(currentLeader);
   };
   thumbs.forEach(b => b.onclick = () => selectLeader(+b.dataset.leader));
 
