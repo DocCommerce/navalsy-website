@@ -254,25 +254,24 @@
   .pm-thumb img { width:100%; height:100%; object-fit:cover; }
 
   .pm-info { padding:1.75rem; overflow-y:auto; }
-  /* Desktop: keep title/meta/tags/CTAs visible, scroll only the long description */
-  @media (min-width:900px) {
-    .pm-info { padding:2.25rem; display:flex; flex-direction:column; overflow:hidden; }
-    .pm-info > *:not(#pmDesc) { flex:0 0 auto; }
+  @media (min-width:900px) { .pm-info { padding:2.25rem; } }
+  /* Description sits in a bounded frame with its own internal scroll so the
+     modal stays compact: title, meta, tags and CTAs all remain visible. */
+  #pmDesc {
+    max-height:200px;
+    overflow-y:auto;
+    padding:14px 16px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.02);
+    border-radius:12px;
+    white-space:pre-line;        /* render the \n\n paragraph breaks */
+    scrollbar-width:thin;
+    scrollbar-color:rgba(201,162,74,.45) transparent;
   }
-  /* Preserve paragraph breaks (\n\n) coming from textContent, and on desktop
-     turn the description into the only scrollable area inside the info panel. */
-  #pmDesc { white-space:pre-line; }
-  @media (min-width:900px) {
-    #pmDesc {
-      flex:1 1 auto; min-height:0; overflow-y:auto;
-      padding-right:10px; margin-right:-4px;
-      scrollbar-width:thin;
-      scrollbar-color:rgba(201,162,74,.45) transparent;
-    }
-    #pmDesc::-webkit-scrollbar { width:6px; }
-    #pmDesc::-webkit-scrollbar-thumb { background:rgba(201,162,74,.45); border-radius:3px; }
-    #pmDesc::-webkit-scrollbar-track { background:transparent; }
-  }
+  #pmDesc::-webkit-scrollbar { width:6px; }
+  #pmDesc::-webkit-scrollbar-thumb { background:rgba(201,162,74,.45); border-radius:3px; }
+  #pmDesc::-webkit-scrollbar-track { background:transparent; }
+  @media (min-width:900px) { #pmDesc { max-height:220px; } }
   .pm-meta { display:grid; grid-template-columns:1fr 1fr; gap:.9rem 1rem; margin:1.3rem 0; }
   .pm-meta dt { font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:#C9A24A; }
   .pm-meta dd { font-family:"Sora",sans-serif; font-weight:600; margin-top:.15rem; }
