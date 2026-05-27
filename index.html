@@ -585,6 +585,16 @@
     animation:tlFade .35s cubic-bezier(.2,.7,.2,1);
   }
   @keyframes tlFade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+  /* Long bios scroll inside the panel so the modal stays compact. */
+  #tlDesc {
+    max-height:180px; overflow-y:auto;
+    padding-right:8px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(201,162,74,.5) transparent;
+  }
+  #tlDesc::-webkit-scrollbar { width:6px; }
+  #tlDesc::-webkit-scrollbar-thumb { background:rgba(201,162,74,.5); border-radius:3px; }
+  #tlDesc::-webkit-scrollbar-track { background:transparent; }
 
   /* photo lightbox — sits ON TOP of other modals, leaves them in place underneath */
   .lb-modal {
@@ -1449,7 +1459,7 @@
       <!-- TEAM LEADERS -->
       <div class="mb-9">
         <div class="tm-section-title" data-i18n="tm.leadersT">Team Leaders</div>
-        <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
           <button class="tl-thumb" data-leader="1">
             <img src="assets/Team/Team%20Leaders/1.jpg" alt="Paul" loading="lazy" decoding="async" />
             <span class="tl-tag">Paul</span>
@@ -1461,6 +1471,10 @@
           <button class="tl-thumb" data-leader="3">
             <img src="assets/Team/Team%20Leaders/3.jpg" alt="Duțu" loading="lazy" decoding="async" />
             <span class="tl-tag">Duțu</span>
+          </button>
+          <button class="tl-thumb" data-leader="4">
+            <img src="assets/Team/Team%20Leaders/4.jpg" alt="Radu" loading="lazy" decoding="async" />
+            <span class="tl-tag">Radu</span>
           </button>
         </div>
         <div class="tl-panel">
@@ -1755,6 +1769,10 @@ const I18N = {
     "tm.ocRole":     "Office Coordinator",
     "tm.clickCont":  "Click to view contact details",
     "tm.bioSoon":    "Experience and personal background to be added — full bio coming soon.",
+    "tl.paul.bio":   "Paul leads NavalSy crews on board, taking complex multi-trade refit packages from kick-off through to handover. With years of hands-on experience across cabin builds, insulation, panelling and finishing work on cruise vessels, he runs his team with a focus on craftsmanship and on clear coordination with the shipyard. On site he is the day-to-day reference point for his crew, handling work planning, quality checks and safety briefings while keeping the project on schedule.",
+    "tl.petrea.bio": "Petrea is a NavalSy team leader trusted with the trades where finish quality is non-negotiable. He has built a strong track record on cabin refurbishment, panelling and detailed finishing across several cruise lines, and brings that detail-first approach to every project he runs. On the deck he splits his time between coaching the crew, running quality walk-throughs and aligning daily progress with the project office, so the team consistently delivers to operator-grade standards.",
+    "tl.dutu.bio":   "Duțu leads NavalSy crews on the heavier scopes — structural framing, demolition and the early build-up stages of a refit, where pace, discipline and accuracy on the steel set the tone for everything that follows. He is at ease running large mobilisations and keeping critical-path work on track inside tight dry-dock windows. His teams know exactly what is expected of them every shift, and that clarity is what brings the schedule in.",
+    "tl.radu.bio":   "Radu currently runs NavalSy's site at Saint-Nazaire, France, as the on-site supervisor of an active build. His role spans daily crew coordination, quality control across trades, safety briefings and the direct interface with the yard's project office. With deep field experience across both refit and new-building projects, Radu turns scope, drawings and deadlines into a working plan that the team executes day after day until handover.",
     "tm.leader":     "Team Leader",
 
     // contact card
@@ -1936,6 +1954,10 @@ const I18N = {
     "tm.ocRole":     "Coordinatrice d'Ufficio",
     "tm.clickCont":  "Clicca per vedere i contatti",
     "tm.bioSoon":    "Esperienza e percorso personale in arrivo — biografia completa a breve.",
+    "tl.paul.bio":   "Paul guida le squadre NavalSy a bordo, portando pacchetti di refitting multi-specialità complessi dal kick-off alla consegna. Con anni di esperienza sul campo su costruzione cabine, coibentazioni, pannellature e finiture su navi da crociera, conduce la sua squadra con attenzione alla cura artigianale e a un coordinamento chiaro con il cantiere. A bordo è il punto di riferimento quotidiano della sua crew, gestisce la pianificazione del lavoro, i controlli qualità e i briefing di sicurezza, mantenendo il progetto in linea con il programma.",
+    "tl.petrea.bio": "Petrea è un team leader NavalSy a cui vengono affidate le specialità in cui la qualità della finitura non ammette compromessi. Ha costruito una solida esperienza su rinnovo cabine, pannellature e finiture di dettaglio per diverse compagnie crocieristiche, e porta questo approccio orientato al dettaglio in ogni progetto che gestisce. In cantiere divide il tempo tra il coaching della squadra, le verifiche di qualità e l'allineamento dell'avanzamento quotidiano con il project office, così la squadra consegna sempre allo standard atteso dall'operatore.",
+    "tl.dutu.bio":   "Duțu guida le squadre NavalSy sugli scope più pesanti — carpenteria strutturale, demolizioni e fasi iniziali di costruzione di un refit, dove ritmo, disciplina e precisione sul ferro impostano il tono per tutto ciò che segue. È a suo agio nel gestire mobilitazioni grandi e nel tenere in pista le attività del percorso critico all'interno di finestre di dry-dock strette. Le sue squadre sanno esattamente cosa ci si aspetta da loro a ogni turno, e questa chiarezza è ciò che porta il programma a buon fine.",
+    "tl.radu.bio":   "Radu attualmente coordina il cantiere NavalSy a Saint-Nazaire, in Francia, come capo cantiere di un progetto in corso. Il suo ruolo copre il coordinamento quotidiano della squadra, il controllo qualità tra le specialità, i briefing di sicurezza e l'interfaccia diretta con il project office del cantiere. Con una solida esperienza sul campo sia su progetti di refit sia su nuove costruzioni, Radu trasforma scope, disegni e scadenze in un piano operativo che la squadra esegue giorno dopo giorno fino alla consegna.",
     "tm.leader":     "Team Leader",
 
     "cm.sendMsg":   "Invia un messaggio",
@@ -2113,6 +2135,10 @@ const I18N = {
     "tm.ocRole":     "Coordonatoare de birou",
     "tm.clickCont":  "Apasă pentru detalii de contact",
     "tm.bioSoon":    "Experiența și parcursul personal urmează — biografia completă în curând.",
+    "tl.paul.bio":   "Paul conduce echipele NavalSy la bord, ducând pachete complexe de refitting multi-specialitate de la kick-off până la predare. Cu ani de experiență pe teren pe construcție de cabine, izolații, panouri și finisaje pe nave de croazieră, conduce echipa cu accent pe meșteșug și pe coordonarea clară cu șantierul. Pe șantier este punctul de referință zilnic al echipei sale, gestionează planificarea lucrărilor, controalele de calitate și briefing-urile de siguranță, ținând proiectul în grafic.",
+    "tl.petrea.bio": "Petrea este un team leader NavalSy căruia i se încredințează specialitățile în care calitatea finisajului nu admite compromisuri. A construit o experiență solidă pe renovare de cabine, panouri și finisaje de detaliu pentru mai multe companii de croazieră și aduce această abordare orientată spre detaliu în fiecare proiect pe care îl gestionează. Pe șantier împarte timpul între coaching-ul echipei, verificările de calitate și alinierea progresului zilnic cu biroul de proiect, astfel încât echipa livrează constant la standardul așteptat de operator.",
+    "tl.dutu.bio":   "Duțu conduce echipele NavalSy pe scope-urile mai grele — structuri metalice, demolări și fazele inițiale de construcție ale unui refit, unde ritmul, disciplina și precizia pe fier dau tonul pentru tot ce urmează. Este în largul lui în gestionarea mobilizărilor mari și în menținerea lucrărilor de pe calea critică în grafic, în ferestre strânse de dry-dock. Echipele lui știu exact ce se așteaptă de la ele la fiecare schimb, iar această claritate este cea care aduce programul la final.",
+    "tl.radu.bio":   "Radu coordonează în prezent șantierul NavalSy de la Saint-Nazaire, Franța, în calitate de șef de șantier al unui proiect în desfășurare. Rolul lui acoperă coordonarea zilnică a echipei, controlul calității pe specialități, briefing-urile de siguranță și interfața directă cu biroul de proiect al șantierului. Cu experiență solidă pe teren, atât pe proiecte de refitting cât și pe construcții noi, Radu transformă scope-ul, desenele și termenele într-un plan operațional pe care echipa îl execută zi de zi până la predare.",
     "tm.leader":     "Team Leader",
 
     "cm.sendMsg":   "Trimite un mesaj",
@@ -2496,7 +2522,7 @@ const projects = [
       { en:"Refitting",        it:"Refitting",          ro:"Refitting" },
       { en:"Finishing",        it:"Finiture",           ro:"Finisaje" }
     ],
-    photos:gallery("NCL - port marghera italy","Primary photo.jpg",9) },
+    photos:gallery("NCL - port marghera italy","Primary photo.png",9) },
 
   { boat:"Four Seasons", yard:"Port Ancona", w:70,
     country:{ en:"Italy", it:"Italia", ro:"Italia" },
@@ -3455,11 +3481,12 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const pageWrap = document.getElementById('pageWrap');
   const openBtn = document.getElementById('openTeamBtn');
 
-  // placeholder bios — to be replaced with real ones from the team
+  // Team leaders — name stays language-neutral, bio is keyed for i18n.
   const leaders = {
-    1: "Paul",
-    2: "Petrea",
-    3: "Duțu"
+    1: { name: "Paul",   bioKey: "tl.paul.bio"   },
+    2: { name: "Petrea", bioKey: "tl.petrea.bio" },
+    3: { name: "Duțu",   bioKey: "tl.dutu.bio"   },
+    4: { name: "Radu",   bioKey: "tl.radu.bio"   }
   };
   let currentLeader = 1;
 
@@ -3470,8 +3497,9 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   function selectLeader(n){
     currentLeader = n;
     thumbs.forEach(b => b.classList.toggle('on', +b.dataset.leader === n));
-    tlName.textContent = leaders[n] || t('tm.leader');
-    tlDesc.textContent = t('tm.bioSoon');
+    const l = leaders[n];
+    tlName.textContent = l ? l.name : t('tm.leader');
+    tlDesc.textContent = l ? t(l.bioKey) : t('tm.bioSoon');
   }
   // re-localize the bio panel when the language changes
   const _origRender = window.__renderDynamic;
