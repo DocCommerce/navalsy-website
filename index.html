@@ -392,6 +392,84 @@
      tight head-and-shoulders crop. Targets both team cards and contact modal. */
   .team-photo[style*="Stefan"],
   .cm-photo[style*="Stefan"]   { background-size:155%; background-position:center 38%; }
+
+  /* ===== ACTIVE WORKS ===== */
+  .active-card {
+    position:relative;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    overflow:hidden;
+  }
+  .active-badge {
+    position:absolute; top:18px; right:18px;
+    display:inline-flex; align-items:center; gap:9px;
+    padding:8px 14px;
+    border-radius:9999px;
+    border:1px solid rgba(201,162,74,.45);
+    background:rgba(20,16,8,.7);
+    font-size:11px; font-weight:700;
+    letter-spacing:.2em; text-transform:uppercase;
+    color:#e6c878;
+    z-index:2;
+  }
+  .pulse-dot {
+    width:8px; height:8px;
+    background:#c9a24a;
+    border-radius:50%;
+    box-shadow:0 0 0 0 rgba(201,162,74,.65);
+    animation:pulseDot 1.8s ease-out infinite;
+  }
+  @keyframes pulseDot {
+    0%   { box-shadow:0 0 0 0 rgba(201,162,74,.65); }
+    70%  { box-shadow:0 0 0 9px rgba(201,162,74,0); }
+    100% { box-shadow:0 0 0 0 rgba(201,162,74,0); }
+  }
+  .active-supervisor {
+    display:flex; align-items:center; gap:14px;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+    margin-top:auto;
+  }
+  .active-sup-photo {
+    width:64px; height:64px;
+    border-radius:50%;
+    background-size:cover; background-position:center 25%;
+    background-color:#17171c;
+    border:2px solid rgba(201,162,74,.4);
+    flex-shrink:0;
+  }
+  .active-gallery { display:flex; flex-direction:column; gap:10px; height:100%; }
+  .active-gal-main {
+    display:block; width:100%;
+    aspect-ratio:4/3;
+    border-radius:14px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.07);
+    background:#0a0a0b;
+    cursor:zoom-in; padding:0;
+  }
+  .active-gal-main img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(.2,.7,.2,1); }
+  .active-gal-thumbs {
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;
+  }
+  .active-gal-thumbs button {
+    aspect-ratio:1/1;
+    border-radius:10px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.07);
+    background:#0a0a0b;
+    cursor:zoom-in; padding:0;
+  }
+  .active-gal-thumbs img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .45s cubic-bezier(.2,.7,.2,1); }
+  /* hover-only zoom — prevents iOS double-tap-to-zoom issue */
+  @media (hover: hover) {
+    .active-gal-main:hover img       { transform:scale(1.04); }
+    .active-gal-thumbs button:hover img { transform:scale(1.07); }
+  }
+  @media (max-width: 640px) {
+    .active-badge { top:14px; right:14px; padding:6px 11px; font-size:10px; letter-spacing:.15em; }
+  }
   .team-photo-empty {
     display:flex; align-items:center; justify-content:center;
     font-family:"Sora",sans-serif; font-weight:700; font-size:3.5rem;
@@ -888,6 +966,71 @@
     <h2 class="font-sora text-4xl md:text-5xl font-bold"><span data-i18n="why.h1">Built for </span><span class="gold-text" data-i18n="why.h2">Demanding Shipyards</span></h2>
   </div>
   <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="whyGrid"></div>
+</section>
+
+<!-- ================= ACTIVE WORKS ================= -->
+<section id="active-works" class="relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(60% 70% at 80% 20%, rgba(201,162,74,.10), transparent 60%);"></div>
+  <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32">
+    <div class="mb-12 reveal">
+      <div class="text-gold uppercase tracking-[.25em] text-xs font-semibold mb-4" data-i18n="active.lbl">Live Projects</div>
+      <h2 class="font-sora text-4xl md:text-5xl font-bold">
+        <span data-i18n="active.h1">Active </span><span class="gold-text" data-i18n="active.h2">Works</span>
+      </h2>
+    </div>
+
+    <article class="active-card reveal" data-d="100">
+      <!-- On Going badge -->
+      <div class="active-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span data-i18n="active.ongoing">On Going</span>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 p-6 md:p-10">
+        <!-- LEFT: meta + description + supervisor -->
+        <div class="lg:col-span-5 flex flex-col gap-7">
+          <div>
+            <div class="text-gold uppercase tracking-[.2em] text-xs font-semibold mb-3" data-i18n="active.country">France</div>
+            <h3 class="font-sora text-3xl md:text-4xl font-bold mb-2" data-i18n="active.city">Saint-Nazaire</h3>
+            <div class="text-slate-400 text-sm" data-i18n="active.subtitle">Cruise build &amp; full fit-out</div>
+          </div>
+
+          <p class="text-slate-300 leading-relaxed" data-i18n="active.desc">
+            Our team is on site delivering an A-to-Z scope on board — from structural framing and welding through to insulation, panelling and final finishes. Multi-trade work executed in tight coordination with the shipyard, with daily progress driven directly by our site supervisor.
+          </p>
+
+          <!-- Supervisor card -->
+          <div class="active-supervisor">
+            <div class="active-sup-photo" style="background-image:url('assets/Active%20Works/France%20Saint%20Nazaire/Radu%20Sef%20Santier.jpg')"></div>
+            <div class="min-w-0">
+              <div class="text-xs uppercase tracking-[.2em] text-gold font-semibold mb-1" data-i18n="active.supRole">Site Supervisor</div>
+              <div class="font-sora font-bold text-lg leading-tight">Radu</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: inline gallery -->
+        <div class="lg:col-span-7">
+          <div class="active-gallery">
+            <button type="button" class="active-gal-main" data-light="assets/Active Works/France Saint Nazaire/4e94b702-c74b-4622-b0a9-1a7d2de300b8.jpg" aria-label="Open photo">
+              <img src="assets/Active%20Works/France%20Saint%20Nazaire/4e94b702-c74b-4622-b0a9-1a7d2de300b8.jpg" alt="NavalSy crew on site at Saint-Nazaire" loading="lazy" />
+            </button>
+            <div class="active-gal-thumbs">
+              <button type="button" data-light="assets/Active Works/France Saint Nazaire/WhatsApp Image 2026-05-25 at 10.06.03.jpeg" aria-label="Open photo">
+                <img src="assets/Active%20Works/France%20Saint%20Nazaire/WhatsApp%20Image%202026-05-25%20at%2010.06.03.jpeg" alt="Ship in drydock" loading="lazy" />
+              </button>
+              <button type="button" data-light="assets/Active Works/France Saint Nazaire/WhatsApp Image 2026-05-25 at 10.06.03 (1).jpeg" aria-label="Open photo">
+                <img src="assets/Active%20Works/France%20Saint%20Nazaire/WhatsApp%20Image%202026-05-25%20at%2010.06.03%20(1).jpeg" alt="On-board corridor works" loading="lazy" />
+              </button>
+              <button type="button" data-light="assets/Active Works/France Saint Nazaire/WhatsApp Image 2026-05-25 at 10.06.03 (2).jpeg" aria-label="Open photo">
+                <img src="assets/Active%20Works/France%20Saint%20Nazaire/WhatsApp%20Image%202026-05-25%20at%2010.06.03%20(2).jpeg" alt="Refit detail" loading="lazy" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
 </section>
 
 <!-- ================= PROJECTS ================= -->
@@ -1505,6 +1648,16 @@ const I18N = {
     "why.h1":       "Built for ",
     "why.h2":       "Demanding Shipyards",
 
+    "active.lbl":     "Live Projects",
+    "active.h1":      "Active ",
+    "active.h2":      "Works",
+    "active.ongoing": "On Going",
+    "active.country": "France",
+    "active.city":    "Saint-Nazaire",
+    "active.subtitle":"Cruise build & full fit-out",
+    "active.desc":    "Our team is on site delivering an A-to-Z scope on board — from structural framing and welding through to insulation, panelling and final finishes. Multi-trade work executed in tight coordination with the shipyard, with daily progress driven directly by our site supervisor.",
+    "active.supRole": "Site Supervisor",
+
     "works.lbl":      "Projects",
     "works.h1":       "Recent ",
     "works.h2":       "Works",
@@ -1679,6 +1832,16 @@ const I18N = {
     "why.h1":       "Pensati per i ",
     "why.h2":       "cantieri più esigenti",
 
+    "active.lbl":     "Progetti in Corso",
+    "active.h1":      "Lavori ",
+    "active.h2":      "Attivi",
+    "active.ongoing": "In Corso",
+    "active.country": "Francia",
+    "active.city":    "Saint-Nazaire",
+    "active.subtitle":"Costruzione nave da crociera e allestimento completo",
+    "active.desc":    "La nostra squadra è in cantiere e gestisce l'intero ciclo a bordo — dalla carpenteria strutturale e dalle saldature, fino a coibentazioni, pannellature e finiture finali. Lavori multi-specialità eseguiti in stretto coordinamento con il cantiere, con avanzamento quotidiano guidato direttamente dal nostro capo cantiere.",
+    "active.supRole": "Capo Cantiere",
+
     "works.lbl":      "Progetti",
     "works.h1":       "Lavori ",
     "works.h2":       "Recenti",
@@ -1845,6 +2008,16 @@ const I18N = {
     "why.lbl":      "De ce NavalSy",
     "why.h1":       "Construit pentru ",
     "why.h2":       "șantierele cele mai exigente",
+
+    "active.lbl":     "Proiecte în Derulare",
+    "active.h1":      "Lucrări ",
+    "active.h2":      "Active",
+    "active.ongoing": "În Desfășurare",
+    "active.country": "Franța",
+    "active.city":    "Saint-Nazaire",
+    "active.subtitle":"Construcție navă de croazieră și amenajare completă",
+    "active.desc":    "Echipa noastră este în șantier și realizează întregul ciclu la bord — de la structuri și suduri, până la izolații, panouri și finisaje finale. Lucrări multi-specialitate executate în strânsă coordonare cu șantierul, cu avansare zilnică condusă direct de șeful nostru de șantier.",
+    "active.supRole": "Șef de Șantier",
 
     "works.lbl":      "Proiecte",
     "works.h1":       "Lucrări ",
@@ -3172,6 +3345,12 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(e.key === 'Escape' && modal.classList.contains('open')) { e.stopImmediatePropagation(); close(); }
   }, true);  // capture phase -> runs before other modals' Esc handlers
   window.openLightbox = open;
+
+  // Wire any static [data-light] elements outside dynamically-rendered modals
+  // (Active Works gallery lives in static HTML, not generated by JS).
+  document.querySelectorAll('#active-works [data-light]').forEach(el => {
+    el.addEventListener('click', () => window.openLightbox && window.openLightbox(el.dataset.light));
+  });
 })();
 
 /* ---------- COMPOSE EMAIL MODAL ---------- */
