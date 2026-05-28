@@ -2146,6 +2146,8 @@ const I18N = {
 
     "em.lbl":      "Trimite un mesaj",
     "em.headPre":  "Scrie-i lui ",
+    "em.headPreOffice": "Scrie ",
+    "em.officeName":    "Biroului NavalSy",
     "em.intro":    "Mesajul ajunge direct la el/ea.",
     "em.to":       "Către",
     "em.yourName": "Numele tău *",
@@ -3431,9 +3433,19 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   const form    = document.getElementById('emailForm');
   const success = document.getElementById('emailSuccess');
 
+  const headPreSpan = modal.querySelector('#emHeadPre');
+
   function open(person){
     // person = { name, email, role }
-    nameSpan.textContent    = person.name.split(' ')[0]; // first name in headline
+    // Office isn't a person — "Scrie-i lui Biroul" is wrong grammar, so use a
+    // dedicated dative phrasing ("Scrie Biroului NavalSy" / "Write to the NavalSy Office").
+    if((person.email || '').toLowerCase() === OFFICE_EMAIL){
+      headPreSpan.textContent = t('em.headPreOffice');
+      nameSpan.textContent    = t('em.officeName');
+    } else {
+      headPreSpan.textContent = t('em.headPre');
+      nameSpan.textContent    = person.name.split(' ')[0]; // first name in headline
+    }
     toName.value            = person.name;
     toEmail.value           = person.email;
     toNameDsp.textContent   = person.name + (person.role ? ' — ' + person.role : '');
