@@ -2256,11 +2256,25 @@ function setLang(lang){
 }
 
 /* ---------- BACKEND ---------- */
-// Web3Forms paid account. Default inbox (set in dashboard) is office@navalsy.com.
-// Per-recipient routing for the compose modal is done with the `to` parameter,
-// which must be one of the linked/verified emails on the Web3Forms account.
-const WEB3FORMS_KEY = "66a184e7-6fb3-4e13-adea-33dc3e29be93";
-const OFFICE_EMAIL  = "office@navalsy.com";
+// Web3Forms PRO — one access key per recipient (each Web3Forms "form" has its
+// own dashboard-verified recipient). Routing is done by choosing the key, since
+// Web3Forms does not allow overriding the recipient from form data.
+const WEB3FORMS_KEYS = {
+  office: "66a184e7-6fb3-4e13-adea-33dc3e29be93", // office@navalsy.com
+  stefan: "f9e3257d-fc37-43b0-b546-a142435e27ee", // stefan.mihali@navalsy.com
+  aurel:  "f16a6722-4fdf-4dd5-96dd-0c661420a911", // aurel.timis@navalsy.com
+  bianca: "76dbab9c-337e-4477-bcbd-443efb95b1e4"  // bianca.timis@navalsy.com
+};
+const OFFICE_EMAIL = "office@navalsy.com";
+// Map a recipient email to its Web3Forms key (falls back to office).
+function web3formsKeyForEmail(email){
+  switch((email || '').toLowerCase()){
+    case "stefan.mihali@navalsy.com": return WEB3FORMS_KEYS.stefan;
+    case "aurel.timis@navalsy.com":   return WEB3FORMS_KEYS.aurel;
+    case "bianca.timis@navalsy.com":  return WEB3FORMS_KEYS.bianca;
+    default:                          return WEB3FORMS_KEYS.office;
+  }
+}
 
 /* Simple, refcounted scroll lock — just toggles body.overflow.
    Refcount keeps it correct when modals stack (e.g. lightbox over compose). */
@@ -2282,10 +2296,14 @@ function unlockScroll(){
 
 async function submitToWeb3Forms(formEl, extras){
   const data = new FormData(formEl);
-  data.append("access_key", WEB3FORMS_KEY);
+  let key = WEB3FORMS_KEYS.office;
   if(extras){
-    for(const [k, v] of Object.entries(extras)) data.append(k, v);
+    for(const [k, v] of Object.entries(extras)){
+      if(k === 'access_key'){ key = v; continue; }  // route by chosen key
+      data.append(k, v);
+    }
   }
+  data.set("access_key", key);
   const res = await fetch("https://api.web3forms.com/submit", { method:"POST", body:data });
   const json = await res.json().catch(() => ({success:false}));
   if(!json.success) throw new Error(json.message || "Submission failed");
@@ -3455,15 +3473,13 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(e.key === 'Escape' && modal.classList.contains('open')){ e.stopImmediatePropagation(); close(); }
   }, true);
 
-  // submit -> Web3Forms. The primary recipient is fixed in the dashboard
-  // (office@navalsy.com) and cannot be overridden from form data. To also
-  // reach the specific person picked in the modal, we CC them via `ccemail`
-  // (the only recipient field Web3Forms honours; Pro-plan feature).
+  // submit -> Web3Forms. Each recipient has its own access key, so we route the
+  // message straight to the person picked in the modal by choosing their key.
   handleForm('emailForm', 'emailSuccess', 'emailError', form => ({
+    access_key: web3formsKeyForEmail(toEmail.value),
     subject: 'Website message — to ' + toName.value,
     from_name: 'NavalSy website',
     _replyto: form.querySelector('input[name="email"]')?.value || '',
-    ccemail: toEmail.value,
     inquiry_type: 'Direct message — ' + toName.value + ' (' + toEmail.value + ')'
   }));
 
