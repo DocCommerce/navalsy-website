@@ -2794,6 +2794,8 @@ const quoteExtras = form => {
     from_name: 'NavalSy website',
     _replyto: get('email'),
     inquiry_type: 'Company — Request a Quote',
+    to_name: 'Biroul NavalSy',
+    to_email: OFFICE_EMAIL,
     name: get('contact') || get('company'),
     message: [
       `Company: ${get('company')}`,
@@ -2818,6 +2820,8 @@ const workerExtras = form => {
     from_name: 'NavalSy website',
     _replyto: get('email'),
     inquiry_type: 'Worker — Job application',
+    to_name: 'Biroul NavalSy',
+    to_email: OFFICE_EMAIL,
     message: [
       `Name: ${get('name')}`,
       `Phone: ${get('phone')}`,
