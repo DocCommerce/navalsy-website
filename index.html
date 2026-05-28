@@ -2306,7 +2306,9 @@ async function submitToWeb3Forms(formEl, extras){
   if(extras){
     for(const [k, v] of Object.entries(extras)){
       if(k === 'access_key'){ key = v; continue; }  // route by chosen key
-      data.append(k, v);
+      // use set so extras override any same-named form field (e.g. workerForm's
+      // 'message' textarea is replaced by the formatted message body)
+      data.set(k, v);
     }
   }
   data.set("access_key", key);
@@ -2781,20 +2783,56 @@ function handleForm(formId, successId, errorId, extrasFn){
   });
 }
 
-// extras builders — give each email a clear subject and the relevant context line
-const quoteExtras = form => ({
-  subject: 'New quote request — NavalSy website',
-  from_name: 'NavalSy website',
-  _replyto: form.querySelector('input[name="email"]')?.value || '',
-  inquiry_type: 'Company — Request a Quote'
-});
-const workerExtras = form => ({
-  subject: 'New job application — NavalSy website',
-  from_name: 'NavalSy website',
-  _replyto: form.querySelector('input[name="email"]')?.value || '',
-  inquiry_type: 'Worker — Job application',
-  note: 'If CV is missing from this email, the applicant was asked to email it separately.'
-});
+// extras builders — populate Web3Forms standard fields (name, message) so the
+// dashboard rows and the delivered email are readable; raw form fields are still
+// sent alongside for full context.
+const quoteExtras = form => {
+  const fd = new FormData(form);
+  const get = k => (fd.get(k) || '').toString().trim();
+  return {
+    subject: 'New quote request — NavalSy website',
+    from_name: 'NavalSy website',
+    _replyto: get('email'),
+    inquiry_type: 'Company — Request a Quote',
+    name: get('contact') || get('company'),
+    message: [
+      `Company: ${get('company')}`,
+      `Contact: ${get('contact')}`,
+      `Email: ${get('email')}`,
+      `Country / Shipyard: ${get('country')}`,
+      `Workers needed: ${get('workers') || '—'}`,
+      `Service: ${get('service')}`,
+      '',
+      'Project details:',
+      get('details')
+    ].join('\n')
+  };
+};
+const workerExtras = form => {
+  const fd = new FormData(form);
+  const get = k => (fd.get(k) || '').toString().trim();
+  const cv = fd.get('cv');
+  const cvName = (cv && cv.name) ? cv.name : '—';
+  return {
+    subject: 'New job application — NavalSy website',
+    from_name: 'NavalSy website',
+    _replyto: get('email'),
+    inquiry_type: 'Worker — Job application',
+    message: [
+      `Name: ${get('name')}`,
+      `Phone: ${get('phone')}`,
+      `Email: ${get('email')}`,
+      `Position: ${get('position')}`,
+      `Available in: ${get('country') || '—'}`,
+      `CV file: ${cvName}`,
+      '',
+      'Short message:',
+      get('message') || '—',
+      '',
+      'Note: if the CV file is missing from this email, the applicant was asked to email it separately to office@navalsy.com.'
+    ].join('\n')
+  };
+};
 
 handleForm('workerForm',  'workerSuccess',  'workerError',  workerExtras);
 handleForm('companyForm', 'companySuccess', 'companyError', quoteExtras);
