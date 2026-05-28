@@ -3455,15 +3455,15 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
     if(e.key === 'Escape' && modal.classList.contains('open')){ e.stopImmediatePropagation(); close(); }
   }, true);
 
-  // submit -> Web3Forms. `to` routes the email to the linked address on the paid
-  // account (Aurel / Stefan / Bianca / Office). If `to` is ignored, the email
-  // still reaches the recipient through the `cc` field as a safety net.
+  // submit -> Web3Forms. The primary recipient is fixed in the dashboard
+  // (office@navalsy.com) and cannot be overridden from form data. To also
+  // reach the specific person picked in the modal, we CC them via `ccemail`
+  // (the only recipient field Web3Forms honours; Pro-plan feature).
   handleForm('emailForm', 'emailSuccess', 'emailError', form => ({
     subject: 'Website message — to ' + toName.value,
     from_name: 'NavalSy website',
     _replyto: form.querySelector('input[name="email"]')?.value || '',
-    to: toEmail.value,
-    cc: toEmail.value,
+    ccemail: toEmail.value,
     inquiry_type: 'Direct message — ' + toName.value + ' (' + toEmail.value + ')'
   }));
 
