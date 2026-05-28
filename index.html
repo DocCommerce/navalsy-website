@@ -2250,7 +2250,12 @@ let LANG = (function(){
 })();
 
 function t(key){
-  return (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || key;
+  // use ?? so legitimate empty strings ("") are kept, not replaced with the key
+  const cur = I18N[LANG]?.[key];
+  if(cur !== undefined) return cur;
+  const en = I18N.en?.[key];
+  if(en !== undefined) return en;
+  return key;
 }
 // pick the right variant of a {en,it,ro} object (or fall back to en, or the value itself if it's a plain string)
 function L(field){
